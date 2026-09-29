@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="menu_team_todo_root" name="Team To-Do" sequence="10" />
+
+    <!-- For every user -->
+    <menuitem
+    id="menu_team_todo_tasks"
+    name="My Tasks"
+    parent="menu_team_todo_root"
+    action="action_team_todo_task"
+    sequence="10"
+  />
+
+    <!-- Administrators only: every task grouped by assignee -->
+    <menuitem
+    id="menu_team_todo_all"
+    name="By Person"
+    parent="menu_team_todo_root"
+    action="action_team_todo_task_manager"
+    sequence="20"
+    groups="group_team_todo_manager"
+  />
+
+    <!-- Configuration (administrators only) -->
+    <menuitem
+    id="menu_team_todo_config"
+    name="Configuration"
+    parent="menu_team_todo_root"
+    sequence="90"
+    groups="group_team_todo_manager"
+  />
+    <menuitem
+    id="menu_team_todo_stages"
+    name="Stages"
+    parent="menu_team_todo_config"
+    action="action_team_todo_stage"
+    sequence="10"
+  />
+
+    <!-- Shortcut to users: the Team To-Do role is assigned on each user's form,
+         "Access Rights" tab, "Team To-Do" section. Without this you would have to
+         hunt for it under Settings. Requires being an Odoo administrator, who is
+         the one allowed to edit users. -->
+    <menuitem
+    id="menu_team_todo_users"
+    name="Users &amp; Roles"
+    parent="menu_team_todo_config"
+    action="base.action_res_users"
+    sequence="20"
+    groups="base.group_system"
+  />
+</odoo>

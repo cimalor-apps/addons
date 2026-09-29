@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Odoo / entorno
+.env
+*.log
+.odoo-src/
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.idea/
+
+# Metadatos de Windows (Mark-of-the-Web) al descargar/descomprimir ficheros
+*Zone.Identifier
+
+# NO ignoramos .vscode/: settings.json y extensions.json se comparten.
+
+# Credenciales y notas locales: NUNCA se suben al repo
+docs/*.local.md

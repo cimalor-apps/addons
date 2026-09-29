@@ -1,0 +1,22 @@
+# Normaliza finales de linea a LF (clave trabajando desde Windows/WSL2).
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.xml   text eol=lf
+*.csv   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.rst   text eol=lf
+*.conf  text eol=lf
+*.sh    text eol=lf
+
+# Binarios (nunca tocar finales de linea)
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.pot  binary
+*.po   binary

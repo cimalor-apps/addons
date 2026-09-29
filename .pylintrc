@@ -1,0 +1,107 @@
+# Comprobaciones OPCIONALES ademas de las obligatorias. Este fichero esta
+# pensado para cargarlo en el IDE y verlo todo; en pre-commit se ejecuta con
+# --exit-zero, asi que informa pero no bloquea.
+# Base: plantilla canonica de OCA (OCA/oca-addons-repo-template), renderizada
+# para Odoo 19.0.
+#
+# Dos desviaciones deliberadas respecto a OCA, porque estos modulos se publican
+# en el Odoo Apps Store y no en OCA:
+#   - 'missing-readme' no se activa: espera la estructura readme/*.rst de OCA.
+#   - manifest-deprecated-keys deja solo 'active'. OCA considera 'description'
+#     obsoleta porque la genera desde el README; en el Apps Store es la forma
+#     normal de dar el texto de la ficha.
+
+[MASTER]
+load-plugins=pylint_odoo
+score=n
+
+[IMPORTS]
+deprecated-modules=pdb,pudb,ipdb,bs4
+
+[ODOOLINT]
+readme-template-url="https://github.com/OCA/maintainer-tools/blob/master/template/module/README.rst"
+manifest-required-authors=Cimalor
+manifest-required-keys=license
+manifest-deprecated-keys=active
+license-allowed=AGPL-3,GPL-2,GPL-2 or any later version,GPL-3,GPL-3 or any later version,LGPL-3,OPL-1
+valid-odoo-versions=18.0,19.0
+
+[MESSAGES CONTROL]
+disable=all
+enable=anomalous-backslash-in-string,
+    assignment-from-none,
+    attribute-deprecated,
+    dangerous-default-value,
+    deprecated-module,
+    development-status-allowed,
+    duplicate-key,
+    eval-used,
+    license-allowed,
+    manifest-author-string,
+    manifest-deprecated-key,
+    manifest-required-author,
+    manifest-required-key,
+    manifest-version-format,
+    method-compute,
+    method-inverse,
+    method-required-super,
+    method-search,
+    pointless-statement,
+    pointless-string-statement,
+    print-used,
+    redundant-keyword-arg,
+    reimported,
+    return-in-init,
+    sql-injection,
+    too-few-format-args,
+    translation-field,
+    translation-required,
+    unreachable,
+    use-vim-comment,
+    attribute-string-redundant,
+    consider-merging-classes-inherited,
+    context-overridden,
+    except-pass,
+    invalid-commit,
+    manifest-maintainers-list,
+    missing-return,
+    odoo-addons-relative-import,
+    renamed-field-parameter,
+    resource-not-exist,
+    test-folder-imported,
+    translation-contains-variable,
+    translation-positional-used,
+    website-manifest-key-not-valid-uri,
+    external-request-timeout,
+    bad-builtin-groupby,
+    category-allowed,
+    deprecated-name-get,
+    deprecated-odoo-model-method,
+    deprecated-self-cr,
+    inheritable-method-lambda,
+    inheritable-method-string,
+    invalid-email,
+    manifest-behind-migrations,
+    manifest-data-duplicated,
+    missing-odoo-file,
+    no-raise-unlink,
+    no-search-all,
+    no-wizard-in-models,
+    prohibited-method-override,
+    prefer-env-translation,
+    translation-format-interpolation,
+    translation-format-truncated,
+    translation-fstring-interpolation,
+    translation-injection,
+    translation-not-lazy,
+    translation-too-few-args,
+    translation-too-many-args,
+    translation-unsupported-format,
+    no-write-in-compute,
+    redefined-builtin,
+    manifest-external-assets
+
+[REPORTS]
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+output-format=colorized
+reports=no
