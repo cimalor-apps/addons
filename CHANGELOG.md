@@ -1,10 +1,25 @@
 # Changelog
 
-All notable changes to the Cimalor modules for Odoo 19.0. The format follows
+All notable changes to the Cimalor modules for Odoo 18.0 and 19.0. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow the Odoo Apps Store
-convention `19.0.<major>.<minor>.<patch>`.
+convention `<series>.<major>.<minor>.<patch>`, where the series (`18.0` or `19.0`) matches the
+Odoo version. The same functional version number means the same features in both series.
 
 ## cimalor_team_todo — Team To-Do
+
+### [18.0.2.1.0] - 2026-09-29
+
+#### Added
+
+- First release for Odoo 18.0, with the same features as 19.0.2.1.0.
+
+#### Changed (differences from 19.0)
+
+- Roles hang from the `Team To-Do` module category through `category_id`, because
+  `res.groups.privilege` does not exist in 18.0. The user form shows them as a User /
+  Administrator selector under _Other_.
+- The install hook reads and writes group members through `users` instead of `user_ids` and
+  `all_user_ids`.
 
 ### [19.0.2.1.0] - 2026-09-09
 
@@ -40,6 +55,18 @@ convention `19.0.<major>.<minor>.<patch>`.
   translation and tests.
 
 ## cimalor_team_todo_project — Team To-Do: Project link
+
+### [18.0.1.1.0] - 2026-09-29
+
+#### Added
+
+- First release for Odoo 18.0, with the same features as 19.0.1.1.0.
+
+#### Fixed (difference from 19.0)
+
+- The project link on the kanban card sets `active_id` to the project before returning the
+  action of the Project app. In 18.0 that action does not set it, and the web client fills it
+  with the team task, so the list would have been filtered by the wrong project.
 
 ### [19.0.1.1.0] - 2026-09-09
 
