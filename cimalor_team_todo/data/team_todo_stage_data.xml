@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- noupdate=1: these are not overwritten if the user edits them later -->
+    <data noupdate="1">
+        <record id="stage_todo" model="team.todo.stage">
+            <field name="name">To Do</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="stage_in_progress" model="team.todo.stage">
+            <field name="name">In Progress</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="stage_done" model="team.todo.stage">
+            <field name="name">Done</field>
+            <field name="sequence">30</field>
+            <field name="fold">True</field>
+            <field name="is_done">True</field>
+        </record>
+    </data>
+</odoo>

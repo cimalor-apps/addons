@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The base module has no project. This adds the link to the real project
+         from the Project app to the four task views. -->
+
+    <record id="view_team_todo_task_form_project" model="ir.ui.view">
+        <field name="name">team.todo.task.form.project</field>
+        <field name="model">team.todo.task</field>
+        <field name="inherit_id" ref="cimalor_team_todo.view_team_todo_task_form" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="project_id" options="{'no_create': True}" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_team_todo_task_list_project" model="ir.ui.view">
+        <field name="name">team.todo.task.list.project</field>
+        <field name="model">team.todo.task</field>
+        <field name="inherit_id" ref="cimalor_team_todo.view_team_todo_task_list" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="project_id" optional="show" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_team_todo_task_kanban_project" model="ir.ui.view">
+        <field name="name">team.todo.task.kanban.project</field>
+        <field name="model">team.todo.task</field>
+        <field name="inherit_id" ref="cimalor_team_todo.view_team_todo_task_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='card']/div[1]" position="after">
+                <div>
+                    <!-- The project name is a link to the tasks of that
+                         project. options no_open stops the many2one widget
+                         from adding its own link to the project form, which
+                         would swallow the click. -->
+                    <a
+            name="action_open_project_tasks"
+            type="object"
+            title="Open the tasks of this project"
+            invisible="not project_id"
+          >
+                        <field name="project_id" options="{'no_open': True}" />
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_team_todo_task_search_project" model="ir.ui.view">
+        <field name="name">team.todo.task.search.project</field>
+        <field name="model">team.todo.task</field>
+        <field name="inherit_id" ref="cimalor_team_todo.view_team_todo_task_search" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="project_id" />
+            </field>
+            <filter name="group_by_stage" position="after">
+                <filter
+          name="group_by_project"
+          string="Project"
+          context="{'group_by': 'project_id'}"
+        />
+            </filter>
+        </field>
+    </record>
+</odoo>

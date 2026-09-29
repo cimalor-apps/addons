@@ -1,0 +1,79 @@
+# Hooks de calidad alineados con las convenciones OCA.
+# Instalar una vez (DENTRO de WSL2, que es donde vive el repo):
+#   sudo apt install python3-venv python3-pip
+#   python3 -m venv .venv && .venv/bin/pip install pre-commit
+#   .venv/bin/pre-commit install
+# Ejecutar sobre todo el repo:
+#   .venv/bin/pre-commit run --all-files
+#
+# NO ejecutar desde Windows: prettier lanza cmd.exe, que rechaza las rutas UNC
+# \wsl.localhost\... y no encuentra ningun fichero.
+#
+# Referencia canonica: plantilla OCA en OCA/oca-addons-repo-template.
+# Configuracion de los linters en .flake8, .pylintrc y .pylintrc-mandatory.
+
+default_language_version:
+  python: python3
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  - repo: https://github.com/psf/black
+    rev: 26.5.1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 9.0.1
+    hooks:
+      - id: isort
+        name: isort (python)
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        name: flake8
+        additional_dependencies: ["flake8-bugbear==25.11.29"]
+
+  - repo: https://github.com/OCA/pylint-odoo
+    rev: v10.0.11
+    hooks:
+      # Informativo: no bloquea, para que las comprobaciones opcionales se vean.
+      - id: pylint_odoo
+        name: pylint with optional checks
+        args:
+          - --rcfile=.pylintrc
+          - --exit-zero
+        verbose: true
+      # Bloqueante: solo las comprobaciones obligatorias.
+      - id: pylint_odoo
+        args:
+          - --rcfile=.pylintrc-mandatory
+
+  # Hook local en lugar de mirrors-prettier, que esta archivado y solo ofrece
+  # una alpha de la v4. Ademas necesitamos plugin-xml: este repo es casi todo XML
+  # y prettier no sabe formatearlo por su cuenta.
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier (with plugin-xml)
+        entry: prettier
+        args:
+          - --write
+          - --list-different
+          - --ignore-unknown
+        types: [text]
+        files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
+        language: node
+        additional_dependencies:
+          - "prettier@3.9.6"
+          - "@prettier/plugin-xml@3.4.2"

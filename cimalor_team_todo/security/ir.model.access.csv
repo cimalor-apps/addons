@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_team_todo_task_user,team.todo.task.user,model_team_todo_task,group_team_todo_user,1,1,1,0
+access_team_todo_task_manager,team.todo.task.manager,model_team_todo_task,group_team_todo_manager,1,1,1,1
+access_team_todo_stage_user,team.todo.stage.user,model_team_todo_stage,group_team_todo_user,1,0,0,0
+access_team_todo_stage_manager,team.todo.stage.manager,model_team_todo_stage,group_team_todo_manager,1,1,1,1

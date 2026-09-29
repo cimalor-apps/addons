@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- noupdate=1: the text is content, not configuration. A -u must not
+         overwrite the edits an administrator may have made to it. -->
+    <data noupdate="1">
+        <!-- Body of the welcome task created for each administrator on
+             install (see hooks.py). Rendered with QWeb in the user's
+             language, so every sentence is translatable like a view. -->
+        <template id="team_todo_onboarding">
+            <h2>Hey <t t-out="object.name" />, welcome to Team To-Do!</h2>
+            <p>
+                This task is yours. Read it, then drag it to <b>Done</b>: that is the whole
+                workflow.
+            </p>
+            <h3>What makes it different from Odoo's To-Do</h3>
+            <ul>
+                <li>
+                    <b>Stages are shared.</b> A stage belongs to the task, not to whoever is
+                    looking at it. When you move a card to In Progress, it is in progress for
+                    everybody.
+                </li>
+                <li>
+                    <b>One owner per task.</b> Every task has exactly one assignee. Reassigning
+                    it takes it away from the previous owner.
+                </li>
+                <li>
+                    <b>Users see their own tasks; administrators see all of them.</b> You are
+                    an administrator.
+                </li>
+            </ul>
+            <h3>Where things are</h3>
+            <ul>
+                <li>
+                    <b>My Tasks</b>: your board, grouped by stage. Drag cards between columns.
+                </li>
+                <li>
+                    <b>By Person</b>: every task of the team grouped by owner. Only
+                    administrators see this menu.
+                </li>
+                <li>
+                    <b>Configuration &gt; Stages</b>: rename, reorder or add stages. Tick
+                    <i>Closing Stage</i> so its tasks count as done, and
+                    <i>Folded in Kanban</i> to collapse the column.
+                </li>
+                <li>
+                    <b>Configuration &gt; Users &amp; Roles</b>: open a user, tab
+                    <i>Access Rights</i>, section <i>Team To-Do</i>, and pick User or
+                    Administrator. Every internal user is a User already; the Odoo
+                    administrators became Team To-Do administrators on install.
+                </li>
+            </ul>
+            <h3>Reading a card</h3>
+            <ul>
+                <li>The deadline turns red when overdue and orange when it is due today.</li>
+                <li>The star marks an important task.</li>
+                <li>Done tasks are struck through, and the Done column is folded by default.</li>
+            </ul>
+            <p>
+                Questions or ideas:
+                <a href="mailto:soporte@cimalor.com">soporte@cimalor.com</a>
+            </p>
+        </template>
+    </data>
+</odoo>
