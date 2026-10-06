@@ -7,6 +7,25 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_team_todo — Team To-Do
 
+### [18.0.2.1.1] - 2026-10-06
+
+#### Changed
+
+- Same changes as 19.0.2.1.1: support address `support@cimalor.com` in the welcome task
+  (existing databases keep the old one, by design), and the reply-time wording of the Store
+  page and README, which now applies to email only.
+
+### [19.0.2.1.1] - 2026-10-06
+
+#### Changed
+
+- Support address in the welcome task is now `support@cimalor.com` (was
+  `soporte@cimalor.com`). The task is created only on install from a `noupdate` template,
+  so databases that already have it keep the old address: it is content the administrator
+  may have edited, and an upgrade does not rewrite it.
+- Store page and README: support at `support@cimalor.com`. "We aim to reply within 48 to 72
+  business hours" applies to email only; GitHub issues have no fixed reply time.
+
 ### [18.0.2.1.0] - 2026-09-29
 
 #### Added
