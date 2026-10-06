@@ -70,9 +70,13 @@ odoo -d test_db -i cimalor_team_todo --test-enable --test-tags /cimalor_team_tod
 The template and the Spanish translation live in `i18n/`. Regenerate them with:
 
 ```bash
-odoo i18n export -d test_db cimalor_team_todo          # .pot
-odoo i18n export -d test_db -l es cimalor_team_todo    # es.po
+odoo i18n export -d test_db cimalor_team_todo                  # i18n/*.pot
+odoo i18n loadlang -d test_db -l es                            # once per database
+odoo i18n export -d test_db -l es -o es.po cimalor_team_todo   # es.po, to compare
 ```
+
+Merge the new entries into `i18n/es.po` by hand instead of overwriting it: the export drops
+translations that equal their source text and the `Language`/`Plural-Forms` header.
 
 ## Support
 
