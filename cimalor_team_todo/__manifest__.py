@@ -1,6 +1,6 @@
 {
     "name": "Team To-Do",
-    "version": "18.0.2.1.0",
+    "version": "18.0.2.1.1",
     "category": "Productivity",
     "summary": "Team tasks with shared stages and one owner each",
     "description": """
