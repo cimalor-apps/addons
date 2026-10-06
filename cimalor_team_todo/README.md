@@ -76,10 +76,10 @@ odoo i18n export -d test_db -l es cimalor_team_todo    # es.po
 
 ## Support
 
-- Email: soporte@cimalor.com
+- Email: support@cimalor.com
 - Issues: https://github.com/cimalor-apps/addons/issues
 
-We answer within 48 to 72 business hours.
+We aim to reply to email within 48 to 72 business hours. Issues have no fixed reply time.
 
 ## License
 
