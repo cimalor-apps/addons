@@ -70,9 +70,16 @@ odoo -d test_db -i cimalor_team_todo --test-enable --test-tags /cimalor_team_tod
 The template and the Spanish translation live in `i18n/`. Regenerate them with:
 
 ```bash
-odoo i18n export -d test_db cimalor_team_todo          # .pot
-odoo i18n export -d test_db -l es cimalor_team_todo    # es.po
+odoo -d test_db --load-language=es_ES --stop-after-init    # once per database
+odoo -d test_db --modules=cimalor_team_todo --stop-after-init \
+  --i18n-export=cimalor_team_todo.pot                       # .pot
+odoo -d test_db --modules=cimalor_team_todo --stop-after-init \
+  -l es_ES --i18n-export=es.po                              # es.po
 ```
+
+Odoo 18.0 has no `odoo i18n` command, and the export writes to the given path, not to
+`i18n/`. Merge the new entries by hand instead of overwriting `es.po`: the export drops
+translations that equal their source text and the `Language`/`Plural-Forms` header.
 
 ## Support
 
