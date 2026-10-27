@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    The state type is set where the stages are managed: Project's own stage
+    views are extended, not duplicated. The `fold` field is the anchor because
+    it exists in both views and is not going away.
+-->
+<odoo>
+    <record id="view_project_project_stage_list" model="ir.ui.view">
+        <field
+            name="name"
+        >project.project.stage.view.list.inherit.cimalor_project_status_board</field>
+        <field name="model">project.project.stage</field>
+        <field name="inherit_id" ref="project.project_project_stage_view_tree" />
+        <field name="arch" type="xml">
+            <field name="fold" position="before">
+                <field name="cimalor_state_type" optional="show" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_project_project_stage_form" model="ir.ui.view">
+        <field
+            name="name"
+        >project.project.stage.view.form.inherit.cimalor_project_status_board</field>
+        <field name="model">project.project.stage</field>
+        <field name="inherit_id" ref="project.project_project_stage_view_form" />
+        <field name="arch" type="xml">
+            <field name="fold" position="before">
+                <field name="cimalor_state_type" />
+            </field>
+        </field>
+    </record>
+</odoo>
