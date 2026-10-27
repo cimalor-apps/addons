@@ -8,7 +8,10 @@
     "license": "LGPL-3",
     "depends": ["project", "hr_timesheet"],
     "data": [
+        "security/cimalor_project_status_board_security.xml",
+        "security/ir.model.access.csv",
         "data/project_project_stage_data.xml",
+        "data/cimalor_project_stop_reason_data.xml",
         "views/project_project_stage_views.xml",
     ],
     "post_init_hook": "post_init_hook",
