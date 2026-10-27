@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The history tab of the project form. Read-only: rows are never edited. -->
+    <record id="view_cimalor_project_state_log_list" model="ir.ui.view">
+        <field name="name">cimalor.project.state.log.list</field>
+        <field name="model">cimalor.project.state.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="date" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="stage_id" />
+                <field name="reason_id" />
+                <field name="depends_on" />
+                <field name="follow_up_date" optional="show" />
+                <field name="restart_date" optional="show" />
+                <field name="note" optional="hide" />
+            </list>
+        </field>
+    </record>
+</odoo>
