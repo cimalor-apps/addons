@@ -1,0 +1,527 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cimalor_project_status_board
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260630\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:43+0000\n"
+"PO-Revision-Date: 2026-10-27 19:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__reason_type
+msgid ""
+"A Waiting reason is offered only for Waiting projects, an On Hold reason "
+"only for projects on hold."
+msgstr "Un motivo de Esperando solo se ofrece en proyectos que esperan; uno de Parado, solo en proyectos parados."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_stop_reason
+msgid "Add a reason"
+msgstr "Añade un motivo"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_delivery_approval
+msgid "Approval of a delivery"
+msgstr "Validación de una entrega"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_stop_reason_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__user_id
+msgid "Changed By"
+msgstr "Cambiado por"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_closed_task_ids
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Closed Tasks"
+msgstr "Tareas cerradas"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_config
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project
+msgid "Create your first project"
+msgstr "Crea tu primer proyecto"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__create_uid
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__create_date
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__depends_on__customer
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__depends_on__customer
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_depends_on__customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_customer_postpones
+msgid "Customer postpones"
+msgstr "El cliente aplaza"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "Data missing"
+msgstr "Faltan datos"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Delivery Date"
+msgstr "Fecha de entrega"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__depends_on
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__depends_on
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_depends_on
+msgid "Depends On"
+msgstr "Depende de"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "Depends on:"
+msgstr "Depende de:"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__cimalor_is_done
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__done
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__done
+msgid "Done"
+msgstr "Terminado"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "Due"
+msgstr "Entrega"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project
+msgid ""
+"Each project is a card, and each column is a state. Drag a card to\n"
+"                change its state; Waiting and On Hold ask for a reason and a date."
+msgstr "Cada proyecto es una tarjeta y cada columna, un estado. Arrastra una tarjeta para cambiar su estado; Esperando y Parado piden un motivo y una fecha."
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Explain the reason"
+msgstr "Explica el motivo"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "Follow-up"
+msgstr "Seguimiento"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__follow_up_date
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_follow_up_date
+msgid "Follow-up Date"
+msgstr "Fecha de seguimiento"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_follow_up_overdue
+msgid "Follow-up Overdue"
+msgstr "Seguimiento vencido"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__requires_note
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_reason_requires_note
+msgid ""
+"For catch-all reasons such as Other: the project must explain it in a note."
+msgstr "Para motivos genéricos como Otro: el proyecto debe explicarlo en una nota."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__id
+msgid "ID"
+msgstr "ID"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__in_progress
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__in_progress
+msgid "In Progress"
+msgstr "En marcha"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_information
+msgid "Information or material"
+msgstr "Información o material"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_internal_priority
+msgid "Internal priority"
+msgstr "Prioridad interna"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_no_budget
+msgid "Lack of budget"
+msgstr "Falta presupuesto"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__write_uid
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__write_date
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_state_type
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project_stage__cimalor_state_type
+msgid ""
+"Lifecycle meaning of the stage for Project Status Board. Waiting and On Hold"
+" ask for a reason and a date."
+msgstr "Qué significa la etapa en el ciclo de vida para Project Status Board. Esperando y Parado piden un motivo y una fecha."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__note
+msgid "Note"
+msgstr "Nota"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__stopped
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__reason_type__stopped
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__stopped
+#: model:project.project.stage,name:cimalor_project_status_board.project_project_stage_on_hold
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_stop_reason_search
+msgid "On Hold"
+msgstr "Parado"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "On hold until %(date)s: %(reason)s"
+msgstr "Parado hasta el %(date)s: %(reason)s"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "On hold: reason or restart date missing"
+msgstr "Parado: falta el motivo o la fecha de reinicio"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_open_task_ids
+msgid "Open Tasks"
+msgstr "Tareas abiertas"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_stopped_other
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_waiting_other
+msgid "Other"
+msgstr "Otro"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Planned"
+msgstr "Previstas"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_project_project
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__project_id
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_project_project_stage
+msgid "Project Stage"
+msgstr "Etapa del proyecto"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Project State"
+msgstr "Estado del proyecto"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_state_log
+msgid "Project State Change"
+msgstr "Cambio de estado del proyecto"
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
+msgid "Project Status Board"
+msgstr "Project Status Board"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_stop_reason
+msgid "Project Waiting or Stop Reason"
+msgstr "Motivo de espera o parada del proyecto"
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
+msgid "Projects"
+msgstr "Proyectos"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__depends_on
+msgid ""
+"Proposed when the reason is chosen; it can still be changed on each project."
+msgstr "Se propone al elegir el motivo; se puede cambiar en cada proyecto."
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_quote_approval
+msgid "Quote approval"
+msgstr "Aprobación de presupuesto"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__reason_id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_reason_id
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_stop_reason
+msgid "Reasons"
+msgstr "Motivos"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_stop_reason
+msgid ""
+"Reasons explain why a project is waiting or on hold, and who it\n"
+"                depends on."
+msgstr "Los motivos explican por qué un proyecto espera o está parado, y de quién depende."
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_email_reply
+msgid "Reply to an email"
+msgstr "Respuesta a un correo"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__requires_note
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_reason_requires_note
+msgid "Requires Note"
+msgstr "Exige nota"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__restart_date
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_restart_date
+msgid "Restart Date"
+msgstr "Fecha de reinicio"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Spent"
+msgstr "Consumidas"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__stage_id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_stage
+msgid "Stages"
+msgstr "Etapas"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_missing_state_data
+msgid "State Data Missing"
+msgstr "Faltan datos del estado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_state_log_ids
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "State History"
+msgstr "Historial de estados"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_state_note
+msgid "State Note"
+msgstr "Nota del estado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_state_summary
+msgid "State Summary"
+msgstr "Resumen del estado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__state_type
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_state_type
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__cimalor_state_type
+msgid "State Type"
+msgstr "Tipo de estado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__depends_on__supplier
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__depends_on__supplier
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_depends_on__supplier
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_project_task
+msgid "Task"
+msgstr "Tarea"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_technical_block
+msgid "Technical blocker"
+msgstr "Bloqueo técnico"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__to_start
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__to_start
+msgid "To Start"
+msgstr "Por arrancar"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__depends_on__internal
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__depends_on__internal
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_depends_on__internal
+msgid "Us"
+msgstr "Nosotros"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_task__display_name
+msgid ""
+"Use these keywords in the title to set new tasks:\n"
+"\n"
+"        30h Allocate 30 hours to the task\n"
+"        #tags Set tags on the task\n"
+"        @user Assign the task to a user\n"
+"        ! Set the task a medium priority\n"
+"        !! Set the task a high priority\n"
+"        !!! Set the task a urgent priority\n"
+"\n"
+"        Make sure to use the right format and order e.g. Improve the configuration screen 5h #feature #v16 @Mitchell !"
+msgstr ""
+"Utiliza estas palabras clave en el título para establecer nuevas tareas:\n"
+"\n"
+"        30 h Asignar 30 horas a la tarea\n"
+"        #etiquetas Asignar etiquetas a la tarea\n"
+"        @usuario Asignar la tarea a un usuario\n"
+"        ! Asignar prioridad media a la tarea\n"
+"        !! Asignar prioridad alta a la tarea\n"
+"        !!! Asignar prioridad urgente a la tarea\n"
+"\n"
+"        Asegúrate de utilizar el formato y el orden correcto, por ejemplo: ¡Mejorar la pantalla de configuración 5 h #función #v16 @Mitchell!"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__reason_type
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_stop_reason_search
+msgid "Used For"
+msgstr "Se usa en"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__waiting
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__reason_type__waiting
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__waiting
+#: model:project.project.stage,name:cimalor_project_status_board.project_project_stage_waiting
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_stop_reason_search
+msgid "Waiting"
+msgstr "Esperando"
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_stop_reason
+msgid "Waiting and On Hold Reasons"
+msgstr "Motivos de espera y de parada"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_missing_state_data
+msgid ""
+"Waiting or On Hold without its reason or date, typically after dragging the "
+"card on the board."
+msgstr "Esperando o Parado sin su motivo o su fecha, normalmente tras arrastrar la tarjeta en el tablero."
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Waiting since %(date)s: %(reason)s"
+msgstr "Esperando desde el %(date)s: %(reason)s"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Waiting: %(reason)s"
+msgstr "Esperando: %(reason)s"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Waiting: reason or follow-up date missing"
+msgstr "Esperando: falta el motivo o la fecha de seguimiento"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid "e.g. Brochure automation"
+msgstr "p. ej. Automatización de folletos"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "of"
+msgstr "de"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "tasks"
+msgstr "tareas"

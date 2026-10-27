@@ -53,6 +53,6 @@ class CimalorProjectStateLog(models.Model):
         ondelete="restrict",
     )
     depends_on = fields.Selection(selection=DEPENDS_ON_SELECTION)
-    follow_up_date = fields.Date()
+    follow_up_date = fields.Date(string="Follow-up Date")
     restart_date = fields.Date()
     note = fields.Text()
