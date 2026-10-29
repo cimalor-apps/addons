@@ -47,8 +47,12 @@
     <record id="action_cimalor_project_stop_reason" model="ir.actions.act_window">
         <field name="name">Waiting and On Hold Reasons</field>
         <field name="res_model">cimalor.project.stop.reason</field>
+        <!-- Not grouped by default: folded groups hide the reasons. The
+             model's _order already keeps the Waiting and On Hold ones together.
+             The empty context is explicit because an upgrade only rewrites the
+             fields present here: removing the line would keep the old value. -->
         <field name="view_mode">list</field>
-        <field name="context">{'search_default_group_reason_type': 1}</field>
+        <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Add a reason</p>
             <p>

@@ -12,7 +12,9 @@ DEPENDS_ON_SELECTION = [
 class CimalorProjectStopReason(models.Model):
     _name = "cimalor.project.stop.reason"
     _description = "Project Waiting or Stop Reason"
-    _order = "reason_type, sequence, id"
+    # Same order as the list, which sorts by its drag handle: the starting
+    # data gives Waiting and On Hold reasons separate sequence ranges.
+    _order = "sequence, id"
 
     name = fields.Char(required=True, translate=True)
     sequence = fields.Integer(default=10)

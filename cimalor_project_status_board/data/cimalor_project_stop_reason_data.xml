@@ -5,6 +5,10 @@
     archives them, and an upgrade must not undo that.
 -->
 <odoo noupdate="1">
+    <!--
+        Sequences 10-50 for Waiting and 110-150 for On Hold: the list is
+        sorted by its drag handle, so each block keeps its own range.
+    -->
     <!-- What we are waiting for: something concrete and close. -->
     <record id="stop_reason_email_reply" model="cimalor.project.stop.reason">
         <field name="name">Reply to an email</field>
@@ -35,7 +39,7 @@
         <field name="reason_type">waiting</field>
         <field name="depends_on">customer</field>
         <field name="requires_note" eval="True" />
-        <field name="sequence">100</field>
+        <field name="sequence">50</field>
     </record>
 
     <!-- Why the project is on hold: a long, agreed pause. -->
@@ -43,31 +47,31 @@
         <field name="name">Customer postpones</field>
         <field name="reason_type">stopped</field>
         <field name="depends_on">customer</field>
-        <field name="sequence">10</field>
+        <field name="sequence">110</field>
     </record>
     <record id="stop_reason_no_budget" model="cimalor.project.stop.reason">
         <field name="name">Lack of budget</field>
         <field name="reason_type">stopped</field>
         <field name="depends_on">customer</field>
-        <field name="sequence">20</field>
+        <field name="sequence">120</field>
     </record>
     <record id="stop_reason_internal_priority" model="cimalor.project.stop.reason">
         <field name="name">Internal priority</field>
         <field name="reason_type">stopped</field>
         <field name="depends_on">internal</field>
-        <field name="sequence">30</field>
+        <field name="sequence">130</field>
     </record>
     <record id="stop_reason_technical_block" model="cimalor.project.stop.reason">
         <field name="name">Technical blocker</field>
         <field name="reason_type">stopped</field>
         <field name="depends_on">internal</field>
-        <field name="sequence">40</field>
+        <field name="sequence">140</field>
     </record>
     <record id="stop_reason_stopped_other" model="cimalor.project.stop.reason">
         <field name="name">Other</field>
         <field name="reason_type">stopped</field>
         <field name="depends_on">internal</field>
         <field name="requires_note" eval="True" />
-        <field name="sequence">100</field>
+        <field name="sequence">150</field>
     </record>
 </odoo>
