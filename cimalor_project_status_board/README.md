@@ -40,6 +40,11 @@ On install the module:
 Projects created before the install have no history yet: it starts with their first state
 change.
 
+On uninstall, Waiting and On Hold are deleted only if no project (archived ones included)
+is in them. A stage that still holds projects stays as an ordinary Project stage, so no
+project loses its column. If you reinstall afterwards, the module adds a new Waiting or On
+Hold stage next to the one that stayed: move the projects and delete the old one.
+
 ## Configuration
 
 - **Reasons:** Project Status Board › Configuration › Reasons (Project administrators). Each

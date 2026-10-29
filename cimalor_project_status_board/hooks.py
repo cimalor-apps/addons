@@ -1,3 +1,8 @@
+MODULE = "cimalor_project_status_board"
+
+# The stages this module creates (data/project_project_stage_data.xml).
+MODULE_STAGES = ("project_project_stage_waiting", "project_project_stage_on_hold")
+
 NATIVE_STAGE_TYPES = {
     "project.project_project_stage_0": "to_start",
     "project.project_project_stage_1": "in_progress",
@@ -45,3 +50,25 @@ def _type_native_stages(env):
         stage = env.ref(xmlid, raise_if_not_found=False)
         if stage:
             stage.cimalor_state_type = state_type
+
+
+def uninstall_hook(env):
+    """Keep the Waiting and On Hold stages that still hold projects.
+
+    On uninstall Odoo deletes every record the module's data created. A stage
+    that still has projects cannot be deleted (`stage_id` is ondelete
+    restrict): Odoo would log an error, delete the empty stage and keep the
+    other one still tied to the module.
+
+    Unlinking the XML id of the stages in use turns them into ordinary
+    Project stages, so the projects keep their column and nothing fails.
+    The empty ones keep their XML id and Odoo deletes them as usual.
+    Archived projects count too: they also point at the stage.
+    """
+    Project = env["project.project"].with_context(active_test=False)
+    for name in MODULE_STAGES:
+        stage = env.ref(f"{MODULE}.{name}", raise_if_not_found=False)
+        if stage and Project.search_count([("stage_id", "=", stage.id)], limit=1):
+            env["ir.model.data"].search(
+                [("module", "=", MODULE), ("name", "=", name)]
+            ).unlink()
