@@ -275,9 +275,11 @@ class ProjectProject(models.Model):
             return super().write(vals)
         before = {project.id: project._cimalor_state_snapshot() for project in self}
         result = super().write(vals)
-        self.filtered(
+        changed = self.filtered(
             lambda project: project._cimalor_state_snapshot() != before[project.id]
-        )._cimalor_log_state()
+        )
+        changed._cimalor_log_state()
+        changed._cimalor_post_state_note()
         return result
 
     def _cimalor_state_snapshot(self):
@@ -302,4 +304,50 @@ class ProjectProject(models.Model):
                 for project in self
                 if project.stage_id
             ]
+        )
+
+    def _cimalor_post_state_note(self):
+        """Tell the chatter why a project is waiting or on hold.
+
+        Project already posts a tracking line for every stage change
+        ("Stage: In Progress → Waiting"), so a note is only added where it
+        says something more: the reason, who the project depends on and the
+        date, or that they are still missing after a drag. An internal note
+        (mail.mt_note) does not notify the followers. The body is plain text,
+        which message_post escapes.
+        """
+        depends_on_labels = dict(
+            self._fields["cimalor_depends_on"]._description_selection(self.env)
+        )
+        for project in self:
+            body = project._cimalor_state_note_body(depends_on_labels)
+            if body:
+                project.message_post(body=body, subtype_xmlid="mail.mt_note")
+
+    def _cimalor_state_note_body(self, depends_on_labels):
+        self.ensure_one()
+        state_type = self.cimalor_state_type
+        if state_type not in ("waiting", "stopped"):
+            return False
+        if self.cimalor_missing_state_data:
+            return (
+                self.env._("Waiting: the reason or the follow-up date is missing.")
+                if state_type == "waiting"
+                else self.env._("On hold: the reason or the restart date is missing.")
+            )
+        values = {
+            "reason": self._cimalor_reason_text(),
+            "depends_on": depends_on_labels.get(self.cimalor_depends_on, ""),
+        }
+        if state_type == "waiting":
+            return self.env._(
+                "Waiting for: %(reason)s. Depends on: %(depends_on)s. "
+                "Follow-up on %(date)s.",
+                date=format_date(self.env, self.cimalor_follow_up_date),
+                **values,
+            )
+        return self.env._(
+            "On hold: %(reason)s. Depends on: %(depends_on)s. Restart on %(date)s.",
+            date=format_date(self.env, self.cimalor_restart_date),
+            **values,
         )
