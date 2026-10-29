@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    The board and the project form of the app. They are new primary views of
+    project.project, not inheritances of Project's ones: the card and the form
+    are a different screen, and the Project app must keep working exactly as
+    before.
+
+    priority 100 is what keeps them out of Project. When an action does not
+    name its view, Odoo opens the one with the lowest priority; Project's
+    views have 16 or less, so they keep winning everywhere except in this
+    app's action, which names these views explicitly.
+-->
+<odoo>
+    <!--
+        No `action`/`type` on <kanban>: clicking a card then opens the record
+        in the form below. Project's kanban sets them to open the tasks.
+        The drag between columns is Odoo's own: it writes stage_id, and
+        project.project.write() logs the change.
+    -->
+    <record id="view_project_project_kanban" model="ir.ui.view">
+        <field name="name">project.project.kanban.cimalor_project_status_board</field>
+        <field name="model">project.project</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <kanban
+                default_group_by="stage_id"
+                class="o_kanban_small_column"
+                quick_create="false"
+                sample="1"
+            >
+                <field name="cimalor_state_type" />
+                <field name="cimalor_missing_state_data" />
+                <field name="cimalor_follow_up_overdue" />
+                <field name="cimalor_depends_on" />
+                <field name="cimalor_follow_up_date" />
+                <field name="date" />
+                <templates>
+                    <!--
+                        Odoo stacks grouped cards edge to edge (margin-bottom
+                        -1px, shared border). The class of the card template
+                        goes on the card itself in 18.0 and 19.0, so Bootstrap
+                        utilities separate them without any stylesheet.
+                    -->
+                    <t t-name="card" class="mb-2 rounded">
+                        <main>
+                            <field name="name" class="fw-bold fs-5" />
+                            <field name="partner_id" class="text-muted" />
+                            <field name="cimalor_state_summary" class="small mt-1" />
+                            <div class="d-flex flex-wrap gap-1 mt-1">
+                                <span
+                                    t-if="record.cimalor_missing_state_data.raw_value"
+                                    class="badge rounded-pill text-bg-warning"
+                                >Data missing</span>
+                                <span
+                                    t-if="record.cimalor_depends_on.raw_value"
+                                    t-attf-class="badge rounded-pill {{ record.cimalor_depends_on.raw_value == 'customer' ? 'text-bg-info' : 'text-bg-light' }}"
+                                >
+                                    Depends on: <t
+                                        t-out="record.cimalor_depends_on.value"
+                                    />
+                                </span>
+                                <span
+                                    t-if="record.cimalor_follow_up_date.raw_value"
+                                    t-attf-class="badge rounded-pill {{ record.cimalor_follow_up_overdue.raw_value ? 'text-bg-danger' : 'text-bg-light' }}"
+                                >
+                                    Follow-up <field name="cimalor_follow_up_date" />
+                                </span>
+                            </div>
+                        </main>
+                        <footer class="pt-1">
+                            <span class="small text-muted">
+                                <field name="closed_task_count" /> of <field
+                                    name="task_count"
+                                /> tasks
+                            </span>
+                            <span t-if="record.date.raw_value" class="small text-muted ms-2">
+                                Due <field name="date" />
+                            </span>
+                            <field
+                                name="user_id"
+                                widget="many2one_avatar_user"
+                                class="ms-auto"
+                            />
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_project_project_form" model="ir.ui.view">
+        <field name="name">project.project.form.cimalor_project_status_board</field>
+        <field name="model">project.project</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Project">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Brochure automation" />
+                        </h1>
+                        <!-- The same sentence as on the kanban card. -->
+                        <field
+                            name="cimalor_state_summary"
+                            class="fs-5"
+                            invisible="not cimalor_state_summary"
+                        />
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" />
+                            <field name="user_id" widget="many2one_avatar_user" />
+                        </group>
+                        <group>
+                            <field name="date" string="Delivery Date" />
+                            <field name="company_id" invisible="1" />
+                        </group>
+                    </group>
+
+                    <!--
+                        The state as a row of buttons, one per stage, like the
+                        board's columns. The widget is registered as
+                        "selection_badge" in 18.0 and 19.0 (its source folder
+                        is badge_selection). It reads the stages with the same
+                        company domain as Project's status bar.
+                    -->
+                    <separator string="Project State" />
+                    <field
+                        name="stage_id"
+                        widget="selection_badge"
+                        domain="[('company_id', 'in', (company_id, False))]"
+                        nolabel="1"
+                    />
+                    <field name="cimalor_state_type" invisible="1" />
+                    <field name="cimalor_reason_requires_note" invisible="1" />
+
+                    <!--
+                        Waiting and On Hold ask for their data here. It is
+                        required in this view only, never with a constraint:
+                        the drag, imports and automatic changes must still be
+                        able to move a project without it (spec §6.1).
+                    -->
+                    <!--
+                        Who the project depends on, highlighted when it is the
+                        customer, as on the card. Three spans with a fixed
+                        text each keep every sentence translatable whole.
+                    -->
+                    <div
+                        class="d-flex gap-2 mb-2"
+                        invisible="cimalor_state_type not in ('waiting', 'stopped')"
+                    >
+                        <span
+                            class="badge rounded-pill text-bg-info"
+                            invisible="cimalor_depends_on != 'customer'"
+                        >Depends on the customer</span>
+                        <span
+                            class="badge rounded-pill text-bg-light"
+                            invisible="cimalor_depends_on != 'supplier'"
+                        >Depends on a supplier</span>
+                        <span
+                            class="badge rounded-pill text-bg-light"
+                            invisible="cimalor_depends_on != 'internal'"
+                        >Depends on us</span>
+                        <span
+                            class="badge rounded-pill text-bg-warning"
+                            invisible="not cimalor_missing_state_data"
+                        >Data missing</span>
+                    </div>
+                    <field name="cimalor_missing_state_data" invisible="1" />
+                    <group
+                        name="cimalor_state_data"
+                        invisible="cimalor_state_type not in ('waiting', 'stopped')"
+                    >
+                        <group>
+                            <field
+                                name="cimalor_reason_id"
+                                required="cimalor_state_type in ('waiting', 'stopped')"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="cimalor_depends_on" />
+                        </group>
+                        <group>
+                            <field
+                                name="cimalor_follow_up_date"
+                                invisible="cimalor_state_type != 'waiting'"
+                                required="cimalor_state_type == 'waiting'"
+                            />
+                            <field
+                                name="cimalor_restart_date"
+                                invisible="cimalor_state_type != 'stopped'"
+                                required="cimalor_state_type == 'stopped'"
+                            />
+                        </group>
+                        <field
+                            name="cimalor_state_note"
+                            required="cimalor_reason_requires_note"
+                            placeholder="Explain the reason"
+                            colspan="2"
+                        />
+                    </group>
+
+                    <notebook>
+                        <page string="Tasks" name="cimalor_open_tasks">
+                            <field name="cimalor_open_task_ids">
+                                <list editable="bottom">
+                                    <field name="cimalor_is_done" nolabel="1" />
+                                    <field name="name" />
+                                    <field
+                                        name="user_ids"
+                                        widget="many2many_avatar_user"
+                                        optional="show"
+                                    />
+                                    <field
+                                        name="allocated_hours"
+                                        widget="float_time"
+                                        string="Planned"
+                                    />
+                                    <field
+                                        name="effective_hours"
+                                        widget="float_time"
+                                        string="Spent"
+                                    />
+                                    <!-- date_deadline is a datetime: show the day only -->
+                                    <field
+                                        name="date_deadline"
+                                        options="{'show_time': false}"
+                                        optional="show"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Closed Tasks" name="cimalor_closed_tasks">
+                            <field name="cimalor_closed_task_ids">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="cimalor_is_done" nolabel="1" />
+                                    <field name="name" readonly="1" />
+                                    <field
+                                        name="allocated_hours"
+                                        widget="float_time"
+                                        string="Planned"
+                                        readonly="1"
+                                    />
+                                    <field
+                                        name="effective_hours"
+                                        widget="float_time"
+                                        string="Spent"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="State History" name="cimalor_state_history">
+                            <field name="cimalor_state_log_ids" readonly="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <!--
+        The app's action names its kanban and form; the list is Project's own.
+        Project templates (is_template, new in 19.0) are not real projects and
+        are left out, as in Project's own action.
+    -->
+    <record id="action_project_project" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_template', '=', False)]</field>
+        <field name="search_view_id" ref="project.view_project_project_filter" />
+        <field
+            name="view_ids"
+            eval="[
+                Command.clear(),
+                Command.create({'view_mode': 'kanban', 'view_id': ref('view_project_project_kanban')}),
+                Command.create({'view_mode': 'list'}),
+                Command.create({'view_mode': 'form', 'view_id': ref('view_project_project_form')}),
+            ]"
+        />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first project</p>
+            <p>
+                Each project is a card, and each column is a state. Drag a card to
+                change its state; Waiting and On Hold ask for a reason and a date.
+            </p>
+        </field>
+    </record>
+</odoo>

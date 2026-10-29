@@ -105,3 +105,33 @@ Odoo version. The same functional version number means the same features in both
 
 - First version, as `todo_team_project`: optional `project_id` on team tasks, shown on the
   form, list and kanban; auto-installed when the Project app is present.
+
+## cimalor_project_status_board — Project Status Board
+
+### [19.0.0.1.0] - Unreleased
+
+#### Added
+
+- Board of projects by lifecycle state on Project's own stages. Each stage gets a state
+  type (To Start, In Progress, Waiting, On Hold, Done); the four native stages are typed on
+  install and two stages are added, Waiting and On Hold (folded).
+- Waiting and On Hold ask for a reason, who the project depends on (customer, supplier or
+  us), a follow-up or restart date and, for catch-all reasons, a note. Required on the
+  project form only, so dragging a card is never blocked: the card is flagged instead.
+- Ten starting reasons, editable under Configuration › Reasons.
+- History of every state change (`cimalor.project.state.log`), read and create only, and a
+  chatter note when a project starts waiting or goes on hold.
+- Project form with the state as buttons, the state sentence, and the main tasks as a
+  to-do list with planned and spent hours. Ticking a task closes it through its state and
+  never touches its planned hours.
+- Spanish translation.
+
+#### Notes
+
+- Installing turns on Project's _Project Stages_ setting; uninstalling does not turn it off.
+- Project users get write access to projects (not create or delete), limited by Project's
+  own record rules, so they can change the state of the projects they see.
+- On uninstall, Waiting and On Hold are deleted only when no project is in them; a stage in
+  use stays as an ordinary Project stage.
+- Depends on `project` and `hr_timesheet`. Projects created before the install have no
+  history until their first state change.

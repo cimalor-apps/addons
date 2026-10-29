@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        The app is for Project users: they are the ones who can move a project.
+        The icon is Project's until the module has its own (before publishing).
+    -->
+    <menuitem
+        id="menu_cimalor_project_status_board_root"
+        name="Project Status Board"
+        web_icon="project,static/description/icon.png"
+        groups="project.group_project_user"
+        sequence="45"
+    />
+    <menuitem
+        id="menu_cimalor_project_status_board_projects"
+        name="Projects"
+        parent="menu_cimalor_project_status_board_root"
+        action="action_project_project"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_cimalor_project_status_board_config"
+        name="Configuration"
+        parent="menu_cimalor_project_status_board_root"
+        groups="project.group_project_manager"
+        sequence="90"
+    />
+    <menuitem
+        id="menu_cimalor_project_stop_reason"
+        name="Reasons"
+        parent="menu_cimalor_project_status_board_config"
+        action="action_cimalor_project_stop_reason"
+        sequence="10"
+    />
+    <!-- Project's own stage action: the stages are Project's, not a copy. -->
+    <menuitem
+        id="menu_cimalor_project_stage"
+        name="Stages"
+        parent="menu_cimalor_project_status_board_config"
+        action="project.project_project_stage_configure"
+        sequence="20"
+    />
+</odoo>
