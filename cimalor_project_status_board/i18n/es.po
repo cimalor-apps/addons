@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 19:43+0000\n"
-"PO-Revision-Date: 2026-10-27 19:43+0000\n"
+"POT-Creation-Date: 2026-10-29 19:21+0000\n"
+"PO-Revision-Date: 2026-10-29 19:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
+msgid ""
+"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_depends_on != 'customer'\">Depends on the customer</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'supplier'\">Depends on a supplier</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'internal'\">Depends on us</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-warning\" invisible=\"not cimalor_missing_state_data\">Data missing</span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_depends_on != 'customer'\">Depende del cliente</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'supplier'\">Depende de un proveedor</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'internal'\">Depende de nosotros</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-warning\" invisible=\"not cimalor_missing_state_data\">Faltan datos</span>"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__reason_type
@@ -255,8 +268,20 @@ msgstr "Parado hasta el %(date)s: %(reason)s"
 #. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "On hold: %(reason)s. Depends on: %(depends_on)s. Restart on %(date)s."
+msgstr "Parado: %(reason)s. Depende de: %(depends_on)s. Reinicio el %(date)s."
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "On hold: reason or restart date missing"
 msgstr "Parado: falta el motivo o la fecha de reinicio"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "On hold: the reason or the restart date is missing."
+msgstr "Parado: falta el motivo o la fecha de reinicio."
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_open_task_ids
@@ -487,6 +512,13 @@ msgid "Waiting and On Hold Reasons"
 msgstr "Motivos de espera y de parada"
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid ""
+"Waiting for: %(reason)s. Depends on: %(depends_on)s. Follow-up on %(date)s."
+msgstr "Esperando: %(reason)s. Depende de: %(depends_on)s. Seguimiento el %(date)s."
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_missing_state_data
 msgid ""
 "Waiting or On Hold without its reason or date, typically after dragging the "
@@ -510,6 +542,12 @@ msgstr "Esperando: %(reason)s"
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "Waiting: reason or follow-up date missing"
 msgstr "Esperando: falta el motivo o la fecha de seguimiento"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Waiting: the reason or the follow-up date is missing."
+msgstr "Esperando: falta el motivo o la fecha de seguimiento."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form

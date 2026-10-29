@@ -146,6 +146,45 @@ class TestProjectStateLog(TransactionCase):
             "Signed contract from the notary",
         )
 
+    def _new_notes(self, change):
+        """Internal notes posted by `change` (creating a project posts one)."""
+        note = self.env.ref("mail.mt_note")
+        before = self.project.message_ids
+        change()
+        return (self.project.message_ids - before).filtered(
+            lambda message: message.subtype_id == note
+        )
+
+    def test_chatter_note_with_state_data(self):
+        """Entering Waiting with its data tells the chatter why."""
+        notes = self._new_notes(
+            lambda: self.project.write(
+                {
+                    "stage_id": self.stage_waiting.id,
+                    "cimalor_reason_id": self.reason_email.id,
+                    "cimalor_follow_up_date": date(2026, 10, 29),
+                }
+            )
+        )
+        self.assertEqual(len(notes), 1)
+        self.assertIn("Reply to an email", notes.body)
+        self.assertIn("Customer", notes.body)
+
+    def test_chatter_note_after_drag(self):
+        """A drag leaves a note saying the data is still missing."""
+        notes = self._new_notes(
+            lambda: self.project.write({"stage_id": self.stage_waiting.id})
+        )
+        self.assertEqual(len(notes), 1)
+        self.assertIn("missing", notes.body)
+
+    def test_no_chatter_note_for_plain_moves(self):
+        """Project already tracks plain stage changes; no extra note."""
+        notes = self._new_notes(
+            lambda: self.project.write({"stage_id": self.stage_to_start.id})
+        )
+        self.assertFalse(notes)
+
     def test_no_log_when_nothing_changes(self):
         """Saving the same state again does not add history."""
         self.project.write({"stage_id": self.stage_in_progress.id, "name": "Renamed"})

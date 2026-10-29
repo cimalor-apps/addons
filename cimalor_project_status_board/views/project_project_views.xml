@@ -93,6 +93,12 @@
                         <h1>
                             <field name="name" placeholder="e.g. Brochure automation" />
                         </h1>
+                        <!-- The same sentence as on the kanban card. -->
+                        <field
+                            name="cimalor_state_summary"
+                            class="fs-5"
+                            invisible="not cimalor_state_summary"
+                        />
                     </div>
                     <group>
                         <group>
@@ -128,6 +134,33 @@
                         the drag, imports and automatic changes must still be
                         able to move a project without it (spec §6.1).
                     -->
+                    <!--
+                        Who the project depends on, highlighted when it is the
+                        customer, as on the card. Three spans with a fixed
+                        text each keep every sentence translatable whole.
+                    -->
+                    <div
+                        class="d-flex gap-2 mb-2"
+                        invisible="cimalor_state_type not in ('waiting', 'stopped')"
+                    >
+                        <span
+                            class="badge rounded-pill text-bg-info"
+                            invisible="cimalor_depends_on != 'customer'"
+                        >Depends on the customer</span>
+                        <span
+                            class="badge rounded-pill text-bg-light"
+                            invisible="cimalor_depends_on != 'supplier'"
+                        >Depends on a supplier</span>
+                        <span
+                            class="badge rounded-pill text-bg-light"
+                            invisible="cimalor_depends_on != 'internal'"
+                        >Depends on us</span>
+                        <span
+                            class="badge rounded-pill text-bg-warning"
+                            invisible="not cimalor_missing_state_data"
+                        >Data missing</span>
+                    </div>
+                    <field name="cimalor_missing_state_data" invisible="1" />
                     <group
                         name="cimalor_state_data"
                         invisible="cimalor_state_type not in ('waiting', 'stopped')"
