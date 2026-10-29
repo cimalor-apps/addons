@@ -1,7 +1,10 @@
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.cimalor_project_status_board.hooks import _type_native_stages
+from odoo.addons.cimalor_project_status_board.hooks import (
+    _type_native_stages,
+    uninstall_hook,
+)
 
 
 @tagged("post_install", "-at_install")
@@ -46,6 +49,40 @@ class TestProjectProjectStage(TransactionCase):
         self.assertLess(in_progress.sequence, waiting.sequence)
         self.assertLess(waiting.sequence, on_hold.sequence)
         self.assertLess(on_hold.sequence, done.sequence)
+
+    def test_uninstall_keeps_stages_in_use(self):
+        """A stage with projects survives the uninstall; an empty one does not."""
+        waiting = self.env.ref(
+            "cimalor_project_status_board.project_project_stage_waiting"
+        )
+        on_hold = self.env.ref(
+            "cimalor_project_status_board.project_project_stage_on_hold"
+        )
+        self.env["project.project"].search([("stage_id", "=", on_hold.id)]).write(
+            {"stage_id": waiting.id}
+        )
+        self.env["project.project"].create(
+            {"name": "Archived but waiting", "stage_id": waiting.id, "active": False}
+        )
+
+        uninstall_hook(self.env)
+
+        xmlids = self.env["ir.model.data"].search(
+            [
+                ("module", "=", "cimalor_project_status_board"),
+                ("model", "=", "project.project.stage"),
+            ]
+        )
+        self.assertNotIn(
+            waiting.id,
+            xmlids.mapped("res_id"),
+            "a stage holding projects becomes an ordinary stage, so Odoo keeps it",
+        )
+        self.assertIn(
+            on_hold.id,
+            xmlids.mapped("res_id"),
+            "an empty stage stays tied to the module and is deleted with it",
+        )
 
     def test_hook_tolerates_deleted_native_stage(self):
         """A customer may have deleted a native stage before installing."""
