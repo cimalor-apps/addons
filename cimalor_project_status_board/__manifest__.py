@@ -7,6 +7,11 @@
     "website": "https://cimalor.com",
     "license": "LGPL-3",
     "depends": ["project", "hr_timesheet"],
+    "images": [
+        "static/description/main_screenshot.png",
+        "static/description/screenshot_project_form.png",
+        "static/description/screenshot_reasons.png",
+    ],
     "data": [
         "security/cimalor_project_status_board_security.xml",
         "security/ir.model.access.csv",
