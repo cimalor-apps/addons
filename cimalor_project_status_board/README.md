@@ -19,6 +19,9 @@ it is waiting for, who it depends on and when to chase it again.
 - **A project form for day-to-day work:** the state as a row of buttons, the main tasks as a
   to-do list with planned and spent hours, and the closed ones apart. Ticking a task closes
   it without touching its planned hours.
+- **A timer on every task:** press play in the task list and a live counter starts; stop it
+  to log the time as a standard timesheet line, with an optional description. One timer per
+  person: starting another task stops the running one and logs its time.
 - **History of every state change:** who, when, the reason and the dates, never rewritten.
   The chatter gets a note each time a project starts waiting or goes on hold.
 - **Configurable reasons**, ten to start with, each proposing who the project depends on.
@@ -61,7 +64,11 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 - **Waiting / On Hold:** choose the reason and the date in the form. Who the project depends
   on is proposed by the reason and can be changed.
 - **Tasks tab:** tick a task to close it, untick it in _Closed Tasks_ to reopen it. Add
-  tasks with or without planned hours.
+  tasks with or without planned hours, and drag the handle to change their order.
+- **Timer:** press ▷ on a task to start, ■ to stop. The dialog proposes the elapsed time
+  (rounded to the minute), which you can correct; _Keep Running_ closes it without
+  stopping. Under a minute nothing is logged. Logging time needs your user to be linked to
+  an employee, and the Timesheets user right.
 - **State History tab:** every change of state with its author and data.
 
 ## Access rights
@@ -73,8 +80,11 @@ reasons. Project's own record rules still decide which projects each user sees.
 ## Technical notes
 
 - Models: `cimalor.project.state.log` (history, read and create only),
-  `cimalor.project.stop.reason`; extensions of `project.project`, `project.project.stage`
-  and `project.task`.
+  `cimalor.project.stop.reason`, `cimalor.project.timer` (running timers, each user sees
+  only their own) and the `cimalor.project.timer.stop` dialog; extensions of
+  `project.project`, `project.project.stage` and `project.task`.
+- The live counter is the module's only JavaScript: the `cimalor_timer` field widget, which
+  shows "now minus start" every second, so it stays right after the computer sleeps.
 - The state type lives on the stage (`cimalor_state_type`); every rule reads it, never the
   stage name nor `fold`.
 - `project.project.write()` is the single entry point of the history: the form, the kanban

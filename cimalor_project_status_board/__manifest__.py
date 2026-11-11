@@ -22,7 +22,13 @@
         "views/cimalor_project_stop_reason_views.xml",
         "views/project_project_views.xml",
         "views/cimalor_project_status_board_menus.xml",
+        "wizards/cimalor_project_timer_stop_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "cimalor_project_status_board/static/src/**/*",
+        ],
+    },
     "post_init_hook": "post_init_hook",
     "uninstall_hook": "uninstall_hook",
     "application": True,

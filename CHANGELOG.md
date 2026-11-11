@@ -123,7 +123,9 @@ Odoo version. The same functional version number means the same features in both
   chatter note when a project starts waiting or goes on hold.
 - Project form with the state as buttons, the state sentence, and the main tasks as a
   to-do list with planned and spent hours. Ticking a task closes it through its state and
-  never touches its planned hours.
+  never touches its planned hours. Tasks can be reordered by dragging.
+- Timer on each task of the project form: live counter, one running timer per user, and a
+  stop dialog that logs a standard timesheet line (nothing under a minute).
 - Spanish translation.
 
 #### Notes

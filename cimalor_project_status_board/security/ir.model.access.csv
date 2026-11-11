@@ -3,3 +3,5 @@ access_project_project_user_cimalor,project.project.user.cimalor,project.model_p
 access_cimalor_project_stop_reason_user,cimalor.project.stop.reason.user,model_cimalor_project_stop_reason,project.group_project_user,1,0,0,0
 access_cimalor_project_stop_reason_manager,cimalor.project.stop.reason.manager,model_cimalor_project_stop_reason,project.group_project_manager,1,1,1,1
 access_cimalor_project_state_log_user,cimalor.project.state.log.user,model_cimalor_project_state_log,project.group_project_user,1,0,1,0
+access_cimalor_project_timer_user,cimalor.project.timer.user,model_cimalor_project_timer,project.group_project_user,1,1,1,1
+access_cimalor_project_timer_stop_user,cimalor.project.timer.stop.user,model_cimalor_project_timer_stop,project.group_project_user,1,1,1,1
