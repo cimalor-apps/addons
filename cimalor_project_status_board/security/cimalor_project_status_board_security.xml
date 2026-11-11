@@ -10,4 +10,14 @@
         <field name="model_id" ref="model_cimalor_project_state_log" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
+
+    <!--
+        A running timer is personal: nobody sees, stops or deletes another
+        user's timer, administrators included (the time is theirs to log).
+    -->
+    <record id="cimalor_project_timer_own_rule" model="ir.rule">
+        <field name="name">Task Timer: own timers only</field>
+        <field name="model_id" ref="model_cimalor_project_timer" />
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
 </odoo>

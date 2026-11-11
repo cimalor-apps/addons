@@ -235,6 +235,32 @@
                                         options="{'show_time': false}"
                                         optional="show"
                                     />
+                                    <!--
+                                        The current user's timer: a live counter
+                                        while it runs, play to start, stop to log
+                                        the time. Hidden on unsaved lines, which
+                                        have no task to time yet.
+                                    -->
+                                    <field
+                                        name="cimalor_timer_start"
+                                        widget="cimalor_timer"
+                                        string=" "
+                                    />
+                                    <button
+                                        name="action_cimalor_timer_start"
+                                        type="object"
+                                        icon="fa-play"
+                                        title="Start timer"
+                                        invisible="cimalor_timer_start or not id"
+                                    />
+                                    <button
+                                        name="action_cimalor_timer_stop"
+                                        type="object"
+                                        icon="fa-stop"
+                                        title="Stop timer"
+                                        class="text-danger"
+                                        invisible="not cimalor_timer_start"
+                                    />
                                 </list>
                             </field>
                         </page>

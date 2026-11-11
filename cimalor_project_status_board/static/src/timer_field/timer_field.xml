@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cimalor_project_status_board.TimerField">
+        <span
+            t-if="elapsed"
+            class="badge rounded-pill text-bg-success font-monospace"
+            t-out="elapsed"
+        />
+    </t>
+</templates>
