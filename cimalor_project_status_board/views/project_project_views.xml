@@ -203,6 +203,15 @@
                         <page string="Tasks" name="cimalor_open_tasks">
                             <field name="cimalor_open_task_ids">
                                 <list editable="bottom">
+                                    <!--
+                                        Drag to reorder when needed. It writes the
+                                        task's own `sequence`, the same one
+                                        Project's task views use (handle as in
+                                        project_task_views.xml). Starred tasks still
+                                        come first: project.task orders by priority
+                                        before sequence.
+                                    -->
+                                    <field name="sequence" widget="handle" />
                                     <field name="cimalor_is_done" nolabel="1" />
                                     <field name="name" />
                                     <field
