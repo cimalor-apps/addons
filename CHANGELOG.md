@@ -105,3 +105,97 @@ Odoo version. The same functional version number means the same features in both
 
 - First version, as `todo_team_project`: optional `project_id` on team tasks, shown on the
   form, list and kanban; auto-installed when the Project app is present.
+
+## cimalor_project_status_board — Project Status Board
+
+### [18.0.0.1.0] - Unreleased
+
+#### Added
+
+- First version for Odoo 18.0, with the same features as 19.0.0.1.0.
+
+#### Changed (differences from 19.0)
+
+- No project templates in 18.0 (`is_template`): the boards, Date Risk and the Workload
+  report have no condition on them.
+- The state history follows Project's 18.0 visibility rule for employees
+  (`privacy_visibility != 'followers'`); 19.0 lists the public values because it added
+  `invited_users`.
+- The daily admin time sits next to the working schedule on the _Work Information_ page of
+  the employee form (on _Payroll_ in 19.0).
+- Weekly capacity counts the working days on the schedule's attendances: 18.0 has no
+  `hours_per_week`.
+
+### [19.0.0.1.0] - Unreleased
+
+#### Added
+
+- Board of projects by lifecycle state on Project's own stages. Each stage gets a state
+  type (To Start, In Progress, Waiting, On Hold, Done); the four native stages are typed on
+  install and two stages are added, Waiting and On Hold (folded).
+- Waiting and On Hold ask for a reason, a follow-up or restart date and, for catch-all
+  reasons, a note. Waiting always depends on the customer; On Hold also asks who it depends
+  on (customer, supplier or us). Required on the project form only, so dragging a card is
+  never blocked: the card is flagged instead.
+- Ten starting reasons, editable under Configuration › Reasons.
+- History of every state change (`cimalor.project.state.log`), read and create only, and a
+  chatter note when a project starts waiting or goes on hold.
+- Project form with the state as buttons, the state sentence, and the main tasks as a
+  to-do list with planned and spent hours. Ticking a task closes it through its state and
+  never touches its planned hours. Tasks can be reordered by dragging.
+- Timer on each task of the project form: live counter, one running timer per user, and a
+  stop dialog with a required comment that logs a standard timesheet line (one minute at
+  least). Play on another task first asks for the running one's comment. A green dot on the
+  kanban card shows that somebody is timing the project.
+- Last timesheet comment of the project on its kanban card, on one line as "User · date ·
+  comment". The state sentence leaves out the state, which the column already shows:
+  "Since 23/10/2026: reason" for Waiting, "Until 15/01/2027: reason" for On Hold.
+- Hours margin of each project: allocated hours left minus the pending work of its open
+  main tasks (planned minus spent, never below zero; tasks without estimate count zero).
+  A traffic light on the card and the form: red over budget, amber tight (under 10 % of
+  the allocated hours), green with room; grey "No Budget" without allocated hours, none
+  once done. Board filters _Over Budget_ and _Hours at Risk_.
+- Reporting › Workload: pending hours of the open main tasks per person, project stage
+  and due date (the task's deadline or the project's delivery date), in pivot, graph and
+  list. Hours split evenly among the people on a task; unassigned tasks count for the
+  project manager; finished projects left out. Each person sees their own load, Project
+  administrators everybody's.
+- Reporting › Capacity: one line per person with daily and weekly capacity for tasks
+  (working schedule minus a daily admin time, 1 h by default, set on the employee next to
+  the schedule), pending hours, weeks of work, the day the queue ends and, apart, the
+  hours of projects on hold. The queue end counts approved time off and public holidays
+  (Odoo's resource leaves, so Time Off is not a dependency) and starts with what is left
+  of today after the hours already logged. Same visibility as Workload.
+- Days margin of each project, from the work queue of its people: each person works
+  through their tasks by due date at their daily capacity; the project's forecast end is
+  when its last open task ends, and the margin is the working days from it to the
+  delivery date (company schedule). Traffic light on the card and the form: red late,
+  amber tight (2 working days or less), green on time; grey without delivery date or
+  when somebody has no working schedule; none on hold or done. Who it is late because
+  of, on hover. Computed when read, never stored, because it depends on the other
+  projects of the same people. Board filters _Late_ and _Date at Risk_, and
+  Reporting › Date Risk with the projects at risk.
+- Spanish translation.
+
+#### Fixed
+
+- Changing the delivery date of a project without start date was silently not saved:
+  Project treats start and end as a range and drops a new end date without a start. The
+  app fills in the start date with the project's creation day (or the delivery date if
+  earlier) when it saves the delivery date.
+
+#### Notes
+
+- Installing turns on Project's _Project Stages_ setting; uninstalling does not turn it off.
+- Project users get write access to projects (not create or delete), only on the projects
+  they manage or have tasks in; checked in `write()`, because Odoo OR-s the record rules of
+  a user's groups. The project manager gets an activity when somebody else changes the
+  state.
+- Two boards: My Projects (managed or with tasks) and All Projects.
+- Reporting › Latest Changes: every state change of the projects the user can see, with
+  from and to stage, reason, comment and who. The history follows the visibility of its
+  project, as Project's own rule for employees.
+- On uninstall, Waiting and On Hold are deleted only when no project is in them; a stage in
+  use stays as an ordinary Project stage.
+- Depends on `project` and `hr_timesheet`. Projects created before the install have no
+  history until their first state change.

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_cimalor_project_timer_stop_form" model="ir.ui.view">
+        <field name="name">cimalor.project.timer.stop.form</field>
+        <field name="model">cimalor.project.timer.stop</field>
+        <field name="arch" type="xml">
+            <form string="Log Time">
+                <!--
+                    Opened by play on another task: say so, or it looks like a
+                    plain stop and the user expects the new timer to start.
+                -->
+                <div
+                    class="alert alert-info mb-3"
+                    role="alert"
+                    invisible="not next_task_id"
+                >
+                    You have a timer running on another task. Log its time and
+                    the timer on <field name="next_task_id" class="fw-bold" readonly="1" />
+                    starts.
+                </div>
+                <group>
+                    <field name="task_id" readonly="1" />
+                    <field name="project_id" readonly="1" />
+                    <field name="hours" widget="float_time" />
+                    <field name="description" placeholder="What did you do?" />
+                    <field name="timer_id" invisible="1" />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Log Time"
+                        class="btn-primary"
+                        data-hotkey="q"
+                        invisible="next_task_id"
+                    />
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Log and Start Next"
+                        class="btn-primary"
+                        data-hotkey="q"
+                        invisible="not next_task_id"
+                    />
+                    <button string="Keep Running" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

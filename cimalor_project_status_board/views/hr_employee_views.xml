@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        The admin time next to the working schedule it is subtracted from,
+        on the Work Information page of the employee form.
+    -->
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.cimalor_project_status_board</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='public']//field[@name='resource_calendar_id']"
+                position="after"
+            >
+                <field name="cimalor_admin_hours" widget="float_time" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
