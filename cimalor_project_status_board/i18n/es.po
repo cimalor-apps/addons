@@ -18,6 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "%(user)s moved the project to %(stage)s"
+msgstr "%(user)s pasó el proyecto a %(stage)s"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Last comment\"/>"
 msgstr "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Último comentario\"/>"
@@ -51,6 +57,12 @@ msgstr "Activo"
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_stop_reason
 msgid "Add a reason"
 msgstr "Añade un motivo"
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
+msgid "All Projects"
+msgstr "Todos los proyectos"
 
 #. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_delivery_approval
@@ -207,6 +219,13 @@ msgid ""
 msgstr "Para motivos genéricos como Otro: el proyecto debe explicarlo en una nota."
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
+msgid ""
+"Here are the projects you manage or have tasks in. All Projects shows\n"
+"                the rest."
+msgstr "Aquí están los proyectos que gestionas o en los que tienes tareas. Todos los proyectos muestra el resto."
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__id
@@ -295,6 +314,12 @@ msgid "Log and Start Next"
 msgstr "Imputar y empezar la siguiente"
 
 #. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project_my
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_my_projects
+msgid "My Projects"
+msgstr "Mis proyectos"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
 msgid "Name"
 msgstr "Nombre"
@@ -303,6 +328,11 @@ msgstr "Nombre"
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__next_task_id
 msgid "Next Task"
 msgstr "Tarea siguiente"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
+msgid "No projects of yours yet"
+msgstr "Todavía no tienes proyectos"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__note
@@ -377,6 +407,11 @@ msgid "Project State Change"
 msgstr "Cambio de estado del proyecto"
 
 #. module: cimalor_project_status_board
+#: model:mail.activity.type,name:cimalor_project_status_board.mail_activity_type_state_change
+msgid "Project State Changed"
+msgstr "Estado del proyecto cambiado"
+
+#. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
 msgid "Project Status Board"
 msgstr "Project Status Board"
@@ -387,8 +422,7 @@ msgid "Project Waiting or Stop Reason"
 msgstr "Motivo de espera o parada del proyecto"
 
 #. module: cimalor_project_status_board
-#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project
-#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
 msgstr "Proyectos"
 
@@ -667,6 +701,12 @@ msgstr "¿Qué has hecho?"
 #: code:addons/cimalor_project_status_board/wizards/cimalor_project_timer_stop.py:0
 msgid "Write what you did before logging the time."
 msgstr "Escribe qué has hecho antes de imputar las horas."
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "You can only change projects you manage or have tasks in: %(projects)s"
+msgstr "Solo puedes cambiar los proyectos que gestionas o en los que tienes tareas: %(projects)s"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form

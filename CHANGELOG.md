@@ -137,8 +137,11 @@ Odoo version. The same functional version number means the same features in both
 #### Notes
 
 - Installing turns on Project's _Project Stages_ setting; uninstalling does not turn it off.
-- Project users get write access to projects (not create or delete), limited by Project's
-  own record rules, so they can change the state of the projects they see.
+- Project users get write access to projects (not create or delete), only on the projects
+  they manage or have tasks in; checked in `write()`, because Odoo OR-s the record rules of
+  a user's groups. The project manager gets an activity when somebody else changes the
+  state.
+- Two boards: My Projects (managed or with tasks) and All Projects.
 - On uninstall, Waiting and On Hold are deleted only when no project is in them; a stage in
   use stays as an ordinary Project stage.
 - Depends on `project` and `hr_timesheet`. Projects created before the install have no

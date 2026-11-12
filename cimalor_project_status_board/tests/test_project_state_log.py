@@ -1,8 +1,12 @@
 from datetime import date
 
+from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase, new_test_user
+from odoo.tools.safe_eval import safe_eval
+
+from odoo.addons.cimalor_project_status_board.hooks import uninstall_hook
 
 
 @tagged("post_install", "-at_install")
@@ -224,22 +228,97 @@ class TestProjectStateSecurity(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.project = cls.env["project.project"].create({"name": "Catalogue"})
         cls.stage_waiting = cls.env.ref(
             "cimalor_project_status_board.project_project_stage_waiting"
         )
+        cls.stage_in_progress = cls.env.ref("project.project_project_stage_1")
         cls.user = new_test_user(
             cls.env, login="psb_user", groups="project.group_project_user"
         )
+        cls.manager = new_test_user(
+            cls.env, login="psb_manager", groups="project.group_project_user"
+        )
+        cls.outsider = new_test_user(
+            cls.env, login="psb_outsider", groups="project.group_project_user"
+        )
+        cls.project = cls.env["project.project"].create(
+            {"name": "Catalogue", "user_id": cls.manager.id}
+        )
+        cls.task = cls.env["project.task"].create(
+            {
+                "name": "Layout",
+                "project_id": cls.project.id,
+                "user_ids": [Command.set([cls.user.id])],
+            }
+        )
+        cls.notice_type = cls.env.ref(
+            "cimalor_project_status_board.mail_activity_type_state_change"
+        )
+
+    def _notices(self):
+        return self.project.activity_ids.filtered(
+            lambda activity: activity.activity_type_id == self.notice_type
+        )
 
     def test_project_user_changes_state(self):
-        """A Project user, not only an administrator, can move a project."""
+        """Somebody with a task in the project, not only an admin, can move it."""
         project = self.project.with_user(self.user)
         project.stage_id = self.stage_waiting
 
         log = project.cimalor_state_log_ids[0]
         self.assertEqual(log.state_type, "waiting")
         self.assertEqual(log.user_id, self.user)
+
+    def test_task_closed_still_counts(self):
+        """Finishing your task does not take the project away from you."""
+        self.task.state = "1_done"
+        self.project.with_user(self.user).stage_id = self.stage_waiting
+        self.assertEqual(self.project.stage_id, self.stage_waiting)
+
+    def test_outsider_cannot_change_state(self):
+        """A Project user without tasks in the project sees it but cannot move it."""
+        project = self.project.with_user(self.outsider)
+        self.assertEqual(project.name, "Catalogue", "reading is Project's business")
+        with self.assertRaises(AccessError):
+            project.stage_id = self.stage_waiting
+
+    def test_manager_is_told(self):
+        """A change by somebody else leaves the manager one notice, refreshed."""
+        self.project.with_user(self.user).stage_id = self.stage_waiting
+        notice = self._notices()
+        self.assertEqual(len(notice), 1)
+        self.assertEqual(notice.user_id, self.manager)
+        self.assertIn(self.user.name, notice.summary)
+
+        self.project.with_user(self.user).stage_id = self.stage_in_progress
+        self.assertEqual(len(self._notices()), 1, "refreshed, not piled up")
+
+    def test_manager_own_change_is_silent(self):
+        self.project.with_user(self.manager).stage_id = self.stage_waiting
+        self.assertFalse(self._notices())
+
+    def test_my_projects(self):
+        """My Projects: the ones I manage or have tasks in."""
+        action = self.env.ref("cimalor_project_status_board.action_project_project_my")
+        Project = self.env["project.project"]
+        for user, expected in (
+            (self.user, True),
+            (self.manager, True),
+            (self.outsider, False),
+        ):
+            with self.subTest(user=user.login):
+                domain = safe_eval(action.domain, {"uid": user.id})
+                found = Project.with_user(user).search(domain)
+                self.assertEqual(self.project in found, expected)
+
+    def test_uninstall_moves_notices_to_todo(self):
+        """Uninstalling must not fail on the module's activity type (18.0)."""
+        self.project.with_user(self.user).stage_id = self.stage_waiting
+        notice = self._notices()
+        uninstall_hook(self.env)
+        self.assertEqual(
+            notice.activity_type_id, self.env.ref("mail.mail_activity_data_todo")
+        )
 
     def test_history_is_read_only(self):
         """The history is never rewritten, not even by the person who made it."""
