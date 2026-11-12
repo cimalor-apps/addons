@@ -36,6 +36,7 @@
                 <field name="cimalor_last_comment" />
                 <field name="cimalor_last_comment_date" />
                 <field name="cimalor_last_comment_user_id" />
+                <field name="cimalor_timer_running_by" />
                 <field name="date" />
                 <templates>
                     <!--
@@ -46,7 +47,22 @@
                     -->
                     <t t-name="card" class="mb-2 rounded">
                         <main>
-                            <field name="name" class="fw-bold fs-5" />
+                            <!--
+                                Green dot top right while somebody times a task
+                                of the project: Odoo's own status "LED"
+                                (o_status_green), the one Project uses for
+                                tasks. Who, on hover.
+                            -->
+                            <div class="d-flex align-items-start gap-2">
+                                <field name="name" class="fw-bold fs-5" />
+                                <span
+                                    t-if="record.cimalor_timer_running_by.raw_value"
+                                    class="o_status o_status_green d-inline-block ms-auto mt-2 flex-shrink-0"
+                                    role="img"
+                                    t-att-title="record.cimalor_timer_running_by.value"
+                                    t-att-aria-label="record.cimalor_timer_running_by.value"
+                                />
+                            </div>
                             <field name="partner_id" class="text-muted" />
                             <field name="cimalor_state_summary" class="small mt-1" />
                             <!--

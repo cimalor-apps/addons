@@ -74,7 +74,9 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 - **Timer:** press ▷ on a task to start, ■ to stop. The dialog proposes the elapsed time
   (rounded to the minute), which you can correct, and asks what you did: the comment is
   required and becomes the card's last comment. _Keep Running_ closes it without stopping.
-  Under a minute nothing is logged. Logging time needs your user to be linked to an
+  Under a minute, one minute is logged, so the comment is never lost. While anybody times
+  a task of a project, its card shows a green dot top right (who, on hover). Logging time
+  needs your user to be linked to an
   employee, and the Timesheets user right. The comment is required only in this dialog:
   timesheets from the Timesheets app or imports keep their own rules.
 - **State History tab:** every change of state with its author and data.
