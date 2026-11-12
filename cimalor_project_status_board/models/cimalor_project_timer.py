@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class CimalorProjectTimer(models.Model):
@@ -28,6 +28,25 @@ class CimalorProjectTimer(models.Model):
     )
     start = fields.Datetime(required=True, default=fields.Datetime.now)
 
+    # The task's timer start and the card's green dot are computed from the
+    # timers without @api.depends (they change all day and depend on who
+    # looks). Within one request Odoo would keep the value it already read,
+    # so starting or stopping a timer drops those cached values.
+    @api.model_create_multi
+    def create(self, vals_list):
+        timers = super().create(vals_list)
+        self._cimalor_invalidate_timer_fields()
+        return timers
+
+    def unlink(self):
+        result = super().unlink()
+        self._cimalor_invalidate_timer_fields()
+        return result
+
+    def _cimalor_invalidate_timer_fields(self):
+        self.env["project.task"].invalidate_model(["cimalor_timer_start"])
+        self.env["project.project"].invalidate_model(["cimalor_timer_running_by"])
+
     def _cimalor_stop_action(self, next_task=False):
         """The stop dialog of this timer; `next_task` starts after logging."""
         self.ensure_one()
@@ -44,10 +63,10 @@ class CimalorProjectTimer(models.Model):
         }
 
     def _cimalor_elapsed_hours(self):
-        """Hours since the start, rounded to the minute like a timesheet."""
+        """Hours since the start, rounded to the minute, one minute at least."""
         self.ensure_one()
         seconds = (fields.Datetime.now() - self.start).total_seconds()
-        return round(max(seconds, 0) / 60) / 60
+        return max(round(max(seconds, 0) / 60), 1) / 60
 
     def _cimalor_log_time(self, hours, description):
         """Log `hours` on the task as a standard timesheet line, then stop.
@@ -57,12 +76,12 @@ class CimalorProjectTimer(models.Model):
         timesheet (spec §6.1). hr_timesheet finds the employee from the user.
         The description is required by the stop dialog, not here: the rule
         is the timer's, and timesheets from other sources keep working.
-        Under a minute (0 once rounded) the timer just stops: a zero-hour
-        line is only noise.
+        At least one minute is logged, even if the timer ran less or the
+        hours were set to zero: the comment is required, and it is what the
+        board shows, so it must always reach a timesheet line.
         """
+        hours = max(hours, 1 / 60)
         for timer in self:
-            if hours <= 0:
-                continue
             task = timer.task_id
             self.env["account.analytic.line"].create(
                 {

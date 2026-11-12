@@ -559,6 +559,17 @@ msgid "Timer"
 msgstr "Cronómetro"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_timer_running_by
+msgid "Timer Running"
+msgstr "Cronómetro en marcha"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Timer running: %(users)s"
+msgstr "Cronómetro en marcha: %(users)s"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__to_start
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project_stage__cimalor_state_type__to_start
 msgid "To Start"

@@ -95,14 +95,27 @@ class TestProjectTimer(TransactionCase):
             wizard.action_confirm()
         self.assertTrue(task.cimalor_timer_start, "still running")
 
-    def test_under_a_minute_logs_nothing(self):
-        """A misclick on play then stop does not leave a zero-hour line."""
+    def test_under_a_minute_logs_one_minute(self):
+        """Under a minute logs one minute, so the comment is never lost."""
         task = self.task_a.with_user(self.user)
         task.action_cimalor_timer_start()
-        self._dialog(task.action_cimalor_timer_stop(), "Oops").action_confirm()
+        wizard = self._dialog(task.action_cimalor_timer_stop(), "Quick call")
+        self.assertAlmostEqual(wizard.hours, 1 / 60, places=4, msg="proposed")
+        wizard.hours = 0  # even if the user clears it
+        wizard.action_confirm()
 
-        self.assertFalse(task.cimalor_timer_start)
-        self.assertFalse(self.Line.search([("task_id", "=", self.task_a.id)]))
+        line = self.Line.search([("task_id", "=", self.task_a.id)])
+        self.assertAlmostEqual(line.unit_amount, 1 / 60, places=4)
+        self.assertEqual(line.name, "Quick call")
+        self.assertEqual(self.project.cimalor_last_comment, "Quick call")
+
+    def test_card_dot_shows_who_times(self):
+        """The card shows that somebody times the project, to everyone."""
+        self.assertFalse(self.project.cimalor_timer_running_by)
+        self.task_a.with_user(self.user).action_cimalor_timer_start()
+
+        running_by = self.project.with_user(self.other).cimalor_timer_running_by
+        self.assertIn(self.user.name, running_by)
 
     def test_last_comment_on_the_project(self):
         """The card shows the latest timesheet comment, to everyone."""

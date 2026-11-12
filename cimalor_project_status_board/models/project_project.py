@@ -108,6 +108,15 @@ class ProjectProject(models.Model):
         compute="_compute_cimalor_last_comment",
         store=True,
     )
+    # Tooltip of the green dot on the card: who is timing the project now.
+    # compute_sudo: timers are private to their user (record rule), but the
+    # card must show that somebody is working on the project. Only the names
+    # leave the computation, never the timers themselves.
+    cimalor_timer_running_by = fields.Char(
+        string="Timer Running",
+        compute="_compute_cimalor_timer_running_by",
+        compute_sudo=True,
+    )
     cimalor_state_log_ids = fields.One2many(
         comodel_name="cimalor.project.state.log",
         inverse_name="project_id",
@@ -252,6 +261,27 @@ class ProjectProject(models.Model):
                     reason=project._cimalor_reason_text(),
                 )
             project.cimalor_state_summary = summary
+
+    def _compute_cimalor_timer_running_by(self):
+        """Who is timing the project, as "Timer running: Ana Ruiz, Luis Martín".
+
+        Empty when nobody is.
+
+        Not stored and without @api.depends: timers start and stop all day,
+        so it is recomputed on every read. One search for all the projects of
+        the board, not one per card.
+        """
+        timers = self.env["cimalor.project.timer"].search(
+            [("task_id.project_id", "in", self.ids)]
+        )
+        names = {}
+        for timer in timers:
+            names.setdefault(timer.task_id.project_id.id, set()).add(timer.user_id.name)
+        for project in self:
+            users = names.get(project.id)
+            project.cimalor_timer_running_by = users and self.env._(
+                "Timer running: %(users)s", users=", ".join(sorted(users))
+            )
 
     @api.depends("timesheet_ids.name", "timesheet_ids.date", "timesheet_ids.user_id")
     def _compute_cimalor_last_comment(self):

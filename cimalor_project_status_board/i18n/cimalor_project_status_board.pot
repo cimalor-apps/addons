@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 15:49+0000\n"
-"PO-Revision-Date: 2026-11-12 15:49+0000\n"
+"POT-Creation-Date: 2026-11-12 15:58+0000\n"
+"PO-Revision-Date: 2026-11-12 15:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -550,6 +550,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__timer_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__cimalor_timer_start
 msgid "Timer"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_timer_running_by
+msgid "Timer Running"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Timer running: %(users)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
