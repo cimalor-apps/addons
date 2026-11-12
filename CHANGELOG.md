@@ -128,8 +128,9 @@ Odoo version. The same functional version number means the same features in both
 - Timer on each task of the project form: live counter, one running timer per user, and a
   stop dialog with a required comment that logs a standard timesheet line (nothing under a
   minute). Play on another task first asks for the running one's comment.
-- Last timesheet comment of the project on its kanban card, on one line, with author and
-  date on hover.
+- Last timesheet comment of the project on its kanban card, on one line as "User · date ·
+  comment". The state sentence leaves out the state, which the column already shows:
+  "Since 23/10/2026: reason" for Waiting, "Until 15/01/2027: reason" for On Hold.
 - Spanish translation.
 
 #### Notes

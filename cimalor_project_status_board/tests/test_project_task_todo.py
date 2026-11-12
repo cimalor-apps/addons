@@ -74,14 +74,16 @@ class TestProjectStateSummary(TransactionCase):
             }
         )
 
-        self.assertIn("Reply to an email", self.project.cimalor_state_summary)
+        summary = self.project.cimalor_state_summary
+        self.assertTrue(summary.startswith("Since "), "the column already says Waiting")
+        self.assertIn("Reply to an email", summary)
         self.assertTrue(self.project.cimalor_follow_up_overdue)
 
     def test_missing_data_summary(self):
         self.project.stage_id = self.stage_waiting
         self.assertEqual(
             self.project.cimalor_state_summary,
-            "Waiting: reason or follow-up date missing",
+            "Reason or follow-up date missing",
         )
 
     def test_no_summary_in_progress(self):

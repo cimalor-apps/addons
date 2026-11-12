@@ -213,6 +213,10 @@ class ProjectProject(models.Model):
     def _compute_cimalor_state_summary(self):
         """The sentence shown on the kanban card for Waiting and On Hold.
 
+        It does not name the state: the card already sits in its column and
+        the form shows the state buttons. So "Since 23/10/2026: reason" for
+        Waiting and "Until 15/01/2027: reason" for On Hold.
+
         The other states get their sentence in 0.4, when the margins exist
         ("On time, ends on 27 Nov"). For catch-all reasons such as Other the
         note says more than the reason name, so the note is shown instead.
@@ -225,25 +229,25 @@ class ProjectProject(models.Model):
                 and project.cimalor_missing_state_data
             ):
                 summary = (
-                    self.env._("Waiting: reason or follow-up date missing")
+                    self.env._("Reason or follow-up date missing")
                     if state_type == "waiting"
-                    else self.env._("On hold: reason or restart date missing")
+                    else self.env._("Reason or restart date missing")
                 )
             elif state_type == "waiting":
                 reason = project._cimalor_reason_text()
                 since = project._cimalor_state_since()
                 summary = (
                     self.env._(
-                        "Waiting since %(date)s: %(reason)s",
+                        "Since %(date)s: %(reason)s",
                         date=format_date(self.env, since),
                         reason=reason,
                     )
                     if since
-                    else self.env._("Waiting: %(reason)s", reason=reason)
+                    else reason
                 )
             elif state_type == "stopped":
                 summary = self.env._(
-                    "On hold until %(date)s: %(reason)s",
+                    "Until %(date)s: %(reason)s",
                     date=format_date(self.env, project.cimalor_restart_date),
                     reason=project._cimalor_reason_text(),
                 )

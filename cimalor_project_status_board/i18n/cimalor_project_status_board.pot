@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 15:39+0000\n"
-"PO-Revision-Date: 2026-11-12 15:39+0000\n"
+"POT-Creation-Date: 2026-11-12 15:49+0000\n"
+"PO-Revision-Date: 2026-11-12 15:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -322,19 +322,7 @@ msgstr ""
 #. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "On hold until %(date)s: %(reason)s"
-msgstr ""
-
-#. module: cimalor_project_status_board
-#. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "On hold: %(reason)s. Depends on: %(depends_on)s. Restart on %(date)s."
-msgstr ""
-
-#. module: cimalor_project_status_board
-#. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "On hold: reason or restart date missing"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -410,6 +398,18 @@ msgid "Reason"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Reason or follow-up date missing"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Reason or restart date missing"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_stop_reason
 msgid "Reasons"
 msgstr ""
@@ -446,6 +446,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Since %(date)s: %(reason)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -553,6 +559,12 @@ msgid "To Start"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Until %(date)s: %(reason)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__depends_on__internal
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__depends_on__internal
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_depends_on__internal
@@ -610,24 +622,6 @@ msgstr ""
 msgid ""
 "Waiting or On Hold without its reason or date, typically after dragging the "
 "card on the board."
-msgstr ""
-
-#. module: cimalor_project_status_board
-#. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "Waiting since %(date)s: %(reason)s"
-msgstr ""
-
-#. module: cimalor_project_status_board
-#. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "Waiting: %(reason)s"
-msgstr ""
-
-#. module: cimalor_project_status_board
-#. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "Waiting: reason or follow-up date missing"
 msgstr ""
 
 #. module: cimalor_project_status_board
