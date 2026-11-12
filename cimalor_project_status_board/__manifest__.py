@@ -21,6 +21,7 @@
         "views/project_project_stage_views.xml",
         "views/cimalor_project_state_log_views.xml",
         "views/cimalor_project_stop_reason_views.xml",
+        "views/cimalor_project_workload_report_views.xml",
         "views/project_project_views.xml",
         "views/cimalor_project_status_board_menus.xml",
         "wizards/cimalor_project_timer_stop_views.xml",

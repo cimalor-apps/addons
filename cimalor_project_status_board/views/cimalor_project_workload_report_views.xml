@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Reporting › Workload. Standard pivot and graph views on the report model:
+    the same screens as Project's own analysis, nothing to learn. The project
+    stage splits the hours by default (columns of the pivot, stacks of the
+    graph), so Waiting and On Hold hours are counted but told apart. Stages
+    rather than state types because Odoo sorts stages by sequence, like the
+    board columns, and a selection by its technical key.
+-->
+<odoo>
+    <record id="view_cimalor_project_workload_report_pivot" model="ir.ui.view">
+        <field name="name">cimalor.project.workload.report.pivot</field>
+        <field name="model">cimalor.project.workload.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Workload" sample="1">
+                <field name="user_id" type="row" />
+                <field name="stage_id" type="col" />
+                <field name="hours" type="measure" widget="float_time" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_cimalor_project_workload_report_graph" model="ir.ui.view">
+        <field name="name">cimalor.project.workload.report.graph</field>
+        <field name="model">cimalor.project.workload.report</field>
+        <field name="arch" type="xml">
+            <graph string="Workload" type="bar" stacked="1" sample="1">
+                <field name="user_id" />
+                <field name="stage_id" />
+                <field name="hours" type="measure" widget="float_time" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_cimalor_project_workload_report_list" model="ir.ui.view">
+        <field name="name">cimalor.project.workload.report.list</field>
+        <field name="model">cimalor.project.workload.report</field>
+        <field name="arch" type="xml">
+            <list string="Workload" create="0" edit="0" delete="0">
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="project_id" />
+                <field name="task_id" />
+                <field name="partner_id" optional="show" />
+                <field name="state_type" />
+                <field
+                    name="date"
+                    decoration-danger="due_status == 'overdue'"
+                />
+                <field name="due_status" column_invisible="1" />
+                <field name="hours" widget="float_time" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cimalor_project_workload_report_search" model="ir.ui.view">
+        <field name="name">cimalor.project.workload.report.search</field>
+        <field name="model">cimalor.project.workload.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id" />
+                <field name="project_id" />
+                <field name="partner_id" />
+                <field name="task_id" />
+                <filter string="My Load" name="mine" domain="[('user_id', '=', uid)]" />
+                <separator />
+                <filter
+                    string="In Progress"
+                    name="in_progress"
+                    domain="[('state_type', 'in', ['to_start', 'in_progress'])]"
+                />
+                <filter string="Waiting" name="waiting" domain="[('state_type', '=', 'waiting')]" />
+                <filter string="On Hold" name="stopped" domain="[('state_type', '=', 'stopped')]" />
+                <separator />
+                <filter
+                    string="Overdue"
+                    name="overdue"
+                    domain="[('due_status', '=', 'overdue')]"
+                />
+                <filter string="No Date" name="no_date" domain="[('due_status', '=', 'no_date')]" />
+                <filter string="Due Date" name="filter_date" date="date" />
+                <group>
+                    <filter string="Person" name="group_user" context="{'group_by': 'user_id'}" />
+                    <filter
+                        string="Project"
+                        name="group_project"
+                        context="{'group_by': 'project_id'}"
+                    />
+                    <filter
+                        string="Customer"
+                        name="group_partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        string="Project State"
+                        name="group_state"
+                        context="{'group_by': 'state_type'}"
+                    />
+                    <filter
+                        string="Project Stage"
+                        name="group_stage"
+                        context="{'group_by': 'stage_id'}"
+                    />
+                    <filter string="Due" name="group_due" context="{'group_by': 'due_status'}" />
+                    <filter
+                        string="Due Week"
+                        name="group_week"
+                        context="{'group_by': 'date:week'}"
+                    />
+                    <filter
+                        string="Due Month"
+                        name="group_month"
+                        context="{'group_by': 'date:month'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cimalor_project_workload_report" model="ir.actions.act_window">
+        <field name="name">Workload</field>
+        <field name="res_model">cimalor.project.workload.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_cimalor_project_workload_report_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No pending work</p>
+            <p>
+                The hours left on the open tasks appear here, per person, project
+                state and due date. Plan hours on the tasks to see them.
+            </p>
+        </field>
+    </record>
+</odoo>

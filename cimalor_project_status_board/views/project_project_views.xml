@@ -37,6 +37,7 @@
                 <field name="cimalor_last_comment_date" />
                 <field name="cimalor_last_comment_user_id" />
                 <field name="cimalor_timer_running_by" />
+                <field name="cimalor_hours_health" />
                 <field name="date" />
                 <templates>
                     <!--
@@ -104,6 +105,24 @@
                                 >
                                     Follow-up <field name="cimalor_follow_up_date" />
                                 </span>
+                                <!--
+                                    Hours margin as a traffic light: red over
+                                    budget, amber tight, green with room. Not
+                                    shown without allocated hours (grey on the
+                                    form) nor on finished projects.
+                                -->
+                                <span
+                                    t-if="['over', 'tight', 'ok'].includes(record.cimalor_hours_health.raw_value)"
+                                    t-attf-class="badge rounded-pill d-inline-flex align-items-center {{ record.cimalor_hours_health.raw_value == 'over' ? 'text-bg-danger' : record.cimalor_hours_health.raw_value == 'tight' ? 'text-bg-warning' : 'text-bg-success' }}"
+                                    t-att-title="record.cimalor_hours_health.value"
+                                >
+                                    <i
+                                        class="fa fa-clock-o me-1"
+                                        role="img"
+                                        aria-label="Hours margin"
+                                    />
+                                    <field name="cimalor_hours_margin" widget="float_time" />
+                                </span>
                             </div>
                         </main>
                         <footer class="pt-1">
@@ -153,6 +172,41 @@
                         <group>
                             <field name="date" string="Delivery Date" />
                             <field name="company_id" invisible="1" />
+                        </group>
+                    </group>
+                    <!--
+                        The hours of the project: the budget (Project's own
+                        allocated hours, editable), what is spent, what is
+                        left on the open tasks, and the margin between them.
+                    -->
+                    <group name="cimalor_hours">
+                        <group>
+                            <field
+                                name="allocated_hours"
+                                widget="float_time"
+                                string="Allocated Hours"
+                            />
+                            <field name="effective_hours" widget="float_time" string="Spent" />
+                        </group>
+                        <group>
+                            <field name="cimalor_pending_hours" widget="float_time" />
+                            <label for="cimalor_hours_margin" />
+                            <div class="d-flex align-items-center gap-2">
+                                <field
+                                    name="cimalor_hours_margin"
+                                    widget="float_time"
+                                    class="oe_inline"
+                                    invisible="cimalor_hours_health in (False, 'no_budget')"
+                                />
+                                <field
+                                    name="cimalor_hours_health"
+                                    widget="badge"
+                                    decoration-danger="cimalor_hours_health == 'over'"
+                                    decoration-warning="cimalor_hours_health == 'tight'"
+                                    decoration-success="cimalor_hours_health == 'ok'"
+                                    invisible="not cimalor_hours_health"
+                                />
+                            </div>
                         </group>
                     </group>
 
@@ -338,6 +392,41 @@
     </record>
 
     <!--
+        Project's search view plus the hours health, as a copy (mode primary)
+        used only by the app's actions: Project's own search view stays as it
+        was.
+    -->
+    <record id="view_project_project_search" model="ir.ui.view">
+        <field name="name">project.project.search.cimalor_project_status_board</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter" />
+        <field name="mode">primary</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <filter name="unassigned_projects" position="after">
+                <separator />
+                <filter
+                    string="Over Budget"
+                    name="cimalor_hours_over"
+                    domain="[('cimalor_hours_health', '=', 'over')]"
+                />
+                <filter
+                    string="Hours at Risk"
+                    name="cimalor_hours_at_risk"
+                    domain="[('cimalor_hours_health', 'in', ['over', 'tight'])]"
+                />
+            </filter>
+            <filter name="groupby_stage" position="after">
+                <filter
+                    string="Hours Health"
+                    name="cimalor_groupby_hours_health"
+                    context="{'group_by': 'cimalor_hours_health'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <!--
         The app's action names its kanban and form; the list is Project's own.
         Project templates (is_template, new in 19.0) are not real projects and
         are left out, as in Project's own action.
@@ -347,7 +436,7 @@
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_template', '=', False)]</field>
-        <field name="search_view_id" ref="project.view_project_project_filter" />
+        <field name="search_view_id" ref="view_project_project_search" />
         <field
             name="view_ids"
             eval="[
@@ -379,7 +468,7 @@
         <field
             name="domain"
         >[('is_template', '=', False), '|', ('user_id', '=', uid), ('tasks.user_ids', 'in', uid)]</field>
-        <field name="search_view_id" ref="project.view_project_project_filter" />
+        <field name="search_view_id" ref="view_project_project_search" />
         <field
             name="view_ids"
             eval="[
