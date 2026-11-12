@@ -20,14 +20,14 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid ""
-"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_depends_on != 'customer'\">Depends on the customer</span>\n"
-"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'supplier'\">Depends on a supplier</span>\n"
-"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'internal'\">Depends on us</span>\n"
+"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'customer'\">Depends on the customer</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'supplier'\">Depends on a supplier</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'internal'\">Depends on us</span>\n"
 "                        <span class=\"badge rounded-pill text-bg-warning\" invisible=\"not cimalor_missing_state_data\">Data missing</span>"
 msgstr ""
-"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_depends_on != 'customer'\">Depende del cliente</span>\n"
-"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'supplier'\">Depende de un proveedor</span>\n"
-"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_depends_on != 'internal'\">Depende de nosotros</span>\n"
+"<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'customer'\">Depende del cliente</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'supplier'\">Depende de un proveedor</span>\n"
+"                        <span class=\"badge rounded-pill text-bg-light\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'internal'\">Depende de nosotros</span>\n"
 "                        <span class=\"badge rounded-pill text-bg-warning\" invisible=\"not cimalor_missing_state_data\">Faltan datos</span>"
 
 #. module: cimalor_project_status_board
@@ -289,6 +289,13 @@ msgid "On Hold"
 msgstr "Parado"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__depends_on
+msgid ""
+"On Hold reasons: proposed when the reason is chosen; it can still be changed"
+" on each project."
+msgstr "Motivos de Parado: se propone al elegir el motivo; se puede cambiar en cada proyecto."
+
+#. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "On hold until %(date)s: %(reason)s"
@@ -365,12 +372,6 @@ msgstr "Motivo de espera o parada del proyecto"
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
 msgid "Projects"
 msgstr "Proyectos"
-
-#. module: cimalor_project_status_board
-#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__depends_on
-msgid ""
-"Proposed when the reason is chosen; it can still be changed on each project."
-msgstr "Se propone al elegir el motivo; se puede cambiar en cada proyecto."
 
 #. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_quote_approval
@@ -586,9 +587,8 @@ msgstr "Motivos de espera y de parada"
 #. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid ""
-"Waiting for: %(reason)s. Depends on: %(depends_on)s. Follow-up on %(date)s."
-msgstr "Esperando: %(reason)s. Depende de: %(depends_on)s. Seguimiento el %(date)s."
+msgid "Waiting for: %(reason)s. Follow-up on %(date)s."
+msgstr "Esperando: %(reason)s. Seguimiento el %(date)s."
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_missing_state_data

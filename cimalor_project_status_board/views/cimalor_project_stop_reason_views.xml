@@ -8,7 +8,11 @@
                 <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="reason_type" />
-                <field name="depends_on" />
+                <field
+                    name="depends_on"
+                    invisible="reason_type != 'stopped'"
+                    required="reason_type == 'stopped'"
+                />
                 <field name="requires_note" />
                 <field name="active" column_invisible="1" />
             </list>

@@ -118,15 +118,22 @@ class ProjectProject(models.Model):
                 reason = False
             project.cimalor_reason_id = reason
 
-    @api.depends("cimalor_reason_id")
+    @api.depends("cimalor_state_type", "cimalor_reason_id")
     def _compute_cimalor_depends_on(self):
-        """Propose who the project depends on from the reason.
+        """Who the project depends on.
 
-        It is only a proposal: "Information or material" may come from the
-        customer or from a supplier, so the user can change it afterwards.
+        Waiting always depends on the customer: it is not asked nor shown,
+        but it is still stored (and copied to the history) so that later
+        counters and panels can treat Waiting and On Hold alike.
+
+        On Hold takes the reason's proposal, which the user can change: a
+        lack of budget may be the customer's or ours.
         """
         for project in self:
-            project.cimalor_depends_on = project.cimalor_reason_id.depends_on
+            if project.cimalor_state_type == "waiting":
+                project.cimalor_depends_on = "customer"
+            else:
+                project.cimalor_depends_on = project.cimalor_reason_id.depends_on
 
     @api.depends("cimalor_state_type")
     def _compute_cimalor_follow_up_date(self):
@@ -311,8 +318,9 @@ class ProjectProject(models.Model):
 
         Project already posts a tracking line for every stage change
         ("Stage: In Progress → Waiting"), so a note is only added where it
-        says something more: the reason, who the project depends on and the
-        date, or that they are still missing after a drag. An internal note
+        says something more: the reason and the date, plus who the project
+        depends on when it is on hold (Waiting is always the customer), or
+        that they are still missing after a drag. An internal note
         (mail.mt_note) does not notify the followers. The body is plain text,
         which message_post escapes.
         """
@@ -335,19 +343,15 @@ class ProjectProject(models.Model):
                 if state_type == "waiting"
                 else self.env._("On hold: the reason or the restart date is missing.")
             )
-        values = {
-            "reason": self._cimalor_reason_text(),
-            "depends_on": depends_on_labels.get(self.cimalor_depends_on, ""),
-        }
         if state_type == "waiting":
             return self.env._(
-                "Waiting for: %(reason)s. Depends on: %(depends_on)s. "
-                "Follow-up on %(date)s.",
+                "Waiting for: %(reason)s. Follow-up on %(date)s.",
+                reason=self._cimalor_reason_text(),
                 date=format_date(self.env, self.cimalor_follow_up_date),
-                **values,
             )
         return self.env._(
             "On hold: %(reason)s. Depends on: %(depends_on)s. Restart on %(date)s.",
+            reason=self._cimalor_reason_text(),
+            depends_on=depends_on_labels.get(self.cimalor_depends_on, ""),
             date=format_date(self.env, self.cimalor_restart_date),
-            **values,
         )
