@@ -23,6 +23,7 @@ class CimalorProjectTimerStop(models.TransientModel):
         ondelete="cascade",
     )
     task_id = fields.Many2one(related="timer_id.task_id")
+    project_id = fields.Many2one(related="timer_id.task_id.project_id")
     next_task_id = fields.Many2one(comodel_name="project.task")
     hours = fields.Float(
         string="Time Spent",

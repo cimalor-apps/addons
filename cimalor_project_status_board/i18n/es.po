@@ -290,6 +290,11 @@ msgid "Log Time"
 msgstr "Imputar horas"
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
+msgid "Log and Start Next"
+msgstr "Imputar y empezar la siguiente"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
 msgid "Name"
 msgstr "Nombre"
@@ -363,6 +368,7 @@ msgstr "Previstas"
 #. module: cimalor_project_status_board
 #: model:ir.model,name:cimalor_project_status_board.model_project_project
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__project_id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__project_id
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid "Project"
 msgstr "Proyecto"
@@ -658,6 +664,13 @@ msgid "Write what you did before logging the time."
 msgstr "Escribe qué has hecho antes de imputar las horas."
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
+msgid ""
+"You have a timer running on another task. Log its time and\n"
+"                    the timer on"
+msgstr "Tienes un cronómetro en marcha en otra tarea. Imputa su tiempo y empezará el cronómetro de"
+
+#. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_task.py:0
 msgid ""
@@ -674,6 +687,11 @@ msgstr "p. ej. Automatización de folletos"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "of"
 msgstr "de"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
+msgid "starts."
+msgstr "."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
