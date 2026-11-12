@@ -36,6 +36,20 @@
     />
 
     <menuitem
+        id="menu_cimalor_project_status_board_reporting"
+        name="Reporting"
+        parent="menu_cimalor_project_status_board_root"
+        sequence="50"
+    />
+    <menuitem
+        id="menu_cimalor_project_state_log_report"
+        name="Latest Changes"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_state_log_report"
+        sequence="10"
+    />
+
+    <menuitem
         id="menu_cimalor_project_status_board_config"
         name="Configuration"
         parent="menu_cimalor_project_status_board_root"

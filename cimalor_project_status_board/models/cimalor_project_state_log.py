@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 from .cimalor_project_stop_reason import DEPENDS_ON_SELECTION
 from .project_project_stage import STATE_TYPE_SELECTION
@@ -46,7 +46,17 @@ class CimalorProjectStateLog(models.Model):
         comodel_name="project.project.stage",
         ondelete="set null",
     )
-    state_type = fields.Selection(selection=STATE_TYPE_SELECTION)
+    # Where the project came from, for the Latest Changes report. Stored and
+    # computed once: the previous row never changes, and the report must not
+    # look it up for every line it shows.
+    previous_stage_id = fields.Many2one(
+        comodel_name="project.project.stage",
+        string="From",
+        compute="_compute_previous_stage_id",
+        store=True,
+    )
+    state_type = fields.Selection(selection=STATE_TYPE_SELECTION, string="State")
+    partner_id = fields.Many2one(related="project_id.partner_id", string="Customer")
     # restrict: a reason used in the history is archived, not deleted.
     reason_id = fields.Many2one(
         comodel_name="cimalor.project.stop.reason",
@@ -55,4 +65,22 @@ class CimalorProjectStateLog(models.Model):
     depends_on = fields.Selection(selection=DEPENDS_ON_SELECTION)
     follow_up_date = fields.Date(string="Follow-up Date")
     restart_date = fields.Date()
-    note = fields.Text()
+    note = fields.Text(string="Comment")
+
+    @api.depends("project_id", "date")
+    def _compute_previous_stage_id(self):
+        """The stage of the project's row just before this one, if any."""
+        for log in self:
+            previous = self.search(
+                [
+                    ("project_id", "=", log.project_id.id),
+                    "|",
+                    ("date", "<", log.date),
+                    "&",
+                    ("date", "=", log.date),
+                    ("id", "<", log.id),
+                ],
+                order="date desc, id desc",
+                limit=1,
+            )
+            log.previous_stage_id = previous.stage_id

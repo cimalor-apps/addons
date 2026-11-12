@@ -217,6 +217,14 @@ class TestProjectStateLog(TransactionCase):
         )
         self.assertFalse(notes)
 
+    def test_previous_stage(self):
+        """Each row knows where the project came from, for the report."""
+        self.project.write({"stage_id": self.stage_waiting.id})
+        latest = self.project.cimalor_state_log_ids[0]
+        self.assertEqual(latest.previous_stage_id, self.stage_in_progress)
+        first = self.project.cimalor_state_log_ids[-1]
+        self.assertFalse(first.previous_stage_id, "the first row has no origin")
+
     def test_no_log_when_nothing_changes(self):
         """Saving the same state again does not add history."""
         self.project.write({"stage_id": self.stage_in_progress.id, "name": "Renamed"})
@@ -310,6 +318,37 @@ class TestProjectStateSecurity(TransactionCase):
                 domain = safe_eval(action.domain, {"uid": user.id})
                 found = Project.with_user(user).search(domain)
                 self.assertEqual(self.project in found, expected)
+
+    def test_history_follows_project_visibility(self):
+        """A private project's changes stay hidden from those who cannot open it."""
+        private = self.env["project.project"].create(
+            {"name": "Private", "privacy_visibility": "followers"}
+        )
+        Log = self.env["cimalor.project.state.log"]
+        domain = [("project_id", "=", private.id)]
+        self.assertFalse(Log.with_user(self.outsider).search(domain))
+
+        private.message_subscribe(partner_ids=self.outsider.partner_id.ids)
+        self.assertTrue(Log.with_user(self.outsider).search(domain), "once invited")
+
+        admin = new_test_user(
+            self.env, login="psb_admin", groups="project.group_project_manager"
+        )
+        private.message_unsubscribe(partner_ids=self.outsider.partner_id.ids)
+        self.assertTrue(Log.with_user(admin).search(domain), "administrators see all")
+
+    def test_latest_changes_report_loads(self):
+        action = self.env.ref(
+            "cimalor_project_status_board.action_cimalor_project_state_log_report"
+        )
+        views = (
+            self.env["cimalor.project.state.log"]
+            .with_user(self.user)
+            .get_views(
+                [(action.view_id.id, "list"), (action.search_view_id.id, "search")]
+            )
+        )
+        self.assertIn("previous_stage_id", views["views"]["list"]["arch"])
 
     def test_uninstall_moves_notices_to_todo(self):
         """Uninstalling must not fail on the module's activity type (18.0)."""

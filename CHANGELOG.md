@@ -142,6 +142,9 @@ Odoo version. The same functional version number means the same features in both
   a user's groups. The project manager gets an activity when somebody else changes the
   state.
 - Two boards: My Projects (managed or with tasks) and All Projects.
+- Reporting › Latest Changes: every state change of the projects the user can see, with
+  from and to stage, reason, comment and who. The history follows the visibility of its
+  project, as Project's own rule for employees.
 - On uninstall, Waiting and On Hold are deleted only when no project is in them; a stage in
   use stays as an ordinary Project stage.
 - Depends on `project` and `hr_timesheet`. Projects created before the install have no
