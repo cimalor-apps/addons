@@ -18,6 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Last comment\"/>"
+msgstr "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Último comentario\"/>"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid ""
 "<span class=\"badge rounded-pill text-bg-info\" invisible=\"cimalor_state_type != 'stopped' or cimalor_depends_on != 'customer'\">Depends on the customer</span>\n"
@@ -239,6 +244,21 @@ msgid "Lack of budget"
 msgstr "Falta presupuesto"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment
+msgid "Last Comment"
+msgstr "Último comentario"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_user_id
+msgid "Last Comment By"
+msgstr "Autor del último comentario"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_date
+msgid "Last Comment Date"
+msgstr "Fecha del último comentario"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__write_uid
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__write_uid
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__write_uid
@@ -264,7 +284,7 @@ msgstr "Qué significa la etapa en el ciclo de vida para Project Status Board. E
 
 #. module: cimalor_project_status_board
 #. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_task.py:0
+#: code:addons/cimalor_project_status_board/models/cimalor_project_timer.py:0
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "Log Time"
 msgstr "Imputar horas"
@@ -273,6 +293,11 @@ msgstr "Imputar horas"
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
 msgid "Name"
 msgstr "Nombre"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__next_task_id
+msgid "Next Task"
+msgstr "Tarea siguiente"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__note
@@ -623,8 +648,14 @@ msgstr "Esperando: falta el motivo o la fecha de seguimiento."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
-msgid "What did you do? (optional)"
-msgstr "¿Qué has hecho? (opcional)"
+msgid "What did you do?"
+msgstr "¿Qué has hecho?"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/wizards/cimalor_project_timer_stop.py:0
+msgid "Write what you did before logging the time."
+msgstr "Escribe qué has hecho antes de imputar las horas."
 
 #. module: cimalor_project_status_board
 #. odoo-python

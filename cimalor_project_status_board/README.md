@@ -21,8 +21,10 @@ it is waiting for, who it depends on and when to chase it again.
   to-do list with planned and spent hours, and the closed ones apart. Ticking a task closes
   it without touching its planned hours.
 - **A timer on every task:** press play in the task list and a live counter starts; stop it
-  to log the time as a standard timesheet line, with an optional description. One timer per
-  person: starting another task stops the running one and logs its time.
+  to log the time as a standard timesheet line, with a required comment. One timer per
+  person: pressing play on another task first asks for the running one's comment.
+- **The last comment on every card:** the latest timesheet comment of the project, on one
+  line under the state, whoever logged it and from wherever.
 - **History of every state change:** who, when, the reason and the dates, never rewritten.
   The chatter gets a note each time a project starts waiting or goes on hold.
 - **Configurable reasons**, ten to start with; On Hold ones propose who the project depends
@@ -69,9 +71,11 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 - **Tasks tab:** tick a task to close it, untick it in _Closed Tasks_ to reopen it. Add
   tasks with or without planned hours, and drag the handle to change their order.
 - **Timer:** press ▷ on a task to start, ■ to stop. The dialog proposes the elapsed time
-  (rounded to the minute), which you can correct; _Keep Running_ closes it without
-  stopping. Under a minute nothing is logged. Logging time needs your user to be linked to
-  an employee, and the Timesheets user right.
+  (rounded to the minute), which you can correct, and asks what you did: the comment is
+  required and becomes the card's last comment. _Keep Running_ closes it without stopping.
+  Under a minute nothing is logged. Logging time needs your user to be linked to an
+  employee, and the Timesheets user right. The comment is required only in this dialog:
+  timesheets from the Timesheets app or imports keep their own rules.
 - **State History tab:** every change of state with its author and data.
 
 ## Access rights
