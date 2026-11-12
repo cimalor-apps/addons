@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The history tab of the project form. Read-only: rows are never edited. -->
+    <record id="view_cimalor_project_state_log_list" model="ir.ui.view">
+        <field name="name">cimalor.project.state.log.list</field>
+        <field name="model">cimalor.project.state.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="date" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="stage_id" />
+                <field name="reason_id" />
+                <field name="depends_on" />
+                <field name="follow_up_date" optional="show" />
+                <field name="restart_date" optional="show" />
+                <field name="note" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <!--
+        Reporting › Latest Changes: every state change of every project the
+        user can see, newest first. Its own list, with priority 20, so the
+        history tab of the project form keeps the one above (Odoo picks the
+        lowest priority when an x2many does not name its view).
+    -->
+    <record id="view_cimalor_project_state_log_report_list" model="ir.ui.view">
+        <field name="name">cimalor.project.state.log.report.list</field>
+        <field name="model">cimalor.project.state.log</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list string="Latest Changes" create="0" edit="0" delete="0">
+                <field name="date" />
+                <field name="project_id" />
+                <field name="partner_id" optional="show" />
+                <field name="previous_stage_id" optional="show" />
+                <field name="stage_id" string="To" />
+                <field name="reason_id" />
+                <field name="note" optional="show" />
+                <field name="follow_up_date" optional="show" />
+                <field name="restart_date" optional="hide" />
+                <field name="depends_on" optional="hide" />
+                <field name="user_id" widget="many2one_avatar_user" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cimalor_project_state_log_search" model="ir.ui.view">
+        <field name="name">cimalor.project.state.log.search</field>
+        <field name="model">cimalor.project.state.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id" />
+                <field name="partner_id" />
+                <field name="user_id" />
+                <field name="reason_id" />
+                <!-- Same meaning as the My Projects board: managed or with tasks. -->
+                <filter
+                    string="My Projects"
+                    name="my_projects"
+                    domain="['|', ('project_id.user_id', '=', uid), ('project_id.tasks.user_ids', 'in', uid)]"
+                />
+                <filter string="Changed by Me" name="mine" domain="[('user_id', '=', uid)]" />
+                <separator />
+                <filter string="Waiting" name="waiting" domain="[('state_type', '=', 'waiting')]" />
+                <filter string="On Hold" name="stopped" domain="[('state_type', '=', 'stopped')]" />
+                <separator />
+                <filter string="Date" name="filter_date" date="date" />
+                <group>
+                    <filter
+                        string="Project"
+                        name="group_project"
+                        context="{'group_by': 'project_id'}"
+                    />
+                    <filter
+                        string="Changed By"
+                        name="group_user"
+                        context="{'group_by': 'user_id'}"
+                    />
+                    <filter
+                        string="State"
+                        name="group_state"
+                        context="{'group_by': 'state_type'}"
+                    />
+                    <filter
+                        string="Reason"
+                        name="group_reason"
+                        context="{'group_by': 'reason_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cimalor_project_state_log_report" model="ir.actions.act_window">
+        <field name="name">Latest Changes</field>
+        <field name="res_model">cimalor.project.state.log</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_cimalor_project_state_log_report_list" />
+        <field name="search_view_id" ref="view_cimalor_project_state_log_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No state changes yet</p>
+            <p>Every time a project changes state, it appears here: when, who and why.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    The two stages Project does not ship. The native ones (To Do, In Progress,
+    Done, Cancelled) are reused and typed in the post_init_hook.
+    Sequences 16 and 17 place them between In Progress (15) and Done (20).
+    noupdate: once installed they belong to the customer, who may rename them,
+    reorder them or unfold On Hold; an upgrade must not undo that.
+-->
+<odoo noupdate="1">
+    <record id="project_project_stage_waiting" model="project.project.stage">
+        <field name="name">Waiting</field>
+        <field name="sequence">16</field>
+        <field name="cimalor_state_type">waiting</field>
+    </record>
+
+    <record id="project_project_stage_on_hold" model="project.project.stage">
+        <field name="name">On Hold</field>
+        <field name="sequence">17</field>
+        <field name="fold" eval="True" />
+        <field name="cimalor_state_type">stopped</field>
+    </record>
+</odoo>

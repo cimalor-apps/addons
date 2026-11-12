@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    The notice the project manager gets when somebody else changes the state
+    of the project. A type of its own lets the module find its open notice and
+    refresh it instead of piling up one per change.
+    noupdate: the customer may rename it or change its icon.
+-->
+<odoo noupdate="1">
+    <record id="mail_activity_type_state_change" model="mail.activity.type">
+        <field name="name">Project State Changed</field>
+        <field name="res_model">project.project</field>
+        <field name="icon">fa-flag</field>
+        <field name="delay_count">0</field>
+    </record>
+</odoo>

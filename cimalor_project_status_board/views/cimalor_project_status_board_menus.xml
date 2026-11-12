@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The app is for Project users: they are the ones who can move a project. -->
+    <menuitem
+        id="menu_cimalor_project_status_board_root"
+        name="Project Status Board"
+        web_icon="cimalor_project_status_board,static/description/icon.png"
+        groups="project.group_project_user"
+        sequence="45"
+    />
+    <!--
+        Projects › My Projects (first, so the app opens on it) and All Projects.
+        menu_cimalor_project_status_board_projects keeps its id and becomes All
+        Projects under the new parent, so upgrades move it instead of
+        leaving the old entry behind.
+    -->
+    <menuitem
+        id="menu_cimalor_project_status_board_project_root"
+        name="Projects"
+        parent="menu_cimalor_project_status_board_root"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_cimalor_project_status_board_my_projects"
+        name="My Projects"
+        parent="menu_cimalor_project_status_board_project_root"
+        action="action_project_project_my"
+        sequence="5"
+    />
+    <menuitem
+        id="menu_cimalor_project_status_board_projects"
+        name="All Projects"
+        parent="menu_cimalor_project_status_board_project_root"
+        action="action_project_project"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_cimalor_project_status_board_reporting"
+        name="Reporting"
+        parent="menu_cimalor_project_status_board_root"
+        sequence="50"
+    />
+    <menuitem
+        id="menu_cimalor_project_workload_report"
+        name="Workload"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_workload_report"
+        sequence="5"
+    />
+    <menuitem
+        id="menu_cimalor_project_capacity_report"
+        name="Capacity"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_capacity_report"
+        sequence="7"
+    />
+    <menuitem
+        id="menu_cimalor_project_date_risk"
+        name="Date Risk"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_project_project_date_risk"
+        sequence="8"
+    />
+    <menuitem
+        id="menu_cimalor_project_state_log_report"
+        name="Latest Changes"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_state_log_report"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_cimalor_project_status_board_config"
+        name="Configuration"
+        parent="menu_cimalor_project_status_board_root"
+        groups="project.group_project_manager"
+        sequence="90"
+    />
+    <menuitem
+        id="menu_cimalor_project_stop_reason"
+        name="Reasons"
+        parent="menu_cimalor_project_status_board_config"
+        action="action_cimalor_project_stop_reason"
+        sequence="10"
+    />
+    <!-- Project's own stage action: the stages are Project's, not a copy. -->
+    <menuitem
+        id="menu_cimalor_project_stage"
+        name="Stages"
+        parent="menu_cimalor_project_status_board_config"
+        action="project.project_project_stage_configure"
+        sequence="20"
+    />
+</odoo>
