@@ -115,9 +115,10 @@ Odoo version. The same functional version number means the same features in both
 - Board of projects by lifecycle state on Project's own stages. Each stage gets a state
   type (To Start, In Progress, Waiting, On Hold, Done); the four native stages are typed on
   install and two stages are added, Waiting and On Hold (folded).
-- Waiting and On Hold ask for a reason, who the project depends on (customer, supplier or
-  us), a follow-up or restart date and, for catch-all reasons, a note. Required on the
-  project form only, so dragging a card is never blocked: the card is flagged instead.
+- Waiting and On Hold ask for a reason, a follow-up or restart date and, for catch-all
+  reasons, a note. Waiting always depends on the customer; On Hold also asks who it depends
+  on (customer, supplier or us). Required on the project form only, so dragging a card is
+  never blocked: the card is flagged instead.
 - Ten starting reasons, editable under Configuration › Reasons.
 - History of every state change (`cimalor.project.state.log`), read and create only, and a
   chatter note when a project starts waiting or goes on hold.

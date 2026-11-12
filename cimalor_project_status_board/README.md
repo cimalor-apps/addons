@@ -11,9 +11,10 @@ it is waiting for, who it depends on and when to chase it again.
 
 - **A board of projects by state:** To Start, In Progress, Waiting, On Hold and Done. Drag a
   card to change its state. On Hold is folded, so long pauses stay out of the way.
-- **Waiting and On Hold ask for their data:** a reason, who the project depends on (customer,
-  supplier or us) and a follow-up or restart date. A card dragged without them is flagged
-  until somebody fills them in.
+- **Waiting and On Hold ask for their data:** a reason and a follow-up or restart date. A
+  Waiting project always waits on the customer; On Hold also records who it depends on
+  (customer, supplier or us). A card dragged without its data is flagged until somebody
+  fills it in.
 - **The state sentence on every card**, such as _Waiting since 23/10/2026: Approval of a
   delivery_, with the follow-up date in red once it has passed.
 - **A project form for day-to-day work:** the state as a row of buttons, the main tasks as a
@@ -24,7 +25,8 @@ it is waiting for, who it depends on and when to chase it again.
   person: starting another task stops the running one and logs its time.
 - **History of every state change:** who, when, the reason and the dates, never rewritten.
   The chatter gets a note each time a project starts waiting or goes on hold.
-- **Configurable reasons**, ten to start with, each proposing who the project depends on.
+- **Configurable reasons**, ten to start with; On Hold ones propose who the project depends
+  on.
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.
 
@@ -51,8 +53,8 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 ## Configuration
 
 - **Reasons:** Project Status Board › Configuration › Reasons (Project administrators). Each
-  reason is used for Waiting or for On Hold, proposes who the project depends on, and can
-  require a note (as _Other_ does).
+  reason is used for Waiting or for On Hold and can require a note (as _Other_ does). On
+  Hold reasons also propose who the project depends on.
 - **Stages:** Project Status Board › Configuration › Stages, which is Project's own stage
   list. Set the **State Type** of each stage; a stage without a type is shown but gets no
   special behaviour. Several stages may share a type.
@@ -61,8 +63,9 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 
 - **Projects:** the board, grouped by stage. Drag a card to change its state; clicking it
   opens the project form.
-- **Waiting / On Hold:** choose the reason and the date in the form. Who the project depends
-  on is proposed by the reason and can be changed.
+- **Waiting / On Hold:** choose the reason and the date in the form. Waiting always depends
+  on the customer and does not ask; for On Hold, who the project depends on is proposed by
+  the reason and can be changed.
 - **Tasks tab:** tick a task to close it, untick it in _Closed Tasks_ to reopen it. Add
   tasks with or without planned hours, and drag the handle to change their order.
 - **Timer:** press ▷ on a task to start, ■ to stop. The dialog proposes the elapsed time

@@ -51,8 +51,9 @@
                                     t-if="record.cimalor_missing_state_data.raw_value"
                                     class="badge rounded-pill text-bg-warning"
                                 >Data missing</span>
+                                <!-- On Hold only: Waiting always depends on the customer. -->
                                 <span
-                                    t-if="record.cimalor_depends_on.raw_value"
+                                    t-if="record.cimalor_state_type.raw_value == 'stopped' and record.cimalor_depends_on.raw_value"
                                     t-attf-class="badge rounded-pill {{ record.cimalor_depends_on.raw_value == 'customer' ? 'text-bg-info' : 'text-bg-light' }}"
                                 >
                                     Depends on: <t
@@ -141,9 +142,11 @@
                         able to move a project without it (spec §6.1).
                     -->
                     <!--
-                        Who the project depends on, highlighted when it is the
-                        customer, as on the card. Three spans with a fixed
-                        text each keep every sentence translatable whole.
+                        Who an On Hold project depends on, highlighted when it
+                        is the customer, as on the card. Waiting is always the
+                        customer, so it is neither asked nor shown. Three spans
+                        with a fixed text each keep every sentence translatable
+                        whole.
                     -->
                     <div
                         class="d-flex gap-2 mb-2"
@@ -151,15 +154,15 @@
                     >
                         <span
                             class="badge rounded-pill text-bg-info"
-                            invisible="cimalor_depends_on != 'customer'"
+                            invisible="cimalor_state_type != 'stopped' or cimalor_depends_on != 'customer'"
                         >Depends on the customer</span>
                         <span
                             class="badge rounded-pill text-bg-light"
-                            invisible="cimalor_depends_on != 'supplier'"
+                            invisible="cimalor_state_type != 'stopped' or cimalor_depends_on != 'supplier'"
                         >Depends on a supplier</span>
                         <span
                             class="badge rounded-pill text-bg-light"
-                            invisible="cimalor_depends_on != 'internal'"
+                            invisible="cimalor_state_type != 'stopped' or cimalor_depends_on != 'internal'"
                         >Depends on us</span>
                         <span
                             class="badge rounded-pill text-bg-warning"
@@ -177,7 +180,10 @@
                                 required="cimalor_state_type in ('waiting', 'stopped')"
                                 options="{'no_create': True, 'no_open': True}"
                             />
-                            <field name="cimalor_depends_on" />
+                            <field
+                                name="cimalor_depends_on"
+                                invisible="cimalor_state_type != 'stopped'"
+                            />
                         </group>
                         <group>
                             <field

@@ -26,11 +26,12 @@ class CimalorProjectStopReason(models.Model):
         help="A Waiting reason is offered only for Waiting projects, "
         "an On Hold reason only for projects on hold.",
     )
+    # On Hold reasons only (required in the view for them). A Waiting project
+    # always depends on the customer, whatever its reason.
     depends_on = fields.Selection(
         selection=DEPENDS_ON_SELECTION,
-        required=True,
-        help="Proposed when the reason is chosen; it can still be changed "
-        "on each project.",
+        help="On Hold reasons: proposed when the reason is chosen; it can "
+        "still be changed on each project.",
     )
     requires_note = fields.Boolean(
         help="For catch-all reasons such as Other: the project must explain it "

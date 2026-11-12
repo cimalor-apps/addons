@@ -68,12 +68,13 @@ class TestProjectStateLog(TransactionCase):
         self.assertEqual(len(self.project.cimalor_state_log_ids), 2)
         log = self.project.cimalor_state_log_ids[0]
         self.assertEqual(log.reason_id, self.reason_email)
-        self.assertEqual(log.depends_on, "customer", "proposed by the reason")
+        self.assertEqual(log.depends_on, "customer")
         self.assertEqual(log.follow_up_date, date(2026, 10, 29))
         self.assertFalse(self.project.cimalor_missing_state_data)
 
-    def test_depends_on_can_be_changed(self):
-        """The reason proposes who we depend on; the user may correct it."""
+    def test_waiting_always_depends_on_customer(self):
+        """Waiting is never asked who it depends on: it is the customer."""
+        self.reason_information.depends_on = "supplier"
         self.project.write(
             {
                 "stage_id": self.stage_waiting.id,
@@ -81,10 +82,24 @@ class TestProjectStateLog(TransactionCase):
                 "cimalor_follow_up_date": date(2026, 10, 29),
             }
         )
-        self.project.cimalor_depends_on = "supplier"
 
-        self.assertEqual(self.project.cimalor_depends_on, "supplier")
-        self.assertEqual(self.project.cimalor_state_log_ids[0].depends_on, "supplier")
+        self.assertEqual(self.project.cimalor_depends_on, "customer")
+        self.assertEqual(self.project.cimalor_state_log_ids[0].depends_on, "customer")
+
+    def test_on_hold_depends_on_can_be_changed(self):
+        """On Hold: the reason proposes who we depend on; the user may correct it."""
+        self.project.write(
+            {
+                "stage_id": self.stage_on_hold.id,
+                "cimalor_reason_id": self.reason_postpones.id,
+                "cimalor_restart_date": date(2027, 1, 15),
+            }
+        )
+        self.assertEqual(self.project.cimalor_depends_on, "customer", "proposed")
+        self.project.cimalor_depends_on = "internal"
+
+        self.assertEqual(self.project.cimalor_depends_on, "internal")
+        self.assertEqual(self.project.cimalor_state_log_ids[0].depends_on, "internal")
 
     def test_leaving_waiting_clears_data(self):
         """The data belongs to the state: leaving it empties the project fields."""
@@ -168,7 +183,20 @@ class TestProjectStateLog(TransactionCase):
         )
         self.assertEqual(len(notes), 1)
         self.assertIn("Reply to an email", notes.body)
-        self.assertIn("Customer", notes.body)
+        self.assertNotIn("Depends on", notes.body, "Waiting is always the customer")
+
+    def test_chatter_note_on_hold_says_who(self):
+        """On Hold does say who the project depends on."""
+        notes = self._new_notes(
+            lambda: self.project.write(
+                {
+                    "stage_id": self.stage_on_hold.id,
+                    "cimalor_reason_id": self.reason_postpones.id,
+                    "cimalor_restart_date": date(2027, 1, 15),
+                }
+            )
+        )
+        self.assertIn("Depends on: Customer", notes.body)
 
     def test_chatter_note_after_drag(self):
         """A drag leaves a note saying the data is still missing."""
