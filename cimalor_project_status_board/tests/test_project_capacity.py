@@ -125,6 +125,18 @@ class TestCapacityReport(TransactionCase):
         self.assertEqual(row.daily_capacity, 5)
         self.assertEqual(row.queue_end_date, date(2026, 11, 20))
 
+    def test_employees_readable_without_hr_rights(self):
+        """The admin time must not lock employees away from non-HR users.
+
+        A field of hr.employee that is not on the public profile is loaded
+        with every read of an employee; without HR groups on it, Odoo
+        refuses the whole read (Enterprise timesheet validation failed so).
+        """
+        employee = self.employee.with_user(self.other)
+        employee.invalidate_recordset()
+        self.assertEqual(employee.name, "Capacity user")
+        self.assertTrue(self._row(self.user).daily_capacity, "capacity still computed")
+
     def test_each_person_sees_their_own_capacity(self):
         self.assertTrue(self._row(self.user))
         self.assertFalse(self._row(self.other), "another person's capacity")
