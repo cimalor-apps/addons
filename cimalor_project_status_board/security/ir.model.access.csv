@@ -6,3 +6,4 @@ access_cimalor_project_state_log_user,cimalor.project.state.log.user,model_cimal
 access_cimalor_project_timer_user,cimalor.project.timer.user,model_cimalor_project_timer,project.group_project_user,1,1,1,1
 access_cimalor_project_timer_stop_user,cimalor.project.timer.stop.user,model_cimalor_project_timer_stop,project.group_project_user,1,1,1,1
 access_cimalor_project_workload_report_user,cimalor.project.workload.report.user,model_cimalor_project_workload_report,project.group_project_user,1,0,0,0
+access_cimalor_project_capacity_report_user,cimalor.project.capacity.report.user,model_cimalor_project_capacity_report,project.group_project_user,1,0,0,0

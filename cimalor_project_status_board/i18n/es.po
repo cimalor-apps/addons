@@ -92,6 +92,23 @@ msgid "Archived"
 msgstr "Archivado"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__daily_capacity
+msgid "Average hours per working day of the schedule, minus the admin time."
+msgstr "Horas medias por día laborable del horario, menos las gestiones."
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_capacity_report
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_capacity_report
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
+msgid "Capacity"
+msgstr "Capacidad"
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_capacity_report
+msgid "Capacity Analysis"
+msgstr "Análisis de capacidad"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__user_id
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_search
 msgid "Changed By"
@@ -114,6 +131,7 @@ msgid "Comment"
 msgstr "Comentario"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__company_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__company_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__company_id
 msgid "Company"
@@ -161,6 +179,16 @@ msgid "Customer postpones"
 msgstr "El cliente aplaza"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_hr_employee__cimalor_admin_hours
+msgid "Daily Admin Time"
+msgstr "Gestiones diarias"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__daily_capacity
+msgid "Daily Capacity"
+msgstr "Capacidad diaria"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "Data missing"
 msgstr "Faltan datos"
@@ -170,6 +198,13 @@ msgstr "Faltan datos"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_search
 msgid "Date"
 msgstr "Fecha"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__queue_end_date
+msgid ""
+"Day the pending hours are used up at the person's capacity, time off and "
+"holidays included. Empty without a working schedule."
+msgstr "Día en que se acaban las horas pendientes con la capacidad de la persona, contando ausencias y festivos. Vacío si no tiene horario laboral."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
@@ -194,11 +229,13 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__display_name
@@ -237,11 +274,24 @@ msgid "Due Week"
 msgstr "Semana límite"
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
+msgid ""
+"Each employee with a user appears here, with their capacity for\n"
+"                tasks and the day their pending work ends."
+msgstr "Aquí aparece cada empleado con usuario, con su capacidad para tareas y el día en que acaba su trabajo pendiente."
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project
 msgid ""
 "Each project is a card, and each column is a state. Drag a card to\n"
 "                change its state; Waiting and On Hold ask for a reason and a date."
 msgstr "Cada proyecto es una tarjeta y cada columna, un estado. Arrastra una tarjeta para cambiar su estado; Esperando y Parado piden un motivo y una fecha."
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_hr_employee
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__employee_id
+msgid "Employee"
+msgstr "Empleado"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_state_log_report
@@ -313,11 +363,34 @@ msgid ""
 msgstr "Horas que quedan en las tareas principales abiertas: previstas menos dedicadas, nunca por debajo de cero. Las tareas sin horas previstas cuentan cero."
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__paused_hours
+msgid ""
+"Hours left on the open tasks of projects on hold. They do not count for the "
+"end of the queue."
+msgstr "Horas que quedan en las tareas abiertas de proyectos parados. No cuentan para el fin de la cola."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__pending_hours
+msgid ""
+"Hours left on the open tasks of projects to start, in progress or waiting."
+msgstr "Horas que quedan en las tareas abiertas de proyectos por empezar, en marcha o esperando."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_hr_employee__cimalor_admin_hours
+msgid ""
+"Hours of each working day spent on meetings, email and other work outside "
+"project tasks. Subtracted from the working schedule to get the capacity for "
+"tasks."
+msgstr "Horas de cada día laborable dedicadas a reuniones, correo y otro trabajo fuera de las tareas de proyecto. Se restan del horario laboral para obtener la capacidad para tareas."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_hr_employee__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__id
@@ -459,6 +532,11 @@ msgid "No state changes yet"
 msgstr "Todavía no hay cambios de estado"
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
+msgid "Nobody to show"
+msgstr "No hay nadie que mostrar"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__stopped
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_stop_reason__reason_type__stopped
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_workload_report__state_type__stopped
@@ -469,6 +547,11 @@ msgstr "Todavía no hay cambios de estado"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "On Hold"
 msgstr "Parado"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__paused_hours
+msgid "On Hold Hours"
+msgstr "Horas en pausa"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__depends_on
@@ -513,6 +596,7 @@ msgid "Overdue"
 msgstr "Vencida"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__pending_hours
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__hours
 msgid "Pending Hours"
 msgstr "Horas pendientes"
@@ -523,6 +607,12 @@ msgid "Pending Work"
 msgstr "Trabajo pendiente"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__weeks_of_work
+msgid "Pending hours over the weekly capacity."
+msgstr "Horas pendientes entre la capacidad semanal."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__user_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__user_id
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Person"
@@ -587,6 +677,11 @@ msgstr "Motivo de espera o parada del proyecto"
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
 msgstr "Proyectos"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__queue_end_date
+msgid "Queue Ends"
+msgstr "Fin de la cola"
 
 #. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_quote_approval
@@ -807,6 +902,7 @@ msgid "To Start"
 msgstr "Por arrancar"
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_list
 msgid "Total"
 msgstr "Total"
@@ -902,9 +998,24 @@ msgid "Waiting: the reason or the follow-up date is missing."
 msgstr "Esperando: falta el motivo o la fecha de seguimiento."
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__weekly_capacity
+msgid "Weekly Capacity"
+msgstr "Capacidad semanal"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__weeks_of_work
+msgid "Weeks of Work"
+msgstr "Semanas de trabajo"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "What did you do?"
 msgstr "¿Qué has hecho?"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_search
+msgid "With Pending Work"
+msgstr "Con trabajo pendiente"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_hours_health__ok
