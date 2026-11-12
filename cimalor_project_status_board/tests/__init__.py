@@ -3,4 +3,5 @@ from . import (
     test_project_state_log,
     test_project_task_todo,
     test_project_timer,
+    test_project_workload,
 )

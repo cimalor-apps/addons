@@ -15,6 +15,18 @@ STATE_FIELDS = (
     "cimalor_state_note",
 )
 
+# Hours health of a project (spec §4.6). "Tight" is a margin between zero
+# and this share of the allocated hours: +5 h is room in a 10 h project and
+# nothing in a 500 h one, so the threshold is relative.
+HOURS_TIGHT_RATIO = 0.10
+
+HOURS_HEALTH_SELECTION = [
+    ("over", "Over Budget"),
+    ("tight", "Tight"),
+    ("ok", "Within Budget"),
+    ("no_budget", "No Budget"),
+]
+
 
 class ProjectProject(models.Model):
     _inherit = "project.project"
@@ -117,6 +129,28 @@ class ProjectProject(models.Model):
         string="Timer Running",
         compute="_compute_cimalor_timer_running_by",
         compute_sudo=True,
+    )
+    # Hours margin (spec §4.6): will the allocated hours be enough? Stored, so
+    # the board can filter and group by it without computing every project.
+    cimalor_pending_hours = fields.Float(
+        string="Pending Work",
+        compute="_compute_cimalor_pending_hours",
+        store=True,
+        help="Hours left on the open main tasks: planned minus spent, never "
+        "below zero. Tasks without planned hours count zero.",
+    )
+    cimalor_hours_margin = fields.Float(
+        string="Hours Margin",
+        compute="_compute_cimalor_hours_margin",
+        store=True,
+        help="Allocated hours left minus pending work. Negative: the project "
+        "will need more hours than allocated.",
+    )
+    cimalor_hours_health = fields.Selection(
+        selection=HOURS_HEALTH_SELECTION,
+        string="Hours Health",
+        compute="_compute_cimalor_hours_margin",
+        store=True,
     )
     cimalor_state_log_ids = fields.One2many(
         comodel_name="cimalor.project.state.log",
@@ -301,6 +335,55 @@ class ProjectProject(models.Model):
             project.cimalor_last_comment = line.name
             project.cimalor_last_comment_date = line.date
             project.cimalor_last_comment_user_id = line.user_id
+
+    @api.depends("task_ids.remaining_hours", "task_ids.state", "task_ids.parent_id")
+    def _compute_cimalor_pending_hours(self):
+        """Hours still to do on the open main tasks of the project.
+
+        Main tasks only, as the to-do list of the form: sub-tasks are not
+        used, and Odoo already subtracts their spent time from their parent's
+        remaining hours. The task's remaining hours (hr_timesheet) are its
+        planned minus spent; a task over its estimate adds nothing rather
+        than lowering the total, and a task without estimate is zero.
+        """
+        for project in self:
+            tasks = project.task_ids.filtered(
+                lambda task: not task.parent_id and not task.is_closed
+            )
+            project.cimalor_pending_hours = sum(
+                max(task.remaining_hours, 0.0) for task in tasks
+            )
+
+    @api.depends(
+        "allocated_hours",
+        "timesheet_ids.unit_amount",
+        "cimalor_pending_hours",
+        "cimalor_state_type",
+    )
+    def _compute_cimalor_hours_margin(self):
+        """Allocated hours left (hr_timesheet's remaining hours) minus pending work.
+
+        No health for a finished project, and "No Budget" (grey, never green)
+        without allocated hours: the pending work alone would show a false
+        red. Everything spent counts against the budget, closed tasks
+        included.
+        """
+        for project in self:
+            margin, health = 0.0, False
+            if project.cimalor_state_type == "done":
+                pass
+            elif not project.allocated_hours:
+                health = "no_budget"
+            else:
+                margin = project.remaining_hours - project.cimalor_pending_hours
+                if margin < 0:
+                    health = "over"
+                elif margin <= project.allocated_hours * HOURS_TIGHT_RATIO:
+                    health = "tight"
+                else:
+                    health = "ok"
+            project.cimalor_hours_margin = margin
+            project.cimalor_hours_health = health
 
     @api.depends("cimalor_state_type", "cimalor_follow_up_date")
     def _compute_cimalor_follow_up_overdue(self):

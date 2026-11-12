@@ -132,6 +132,16 @@ Odoo version. The same functional version number means the same features in both
 - Last timesheet comment of the project on its kanban card, on one line as "User · date ·
   comment". The state sentence leaves out the state, which the column already shows:
   "Since 23/10/2026: reason" for Waiting, "Until 15/01/2027: reason" for On Hold.
+- Hours margin of each project: allocated hours left minus the pending work of its open
+  main tasks (planned minus spent, never below zero; tasks without estimate count zero).
+  A traffic light on the card and the form: red over budget, amber tight (under 10 % of
+  the allocated hours), green with room; grey "No Budget" without allocated hours, none
+  once done. Board filters _Over Budget_ and _Hours at Risk_.
+- Reporting › Workload: pending hours of the open main tasks per person, project stage
+  and due date (the task's deadline or the project's delivery date), in pivot, graph and
+  list. Hours split evenly among the people on a task; unassigned tasks count for the
+  project manager; finished projects left out. Each person sees their own load, Project
+  administrators everybody's.
 - Spanish translation.
 
 #### Notes
