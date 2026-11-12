@@ -56,6 +56,13 @@
         sequence="7"
     />
     <menuitem
+        id="menu_cimalor_project_date_risk"
+        name="Date Risk"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_project_project_date_risk"
+        sequence="8"
+    />
+    <menuitem
         id="menu_cimalor_project_state_log_report"
         name="Latest Changes"
         parent="menu_cimalor_project_status_board_reporting"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 17:42+0000\n"
-"PO-Revision-Date: 2026-11-12 17:42+0000\n"
+"POT-Creation-Date: 2026-11-12 18:12+0000\n"
+"PO-Revision-Date: 2026-11-12 18:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "%(user)s moved the project to %(stage)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "<i class=\"fa fa-calendar me-1\" role=\"img\" aria-label=\"Days margin\"/>"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -194,6 +199,25 @@ msgid "Date"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project_date_risk
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_date_risk
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_date_risk_list
+msgid "Date Risk"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
+msgid "Date at Risk"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_forecast_end_date
+msgid ""
+"Day the last open task ends if everybody works by due date at their "
+"capacity."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__queue_end_date
 msgid ""
 "Day the pending hours are used up at the person's capacity, time off and "
@@ -201,6 +225,17 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_days_health
+msgid "Days Health"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_days_margin
+msgid "Days Margin"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_date_risk_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid "Delivery Date"
 msgstr ""
@@ -224,6 +259,7 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_queue__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__display_name
@@ -288,6 +324,13 @@ msgid "Employee"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_date_risk
+msgid ""
+"Every project in progress is forecast to arrive on time. Remove the\n"
+"                filter to see them all."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_state_log_report
 msgid ""
 "Every time a project changes state, it appears here: when, who and why."
@@ -319,6 +362,11 @@ msgstr ""
 #: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_reason_requires_note
 msgid ""
 "For catch-all reasons such as Other: the project must explain it in a note."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_forecast_end_date
+msgid "Forecast End"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -379,6 +427,7 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_queue__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__id
@@ -451,6 +500,18 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__late
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
+msgid "Late"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_late_by
+msgid "Late Because Of"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_state_log_report
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_state_log_report
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_report_list
@@ -511,8 +572,18 @@ msgid "No Date"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__no_data
+msgid "No Forecast"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_workload_report
 msgid "No pending work"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_date_risk
+msgid "No project at risk"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -552,6 +623,11 @@ msgstr ""
 msgid ""
 "On Hold reasons: proposed when the reason is chosen; it can still be changed"
 " on each project."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__ok
+msgid "On Time"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -603,6 +679,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__weeks_of_work
 msgid "Pending hours over the weekly capacity."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_late_by
+msgid "People whose part of the project ends after the delivery date."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -665,6 +746,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_stop_reason
 msgid "Project Waiting or Stop Reason"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_queue
+msgid "Project Work Queue"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -857,6 +943,7 @@ msgid "The task's deadline or, when it has none, the project's delivery date."
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__tight
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_hours_health__tight
 msgid "Tight"
 msgstr ""
@@ -1007,6 +1094,13 @@ msgid "Within Budget"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_days_margin
+msgid ""
+"Working days from the forecast end to the delivery date. Negative: the "
+"project will be late."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_workload_report
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_workload_report
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_graph
@@ -1045,6 +1139,11 @@ msgstr ""
 msgid ""
 "You need an employee in this company to log time. Ask your administrator to "
 "link your user to an employee."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "d"
 msgstr ""
 
 #. module: cimalor_project_status_board
