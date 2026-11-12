@@ -1,5 +1,6 @@
 from odoo import api, fields, models
-from odoo.tools import format_date
+from odoo.exceptions import AccessError
+from odoo.tools import format_date, plaintext2html
 
 from .cimalor_project_stop_reason import DEPENDS_ON_SELECTION
 
@@ -351,6 +352,7 @@ class ProjectProject(models.Model):
         The snapshot comparison skips writes that change nothing, such as a
         form saved again with the same values.
         """
+        self._cimalor_check_write_access()
         if not set(STATE_FIELDS) & vals.keys():
             return super().write(vals)
         before = {project.id: project._cimalor_state_snapshot() for project in self}
@@ -360,7 +362,48 @@ class ProjectProject(models.Model):
         )
         changed._cimalor_log_state()
         changed._cimalor_post_state_note()
+        changed._cimalor_notify_manager()
         return result
+
+    def _cimalor_check_write_access(self):
+        """Project users may only change the projects they manage or work in.
+
+        The module gives Project users write access to projects so they can
+        change the state (ir.model.access.csv). It must not open every
+        project they can see: only those they manage or have tasks in,
+        closed tasks included, so finishing your task does not lock you out.
+
+        This is checked here and not with a record rule because Odoo OR-s the
+        rules of a user's groups, and Project already has a rule letting every
+        employee access the projects they can see: a narrower rule would add
+        nothing. Raising AccessError in write() is how Project itself limits
+        what portal users may change on tasks. Superuser and Project
+        administrators are not limited, as before the module.
+
+        The task lookup runs as superuser: Project may hide some tasks of the
+        project from the user, and only the answer "do I have one" is used.
+        """
+        if self.env.su or self.env.user.has_group("project.group_project_manager"):
+            return
+        user = self.env.user
+        with_my_tasks = (
+            self.env["project.task"]
+            .sudo()
+            .with_context(active_test=False)
+            .search([("project_id", "in", self.ids), ("user_ids", "in", user.id)])
+            .project_id
+        )
+        forbidden = self.filtered(
+            lambda project: project.user_id != user and project not in with_my_tasks
+        )
+        if forbidden:
+            raise AccessError(
+                self.env._(
+                    "You can only change projects you manage or have tasks in: "
+                    "%(projects)s",
+                    projects=", ".join(forbidden.mapped("display_name")),
+                )
+            )
 
     def _cimalor_state_snapshot(self):
         self.ensure_one()
@@ -404,6 +447,59 @@ class ProjectProject(models.Model):
             body = project._cimalor_state_note_body(depends_on_labels)
             if body:
                 project.message_post(body=body, subtype_xmlid="mail.mt_note")
+
+    def _cimalor_notify_manager(self):
+        """Tell the project manager when somebody else changes the state.
+
+        Anybody with tasks in the project may change its state, so the board
+        is updated when things happen; the manager gets a to-do activity to
+        check it, and can undo it in one click. One open notice per project:
+        a later change refreshes it instead of adding another.
+
+        The refresh goes through sudo(): Odoo lets a user write only the
+        activities they created or are assigned, and the notice may have been
+        left by a colleague. It only touches this module's own activity type
+        on this project.
+        """
+        activity_type = self.env.ref(
+            "cimalor_project_status_board.mail_activity_type_state_change",
+            raise_if_not_found=False,
+        )
+        if not activity_type:
+            return
+        depends_on_labels = dict(
+            self._fields["cimalor_depends_on"]._description_selection(self.env)
+        )
+        for project in self:
+            manager = project.user_id
+            if not manager or manager == self.env.user:
+                continue
+            values = {
+                "summary": self.env._(
+                    "%(user)s moved the project to %(stage)s",
+                    user=self.env.user.name,
+                    stage=project.stage_id.name,
+                ),
+                "note": plaintext2html(
+                    project._cimalor_state_note_body(depends_on_labels) or ""
+                ),
+                "date_deadline": fields.Date.context_today(project),
+            }
+            notice = project.sudo().activity_ids.filtered_domain(
+                [
+                    ("activity_type_id", "=", activity_type.id),
+                    ("user_id", "=", manager.id),
+                ]
+            )[:1]
+            if notice:
+                notice.write(values)
+            else:
+                project.activity_schedule(
+                    act_type_xmlid="cimalor_project_status_board."
+                    "mail_activity_type_state_change",
+                    user_id=manager.id,
+                    **values,
+                )
 
     def _cimalor_state_note_body(self, depends_on_labels):
         self.ensure_one()

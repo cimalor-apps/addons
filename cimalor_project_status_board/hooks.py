@@ -53,6 +53,30 @@ def _type_native_stages(env):
 
 
 def uninstall_hook(env):
+    """Clean up what Odoo cannot delete on its own when uninstalling."""
+    _keep_stages_in_use(env)
+    _move_notices_to_todo(env)
+
+
+def _move_notices_to_todo(env):
+    """Turn the module's open notices into plain To-Do activities.
+
+    Odoo deletes the module's activity type on uninstall, and activities
+    point at their type with ondelete restrict. 19.0 moves them to To-Do by
+    itself; 18.0 does not and the uninstall would fail. Doing it here works
+    the same in both, and the manager keeps the notice.
+    """
+    notice_type = env.ref(
+        f"{MODULE}.mail_activity_type_state_change", raise_if_not_found=False
+    )
+    todo_type = env.ref("mail.mail_activity_data_todo", raise_if_not_found=False)
+    if notice_type and todo_type:
+        env["mail.activity"].with_context(active_test=False).search(
+            [("activity_type_id", "=", notice_type.id)]
+        ).write({"activity_type_id": todo_type.id})
+
+
+def _keep_stages_in_use(env):
     """Keep the Waiting and On Hold stages that still hold projects.
 
     On uninstall Odoo deletes every record the module's data created. A stage

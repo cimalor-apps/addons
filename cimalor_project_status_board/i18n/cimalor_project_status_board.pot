@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 15:58+0000\n"
-"PO-Revision-Date: 2026-11-12 15:58+0000\n"
+"POT-Creation-Date: 2026-11-12 16:28+0000\n"
+"PO-Revision-Date: 2026-11-12 16:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "%(user)s moved the project to %(stage)s"
+msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
@@ -44,6 +50,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_stop_reason
 msgid "Add a reason"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
+msgid "All Projects"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -201,6 +213,13 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
+msgid ""
+"Here are the projects you manage or have tasks in. All Projects shows\n"
+"                the rest."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__id
@@ -289,6 +308,12 @@ msgid "Log and Start Next"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project_my
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_my_projects
+msgid "My Projects"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
 msgid "Name"
 msgstr ""
@@ -296,6 +321,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__next_task_id
 msgid "Next Task"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
+msgid "No projects of yours yet"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -371,6 +401,11 @@ msgid "Project State Change"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:mail.activity.type,name:cimalor_project_status_board.mail_activity_type_state_change
+msgid "Project State Changed"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
 msgid "Project Status Board"
 msgstr ""
@@ -381,8 +416,7 @@ msgid "Project Waiting or Stop Reason"
 msgstr ""
 
 #. module: cimalor_project_status_board
-#: model:ir.actions.act_window,name:cimalor_project_status_board.action_project_project
-#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_projects
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
 msgstr ""
 
@@ -650,6 +684,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/cimalor_project_status_board/wizards/cimalor_project_timer_stop.py:0
 msgid "Write what you did before logging the time."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "You can only change projects you manage or have tasks in: %(projects)s"
 msgstr ""
 
 #. module: cimalor_project_status_board

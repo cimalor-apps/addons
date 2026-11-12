@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!--
-        The app is for Project users: they are the ones who can move a project.
-        The icon is Project's until the module has its own (before publishing).
-    -->
+    <!-- The app is for Project users: they are the ones who can move a project. -->
     <menuitem
         id="menu_cimalor_project_status_board_root"
         name="Project Status Board"
-        web_icon="project,static/description/icon.png"
+        web_icon="cimalor_project_status_board,static/description/icon.png"
         groups="project.group_project_user"
         sequence="45"
     />
+    <!--
+        Projects › My Projects (first, so the app opens on it) and All Projects.
+        menu_cimalor_project_status_board_projects keeps its id and becomes All
+        Projects under the new parent, so upgrades move it instead of
+        leaving the old entry behind.
+    -->
     <menuitem
-        id="menu_cimalor_project_status_board_projects"
+        id="menu_cimalor_project_status_board_project_root"
         name="Projects"
         parent="menu_cimalor_project_status_board_root"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_cimalor_project_status_board_my_projects"
+        name="My Projects"
+        parent="menu_cimalor_project_status_board_project_root"
+        action="action_project_project_my"
+        sequence="5"
+    />
+    <menuitem
+        id="menu_cimalor_project_status_board_projects"
+        name="All Projects"
+        parent="menu_cimalor_project_status_board_project_root"
         action="action_project_project"
         sequence="10"
     />

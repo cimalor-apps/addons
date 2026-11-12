@@ -343,7 +343,7 @@
         are left out, as in Project's own action.
     -->
     <record id="action_project_project" model="ir.actions.act_window">
-        <field name="name">Projects</field>
+        <field name="name">All Projects</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_template', '=', False)]</field>
@@ -362,6 +362,38 @@
             <p>
                 Each project is a card, and each column is a state. Drag a card to
                 change its state; Waiting and On Hold ask for a reason and a date.
+            </p>
+        </field>
+    </record>
+
+    <!--
+        The same board, with the projects the user manages or has tasks in:
+        the same projects they can change the state of (see the write rule in
+        security/). A domain, not a removable filter, because it is a menu of
+        its own; "All Projects" is next to it.
+    -->
+    <record id="action_project_project_my" model="ir.actions.act_window">
+        <field name="name">My Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field
+            name="domain"
+        >[('is_template', '=', False), '|', ('user_id', '=', uid), ('tasks.user_ids', 'in', uid)]</field>
+        <field name="search_view_id" ref="project.view_project_project_filter" />
+        <field
+            name="view_ids"
+            eval="[
+                Command.clear(),
+                Command.create({'view_mode': 'kanban', 'view_id': ref('view_project_project_kanban')}),
+                Command.create({'view_mode': 'list'}),
+                Command.create({'view_mode': 'form', 'view_id': ref('view_project_project_form')}),
+            ]"
+        />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No projects of yours yet</p>
+            <p>
+                Here are the projects you manage or have tasks in. All Projects shows
+                the rest.
             </p>
         </field>
     </record>

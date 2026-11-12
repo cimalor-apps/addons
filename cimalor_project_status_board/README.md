@@ -64,8 +64,9 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 
 ## Usage
 
-- **Projects:** the board, grouped by stage. Drag a card to change its state; clicking it
-  opens the project form.
+- **Projects › My Projects:** the board with the projects you manage or have tasks in; the
+  app opens here. **All Projects** shows every project you can see. Drag a card to change
+  its state; clicking it opens the project form.
 - **Waiting / On Hold:** choose the reason and the date in the form. Waiting always depends
   on the customer and does not ask; for On Hold, who the project depends on is proposed by
   the reason and can be changed.
@@ -83,9 +84,12 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 
 ## Access rights
 
-Project **users** can change the state of the projects they can see, which means writing on
-projects (not creating or deleting them). Project **administrators** also manage the
-reasons. Project's own record rules still decide which projects each user sees.
+Project **users** can change the state of the projects they **manage or have tasks in**
+(closed tasks count too), which means writing on those projects (not creating or deleting
+them). They still see every project Project lets them see, but cannot move the others.
+When somebody other than the project manager changes the state, the manager gets a
+_Project State Changed_ activity, refreshed on later changes instead of piling up.
+Project **administrators** change any project and also manage the reasons.
 
 ## Technical notes
 

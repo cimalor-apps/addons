@@ -17,6 +17,7 @@
         "security/ir.model.access.csv",
         "data/project_project_stage_data.xml",
         "data/cimalor_project_stop_reason_data.xml",
+        "data/mail_activity_type_data.xml",
         "views/project_project_stage_views.xml",
         "views/cimalor_project_state_log_views.xml",
         "views/cimalor_project_stop_reason_views.xml",
