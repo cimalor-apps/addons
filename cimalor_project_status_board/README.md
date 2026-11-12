@@ -15,16 +15,17 @@ it is waiting for, who it depends on and when to chase it again.
   Waiting project always waits on the customer; On Hold also records who it depends on
   (customer, supplier or us). A card dragged without its data is flagged until somebody
   fills it in.
-- **The state sentence on every card**, such as _Waiting since 23/10/2026: Approval of a
-  delivery_, with the follow-up date in red once it has passed.
+- **The state sentence on every card**, such as _Since 23/10/2026: Approval of a delivery_
+  in the Waiting column or _Until 15/01/2027: Customer postpones_ for On Hold, with the
+  follow-up date in red once it has passed.
 - **A project form for day-to-day work:** the state as a row of buttons, the main tasks as a
   to-do list with planned and spent hours, and the closed ones apart. Ticking a task closes
   it without touching its planned hours.
 - **A timer on every task:** press play in the task list and a live counter starts; stop it
   to log the time as a standard timesheet line, with a required comment. One timer per
   person: pressing play on another task first asks for the running one's comment.
-- **The last comment on every card:** the latest timesheet comment of the project, on one
-  line under the state, whoever logged it and from wherever.
+- **The last comment on every card:** "User · date · comment" of the project's latest
+  timesheet comment, on one line under the state, whoever logged it and from wherever.
 - **History of every state change:** who, when, the reason and the dates, never rewritten.
   The chatter gets a note each time a project starts waiting or goes on hold.
 - **Configurable reasons**, ten to start with; On Hold ones propose who the project depends

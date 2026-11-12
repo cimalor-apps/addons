@@ -50,20 +50,22 @@
                             <field name="partner_id" class="text-muted" />
                             <field name="cimalor_state_summary" class="small mt-1" />
                             <!--
-                                The last timesheet comment, on one line
-                                (text-truncate); the full text, its author and
-                                date on hover.
+                                The last timesheet comment as "User · date ·
+                                comment", on one line (text-truncate); the full
+                                comment on hover when it does not fit.
                             -->
                             <div
                                 t-if="record.cimalor_last_comment.raw_value"
                                 class="small text-muted text-truncate mt-1"
-                                t-att-title="record.cimalor_last_comment.value + ' — ' + record.cimalor_last_comment_user_id.value + ', ' + record.cimalor_last_comment_date.value"
+                                t-att-title="record.cimalor_last_comment.value"
                             >
                                 <i
                                     class="fa fa-comment-o me-1"
                                     role="img"
                                     aria-label="Last comment"
                                 />
+                                <span class="fw-semibold" t-out="record.cimalor_last_comment_user_id.value" />
+                                <t t-out="' · ' + record.cimalor_last_comment_date.value + ' · '" />
                                 <t t-out="record.cimalor_last_comment.value" />
                             </div>
                             <div class="d-flex flex-wrap gap-1 mt-1">
