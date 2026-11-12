@@ -108,7 +108,7 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
-### [19.0.0.1.0] - Unreleased
+### [19.0.0.1.0] - 2026-11-12
 
 #### Added
 

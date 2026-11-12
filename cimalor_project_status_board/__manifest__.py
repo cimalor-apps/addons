@@ -9,7 +9,10 @@
     "depends": ["project", "hr_timesheet"],
     "images": [
         "static/description/main_screenshot.png",
+        "static/description/screenshot_date_risk.png",
         "static/description/screenshot_project_form.png",
+        "static/description/screenshot_workload.png",
+        "static/description/screenshot_capacity.png",
         "static/description/screenshot_reasons.png",
     ],
     "data": [
