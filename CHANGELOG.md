@@ -142,6 +142,12 @@ Odoo version. The same functional version number means the same features in both
   list. Hours split evenly among the people on a task; unassigned tasks count for the
   project manager; finished projects left out. Each person sees their own load, Project
   administrators everybody's.
+- Reporting › Capacity: one line per person with daily and weekly capacity for tasks
+  (working schedule minus a daily admin time, 1 h by default, set on the employee next to
+  the schedule), pending hours, weeks of work, the day the queue ends and, apart, the
+  hours of projects on hold. The queue end counts approved time off and public holidays
+  (Odoo's resource leaves, so Time Off is not a dependency) and starts with what is left
+  of today after the hours already logged. Same visibility as Workload.
 - Spanish translation.
 
 #### Notes

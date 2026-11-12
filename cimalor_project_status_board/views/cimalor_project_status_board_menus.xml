@@ -49,6 +49,13 @@
         sequence="5"
     />
     <menuitem
+        id="menu_cimalor_project_capacity_report"
+        name="Capacity"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_capacity_report"
+        sequence="7"
+    />
+    <menuitem
         id="menu_cimalor_project_state_log_report"
         name="Latest Changes"
         parent="menu_cimalor_project_status_board_reporting"
