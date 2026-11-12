@@ -9,17 +9,18 @@
         class="oe_mt32"
         style="font-size: 17px; max-width: 760px; margin: 24px auto 0"
       >
-        Project's stages tell you where a project is, not why it is stuck.
-        <strong>Project Status Board turns them into a board of states</strong>
-        and asks for the missing piece the moment a project stops: what it is
-        waiting for, who it depends on and when to chase it again.
+        Project's stages tell you where a project is, not why it is stuck nor
+        whether it will arrive.
+        <strong>Project Status Board turns them into a board of states</strong>,
+        asks why the moment a project stops, and shows on every card whether its
+        hours and its delivery date will hold.
       </p>
     </div>
     <div class="oe_span12 oe_mt32">
       <img
         class="oe_picture oe_screenshot"
         src="main_screenshot.png"
-        alt="Board of projects grouped by state, with the reason and follow-up date of waiting projects"
+        alt="Board of projects by state, with the waiting reason, the last comment and the hours and days traffic lights on each card"
       />
     </div>
   </div>
@@ -39,19 +40,18 @@
       </p>
     </div>
     <div class="oe_span4">
-      <h3 style="color: #2f5bd3">Who does it depend on?</h3>
+      <h3 style="color: #2f5bd3">Will the hours be enough?</h3>
       <p>
-        A waiting project waits on the customer, so a "waiting for the customer
-        since the 12th" is documented instead of remembered. A project on hold
-        says whether the pause is the customer's, a supplier's or ours.
+        Allocated hours left minus the work still planned on the open tasks. A
+        red clock warns that the project will go over budget before it does.
       </p>
     </div>
     <div class="oe_span4">
-      <h3 style="color: #2f5bd3">When do we chase it?</h3>
+      <h3 style="color: #2f5bd3">Will it arrive on time?</h3>
       <p>
-        Waiting projects carry a follow-up date that turns red once it has
-        passed. Projects on hold carry their restart date in a folded column, so
-        long pauses stay out of the way.
+        Each person works through their tasks by due date at their real
+        capacity. A red calendar says the project will be late, and who it waits
+        for.
       </p>
     </div>
   </div>
@@ -61,26 +61,35 @@
   <div class="oe_row oe_spaced">
     <div class="oe_span6">
       <h2 class="oe_slogan" style="text-align: left">
-        One form for the state and the work
+        Two traffic lights per project
       </h2>
       <ul class="oe_mt32" style="font-size: 16px; line-height: 1.7">
-        <li>The state as a row of buttons, with its reason and date.</li>
         <li>
-          The main tasks as a to-do list, with planned and spent hours. Tick a
-          task to close it; its planned hours are never touched.
+          <strong>Hours margin:</strong> red over budget, amber tight (under 10
+          % of the allocated hours), green with room.
         </li>
-        <li>Closed tasks apart, one click away from being reopened.</li>
         <li>
-          The full history of state changes: who, when, why. Never rewritten.
+          <strong>Days margin:</strong> working days between the forecast end
+          and the delivery date. Red late, amber two days or less, green on
+          time.
         </li>
-        <li>A note in the chatter every time a project starts waiting.</li>
+        <li>
+          The forecast takes every project of the same people into account, with
+          their working schedule, time off, public holidays and a daily admin
+          time.
+        </li>
+        <li>
+          Grey, never green, when there is not enough data to tell: no allocated
+          hours, no delivery date, nobody's schedule.
+        </li>
+        <li><em>Reporting › Date Risk</em> lists the projects at risk.</li>
       </ul>
     </div>
     <div class="oe_span6">
       <img
         class="oe_picture oe_screenshot"
-        src="screenshot_project_form.png"
-        alt="Project form with the state buttons, the waiting reason and the to-do list of tasks"
+        src="screenshot_date_risk.png"
+        alt="Date Risk report with the delivery date, forecast end, days margin and hours health of each project"
       />
     </div>
   </div>
@@ -91,10 +100,63 @@
     <div class="oe_span6">
       <img
         class="oe_picture oe_screenshot"
-        src="screenshot_reasons.png"
-        alt="Editable list of waiting and on hold reasons"
+        src="screenshot_project_form.png"
+        alt="Project form with the hours and days margins, the state buttons and the to-do list of tasks with a running timer"
       />
     </div>
+    <div class="oe_span6">
+      <h2 class="oe_slogan" style="text-align: left">
+        One form for the state and the work
+      </h2>
+      <ul class="oe_mt32" style="font-size: 16px; line-height: 1.7">
+        <li>The state as a row of buttons, with its reason and date.</li>
+        <li>
+          The main tasks as a to-do list with planned and spent hours. Tick a
+          task to close it; its planned hours are never touched.
+        </li>
+        <li>
+          A timer on every task: press play, and stop to log a standard
+          timesheet line with a required comment. The latest comment shows on
+          the card.
+        </li>
+        <li>
+          The full history of state changes: who, when, why. Never rewritten.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align: center">
+      <h2 class="oe_slogan">Workload and capacity, per person</h2>
+      <p style="font-size: 16px; max-width: 760px; margin: 16px auto 0">
+        <em>Workload</em> splits the pending hours by person, project state and
+        due date. <em>Capacity</em> shows how many weeks of work each person has
+        and the day their queue ends, with on-hold work apart. Each person sees
+        their own figures; Project administrators see everybody's.
+      </p>
+    </div>
+    <div class="oe_span6 oe_mt32">
+      <img
+        class="oe_picture oe_screenshot"
+        src="screenshot_workload.png"
+        alt="Workload pivot with the pending hours of each person by project state"
+      />
+    </div>
+    <div class="oe_span6 oe_mt32">
+      <img
+        class="oe_picture oe_screenshot"
+        src="screenshot_capacity.png"
+        alt="Capacity list with daily and weekly capacity, pending hours, weeks of work and queue end of each person"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
     <div class="oe_span6">
       <h2 class="oe_slogan" style="text-align: left">
         Your reasons, your words
@@ -106,6 +168,13 @@
         such as <em>Other</em> require a note.
       </p>
     </div>
+    <div class="oe_span6">
+      <img
+        class="oe_picture oe_screenshot"
+        src="screenshot_reasons.png"
+        alt="Editable list of waiting and on hold reasons"
+      />
+    </div>
   </div>
 </section>
 
@@ -114,9 +183,11 @@
     <div class="oe_span12" style="text-align: center">
       <h2 class="oe_slogan">Built on Project, not next to it</h2>
       <p style="font-size: 16px; max-width: 760px; margin: 16px auto 0">
-        The columns are Project's own stages and the to-do list is Project's own
-        tasks. Nothing is copied into a parallel model, and the Project app
-        keeps working exactly as before. No dependency on Enterprise modules.
+        The columns are Project's own stages, the to-do list is Project's own
+        tasks and the timer logs standard timesheet lines. Nothing is copied
+        into a parallel model, and the Project app keeps working exactly as
+        before. No dependency on Enterprise modules, and no data is sent outside
+        your database.
       </p>
     </div>
   </div>
@@ -125,7 +196,7 @@
 <section class="oe_container oe_dark">
   <div class="oe_row oe_spaced">
     <div class="oe_span12" style="text-align: center">
-      <h2 class="oe_slogan">Up and running in four steps</h2>
+      <h2 class="oe_slogan">Up and running in five steps</h2>
     </div>
     <div class="oe_span12">
       <ol
@@ -145,8 +216,12 @@
           <em>Waiting</em> and <em>On Hold</em>.
         </li>
         <li>
-          Review the reasons under
-          <em>Project Status Board › Configuration › Reasons</em>.
+          Link each user to an employee with a working schedule, and adjust the
+          <em>Daily Admin Time</em> next to it (1 hour by default).
+        </li>
+        <li>
+          Give your projects allocated hours and a delivery date, and your tasks
+          planned hours.
         </li>
         <li>Open <em>Projects</em> and drag each project to its real state.</li>
       </ol>

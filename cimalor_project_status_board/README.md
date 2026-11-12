@@ -30,6 +30,18 @@ it is waiting for, who it depends on and when to chase it again.
   The chatter gets a note each time a project starts waiting or goes on hold.
 - **Configurable reasons**, ten to start with; On Hold ones propose who the project depends
   on.
+- **Hours margin on every card and form:** allocated hours left minus the pending work of
+  the open main tasks (planned minus spent, never below zero). Red over budget, amber tight
+  (under 10 % of the allocated hours), green with room; grey without allocated hours.
+- **Days margin on every card and form:** each person works through their tasks by due
+  date at their daily capacity; the project's forecast end is when its last open task ends,
+  and the margin is the working days to the delivery date. Red late (with who it is late
+  because of), amber two days or less, green on time; grey without delivery date or when
+  somebody has no working schedule. Board filters _Over Budget_, _Hours at Risk_, _Late_
+  and _Date at Risk_.
+- **Reporting:** _Workload_ (pending hours by person, project stage and due date),
+  _Capacity_ (daily and weekly capacity, weeks of work and queue end per person),
+  _Date Risk_ (projects at risk) and _Latest Changes_ (every state change).
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.
 
@@ -61,6 +73,12 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 - **Stages:** Project Status Board › Configuration › Stages, which is Project's own stage
   list. Set the **State Type** of each stage; a stage without a type is shown but gets no
   special behaviour. Several stages may share a type.
+- **Capacity:** each person needs a user linked to an employee with a working schedule. The
+  **Daily Admin Time** next to the schedule, on the employee's _Work Information_ page (1
+  hour by default), is subtracted from each working day. Approved time off and public
+  holidays are taken into account through Odoo's resource leaves.
+- **Margins:** give projects their allocated hours and delivery date, and tasks their
+  planned hours. Tasks without planned hours count zero.
 
 ## Usage
 
@@ -95,8 +113,13 @@ Project **administrators** change any project and also manage the reasons.
 
 - Models: `cimalor.project.state.log` (history, read and create only),
   `cimalor.project.stop.reason`, `cimalor.project.timer` (running timers, each user sees
-  only their own) and the `cimalor.project.timer.stop` dialog; extensions of
-  `project.project`, `project.project.stage` and `project.task`.
+  only their own) and the `cimalor.project.timer.stop` dialog; the read-only reports
+  `cimalor.project.workload.report` (a database view) and `cimalor.project.capacity.report`;
+  `cimalor.project.queue`, the per-person work queue behind the capacity and the days
+  margin; extensions of `project.project`, `project.project.stage`, `project.task` and
+  `hr.employee`.
+- The days margin is computed when read, never stored: it depends on the other projects of
+  the same people, which `@api.depends` cannot follow.
 - The live counter is the module's only JavaScript: the `cimalor_timer` field widget, which
   shows "now minus start" every second, so it stays right after the computer sleeps.
 - The state type lives on the stage (`cimalor_state_type`); every rule reads it, never the
@@ -117,7 +140,7 @@ odoo -d test_db -i cimalor_project_status_board --test-enable --test-tags /cimal
 The template and the Spanish translation live in `i18n/`. Regenerate the template with:
 
 ```bash
-odoo i18n export -d test_db -l pot -o cimalor_project_status_board.pot cimalor_project_status_board
+odoo -d test_db --i18n-export=cimalor_project_status_board.pot --modules=cimalor_project_status_board --stop-after-init
 ```
 
 Merge the new entries into `i18n/es.po` by hand instead of overwriting it: the export drops
