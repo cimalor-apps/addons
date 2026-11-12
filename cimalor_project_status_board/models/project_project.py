@@ -544,6 +544,12 @@ class ProjectProject(models.Model):
         The snapshot comparison skips writes that change nothing, such as a
         form saved again with the same values.
         """
+        if vals.get("date") and "date_start" not in vals:
+            without_start = self.filtered(lambda project: not project.date_start)
+            if without_start:
+                without_start._cimalor_write_date_with_start(vals)
+                others = self - without_start
+                return others.write(vals) if others else True
         self._cimalor_check_write_access()
         if not set(STATE_FIELDS) & vals.keys():
             return super().write(vals)
@@ -556,6 +562,21 @@ class ProjectProject(models.Model):
         changed._cimalor_post_state_note()
         changed._cimalor_notify_manager()
         return result
+
+    def _cimalor_write_date_with_start(self, vals):
+        """Save a new delivery date on projects that have no start date.
+
+        Project treats its start and end dates as a range: its write() drops a
+        new end date (`date`) on a project without start date, without any
+        message. This app only shows the delivery date, so the change would
+        silently not be saved. The start date is filled in with the day the
+        project was created, or the delivery date when that is earlier
+        (Project requires start <= end), and both are written together.
+        """
+        delivery = fields.Date.to_date(vals["date"])
+        for project in self:
+            start = min(project.create_date.date(), delivery)
+            project.write(dict(vals, date_start=start))
 
     def _cimalor_check_write_access(self):
         """Project users may only change the projects they manage or work in.

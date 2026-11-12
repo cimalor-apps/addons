@@ -159,6 +159,13 @@ Odoo version. The same functional version number means the same features in both
   Reporting › Date Risk with the projects at risk.
 - Spanish translation.
 
+#### Fixed
+
+- Changing the delivery date of a project without start date was silently not saved:
+  Project treats start and end as a range and drops a new end date without a start. The
+  app fills in the start date with the project's creation day (or the delivery date if
+  earlier) when it saves the delivery date.
+
 #### Notes
 
 - Installing turns on Project's _Project Stages_ setting; uninstalling does not turn it off.

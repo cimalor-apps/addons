@@ -110,3 +110,37 @@ class TestProjectDateRisk(TransactionCase):
         )
         # 14 + 21 + 14 + 1 h (the undated task, last) at 7 h a day.
         self.assertEqual(row.queue_end_date, date(2026, 11, 25))
+
+
+@tagged("post_install", "-at_install")
+class TestDeliveryDate(TransactionCase):
+    """Project drops a new end date on a project without start date."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = cls.env["project.project"].create(
+            {"name": "Only a delivery date", "date": "2027-01-30"}
+        )
+
+    def test_delivery_date_is_saved_without_start_date(self):
+        self.assertFalse(self.project.date_start)
+        self.project.date = date(2027, 2, 15)
+
+        self.assertEqual(self.project.date, date(2027, 2, 15))
+        self.assertEqual(
+            self.project.date_start,
+            self.project.create_date.date(),
+            "start filled in with the creation day",
+        )
+
+    def test_start_never_after_delivery(self):
+        self.project.date = date(2020, 1, 10)
+        self.assertEqual(self.project.date, date(2020, 1, 10))
+        self.assertEqual(self.project.date_start, date(2020, 1, 10))
+
+    def test_existing_start_is_kept(self):
+        self.project.write({"date_start": "2026-01-01", "date": "2027-01-30"})
+        self.project.date = date(2027, 3, 1)
+        self.assertEqual(self.project.date_start, date(2026, 1, 1))
+        self.assertEqual(self.project.date, date(2027, 3, 1))
