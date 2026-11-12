@@ -2,6 +2,7 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError
 from odoo.tools import format_date, plaintext2html
 
+from .cimalor_project_queue import NEVER
 from .cimalor_project_stop_reason import DEPENDS_ON_SELECTION
 
 # A change in any of these fields is a change of the project's state and
@@ -25,6 +26,16 @@ HOURS_HEALTH_SELECTION = [
     ("tight", "Tight"),
     ("ok", "Within Budget"),
     ("no_budget", "No Budget"),
+]
+
+# Days health (spec §4.8): "Tight" is a margin of this many working days or less.
+DAYS_TIGHT = 2
+
+DAYS_HEALTH_SELECTION = [
+    ("late", "Late"),
+    ("tight", "Tight"),
+    ("ok", "On Time"),
+    ("no_data", "No Forecast"),
 ]
 
 
@@ -151,6 +162,40 @@ class ProjectProject(models.Model):
         string="Hours Health",
         compute="_compute_cimalor_hours_margin",
         store=True,
+    )
+    # Days margin (spec §4.8): will the people on the project finish it by its
+    # delivery date, given everything else they have to do? Computed when
+    # read from the queue of every person (models/cimalor_project_queue.py),
+    # never stored: it depends on other projects, which @api.depends cannot
+    # follow. compute_sudo: the queue places this project's work among the
+    # other projects and tasks of its people, which the user may not see;
+    # only dates, a number and names come out.
+    cimalor_forecast_end_date = fields.Date(
+        string="Forecast End",
+        compute="_compute_cimalor_days_margin",
+        compute_sudo=True,
+        help="Day the last open task ends if everybody works by due date at "
+        "their capacity.",
+    )
+    cimalor_days_margin = fields.Integer(
+        string="Days Margin",
+        compute="_compute_cimalor_days_margin",
+        compute_sudo=True,
+        help="Working days from the forecast end to the delivery date. Negative: "
+        "the project will be late.",
+    )
+    cimalor_days_health = fields.Selection(
+        selection=DAYS_HEALTH_SELECTION,
+        string="Days Health",
+        compute="_compute_cimalor_days_margin",
+        compute_sudo=True,
+        search="_search_cimalor_days_health",
+    )
+    cimalor_late_by = fields.Char(
+        string="Late Because Of",
+        compute="_compute_cimalor_days_margin",
+        compute_sudo=True,
+        help="People whose part of the project ends after the delivery date.",
     )
     cimalor_state_log_ids = fields.One2many(
         comodel_name="cimalor.project.state.log",
@@ -384,6 +429,70 @@ class ProjectProject(models.Model):
                     health = "ok"
             project.cimalor_hours_margin = margin
             project.cimalor_hours_health = health
+
+    def _compute_cimalor_days_margin(self):
+        """Forecast end, days margin and its health, from the work queue.
+
+        One queue for all the projects being read (the whole board in one
+        go). No health once done or on hold (on hold leaves the queue);
+        "No Forecast" (grey, never green) without delivery date, without open
+        tasks, or when somebody on it has no working schedule. Work beyond
+        the queue's limit is late without a date.
+        """
+        Queue = self.env["cimalor.project.queue"]
+        today = fields.Date.context_today(self)
+        active = self.filtered(
+            lambda p: p.cimalor_state_type not in ("done", "stopped")
+        )
+        forecast = Queue._project_forecast(today) if active else {}
+        for project in self:
+            end, margin, health, late_by = False, 0, False, False
+            data = forecast.get(project.id)
+            if project in active:
+                health = "no_data"
+                if data and data["end"] and project.date:
+                    late = [
+                        user_id
+                        for user_id, user_end in data["users"].items()
+                        if user_end > project.date
+                    ]
+                    late_by = ", ".join(
+                        self.env["res.users"].browse(late).sorted("name").mapped("name")
+                    )
+                    if data["end"] == NEVER:
+                        health = "late"
+                    else:
+                        end = data["end"]
+                        margin = Queue._working_days_margin(
+                            project.company_id.resource_calendar_id
+                            or self.env.company.resource_calendar_id,
+                            end,
+                            project.date,
+                        )
+                        health = (
+                            "late"
+                            if margin < 0
+                            else "tight" if margin <= DAYS_TIGHT else "ok"
+                        )
+                elif data and data["end"]:
+                    end = data["end"] if data["end"] != NEVER else False
+            project.cimalor_forecast_end_date = end
+            project.cimalor_days_margin = margin
+            project.cimalor_days_health = health
+            project.cimalor_late_by = late_by or False
+
+    def _search_cimalor_days_health(self, operator, value):
+        """Find projects by days health, for the board filters.
+
+        The health is not stored, so it is computed for the projects that can
+        have one (not done, not on hold) and the matching ids returned.
+        """
+        # One value, or a collection (a list in 18.0, an OrderedSet in 19.0).
+        values = {value} if isinstance(value, str) else set(value)
+        projects = self.search([("cimalor_state_type", "not in", ["done", "stopped"])])
+        matching = projects.filtered(lambda p: p.cimalor_days_health in values)
+        negative = operator in ("!=", "not in")
+        return [("id", "not in" if negative else "in", matching.ids)]
 
     @api.depends("cimalor_state_type", "cimalor_follow_up_date")
     def _compute_cimalor_follow_up_overdue(self):

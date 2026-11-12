@@ -148,6 +148,15 @@ Odoo version. The same functional version number means the same features in both
   hours of projects on hold. The queue end counts approved time off and public holidays
   (Odoo's resource leaves, so Time Off is not a dependency) and starts with what is left
   of today after the hours already logged. Same visibility as Workload.
+- Days margin of each project, from the work queue of its people: each person works
+  through their tasks by due date at their daily capacity; the project's forecast end is
+  when its last open task ends, and the margin is the working days from it to the
+  delivery date (company schedule). Traffic light on the card and the form: red late,
+  amber tight (2 working days or less), green on time; grey without delivery date or
+  when somebody has no working schedule; none on hold or done. Who it is late because
+  of, on hover. Computed when read, never stored, because it depends on the other
+  projects of the same people. Board filters _Late_ and _Date at Risk_, and
+  Reporting › Date Risk with the projects at risk.
 - Spanish translation.
 
 #### Notes
