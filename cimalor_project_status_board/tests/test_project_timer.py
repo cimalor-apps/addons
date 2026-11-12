@@ -42,18 +42,21 @@ class TestProjectTimer(TransactionCase):
             "a running timer is personal",
         )
 
+    def _dialog(self, action, description):
+        """Open the stop dialog returned by `action` as the timer user."""
+        return (
+            self.env[action["res_model"]]
+            .with_user(self.user)
+            .with_context(**action["context"])
+            .create({"description": description})
+        )
+
     def test_stop_logs_time_with_description(self):
         task = self.task_a.with_user(self.user)
         task.action_cimalor_timer_start()
         self._backdate(90)
 
-        action = task.action_cimalor_timer_stop()
-        wizard = (
-            self.env[action["res_model"]]
-            .with_user(self.user)
-            .with_context(**action["context"])
-            .create({"description": "First draft"})
-        )
+        wizard = self._dialog(task.action_cimalor_timer_stop(), "First draft")
         self.assertAlmostEqual(wizard.hours, 1.5, places=2)
         wizard.action_confirm()
 
@@ -65,27 +68,65 @@ class TestProjectTimer(TransactionCase):
         self.assertFalse(task.cimalor_timer_start, "the timer stops once logged")
 
     def test_one_timer_per_user(self):
-        """Starting a second task stops the first one and logs its time."""
+        """Play on a second task asks for the first one's comment, then switches."""
         self.task_a.with_user(self.user).action_cimalor_timer_start()
         self._backdate(30)
-        self.task_b.with_user(self.user).action_cimalor_timer_start()
+        action = self.task_b.with_user(self.user).action_cimalor_timer_start()
+
+        self.assertEqual(action["res_model"], "cimalor.project.timer.stop")
+        running = self.Timer.search([("user_id", "=", self.user.id)])
+        self.assertEqual(running.task_id, self.task_a, "nothing changes until logged")
+
+        self._dialog(action, "Layout finished").action_confirm()
 
         running = self.Timer.search([("user_id", "=", self.user.id)])
         self.assertEqual(running.task_id, self.task_b)
         line = self.Line.search([("task_id", "=", self.task_a.id)])
         self.assertAlmostEqual(line.unit_amount, 0.5, places=2)
+        self.assertEqual(line.name, "Layout finished")
+
+    def test_comment_is_required(self):
+        """A comment of spaces is no comment."""
+        task = self.task_a.with_user(self.user)
+        task.action_cimalor_timer_start()
+        self._backdate(30)
+        wizard = self._dialog(task.action_cimalor_timer_stop(), "   ")
+        with self.assertRaises(UserError):
+            wizard.action_confirm()
+        self.assertTrue(task.cimalor_timer_start, "still running")
 
     def test_under_a_minute_logs_nothing(self):
         """A misclick on play then stop does not leave a zero-hour line."""
         task = self.task_a.with_user(self.user)
         task.action_cimalor_timer_start()
-        action = task.action_cimalor_timer_stop()
-        self.env[action["res_model"]].with_user(self.user).with_context(
-            **action["context"]
-        ).create({}).action_confirm()
+        self._dialog(task.action_cimalor_timer_stop(), "Oops").action_confirm()
 
         self.assertFalse(task.cimalor_timer_start)
         self.assertFalse(self.Line.search([("task_id", "=", self.task_a.id)]))
+
+    def test_last_comment_on_the_project(self):
+        """The card shows the latest timesheet comment, to everyone."""
+        task = self.task_a.with_user(self.user)
+        task.action_cimalor_timer_start()
+        self._backdate(30)
+        self._dialog(
+            task.action_cimalor_timer_stop(), "Sent to the customer"
+        ).action_confirm()
+
+        project = self.project.with_user(self.other)
+        self.assertEqual(project.cimalor_last_comment, "Sent to the customer")
+        self.assertEqual(project.cimalor_last_comment_user_id, self.user)
+
+        # A line without description (from Timesheets, say) does not hide it.
+        self.Line.create(
+            {
+                "project_id": self.project.id,
+                "task_id": self.task_b.id,
+                "unit_amount": 1,
+                "user_id": self.other.id,
+            }
+        )
+        self.assertEqual(self.project.cimalor_last_comment, "Sent to the customer")
 
     def test_cancelling_the_dialog_keeps_it_running(self):
         task = self.task_a.with_user(self.user)

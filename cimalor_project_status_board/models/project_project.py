@@ -87,6 +87,27 @@ class ProjectProject(models.Model):
         string="Follow-up Overdue",
         compute="_compute_cimalor_follow_up_overdue",
     )
+    # The last timesheet comment of the project, shown on the kanban card next
+    # to the state. Stored so the board reads it without one query per card.
+    # Stored computes run as superuser, so every user who sees the project sees
+    # the comment, even when hr_timesheet's rules hide the line itself from
+    # them: the card tells how the project goes, the line stays private.
+    cimalor_last_comment = fields.Char(
+        string="Last Comment",
+        compute="_compute_cimalor_last_comment",
+        store=True,
+    )
+    cimalor_last_comment_date = fields.Date(
+        string="Last Comment Date",
+        compute="_compute_cimalor_last_comment",
+        store=True,
+    )
+    cimalor_last_comment_user_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Last Comment By",
+        compute="_compute_cimalor_last_comment",
+        store=True,
+    )
     cimalor_state_log_ids = fields.One2many(
         comodel_name="cimalor.project.state.log",
         inverse_name="project_id",
@@ -227,6 +248,24 @@ class ProjectProject(models.Model):
                     reason=project._cimalor_reason_text(),
                 )
             project.cimalor_state_summary = summary
+
+    @api.depends("timesheet_ids.name", "timesheet_ids.date", "timesheet_ids.user_id")
+    def _compute_cimalor_last_comment(self):
+        """Description of the latest timesheet line that has one.
+
+        Any line counts, from the timer, the Timesheets app or an import:
+        latest date first, then latest created. The sort is explicit because
+        a line just created is appended to the cached One2many, not sorted.
+        Lines logged without a description are skipped: hr_timesheet stores
+        them as "/".
+        """
+        for project in self:
+            line = project.timesheet_ids.filtered(
+                lambda line: line.name and line.name.strip() not in ("", "/")
+            ).sorted(lambda line: (line.date, line.id), reverse=True)[:1]
+            project.cimalor_last_comment = line.name
+            project.cimalor_last_comment_date = line.date
+            project.cimalor_last_comment_user_id = line.user_id
 
     @api.depends("cimalor_state_type", "cimalor_follow_up_date")
     def _compute_cimalor_follow_up_overdue(self):

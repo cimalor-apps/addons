@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 14:57+0000\n"
-"PO-Revision-Date: 2026-11-12 14:57+0000\n"
+"POT-Creation-Date: 2026-11-12 15:17+0000\n"
+"PO-Revision-Date: 2026-11-12 15:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Last comment\"/>"
+msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
@@ -233,6 +238,21 @@ msgid "Lack of budget"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment
+msgid "Last Comment"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_user_id
+msgid "Last Comment By"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_date
+msgid "Last Comment Date"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__write_uid
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__write_uid
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__write_uid
@@ -258,7 +278,7 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_task.py:0
+#: code:addons/cimalor_project_status_board/models/cimalor_project_timer.py:0
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "Log Time"
 msgstr ""
@@ -266,6 +286,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__name
 msgid "Name"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__next_task_id
+msgid "Next Task"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -607,7 +632,13 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
-msgid "What did you do? (optional)"
+msgid "What did you do?"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/wizards/cimalor_project_timer_stop.py:0
+msgid "Write what you did before logging the time."
 msgstr ""
 
 #. module: cimalor_project_status_board

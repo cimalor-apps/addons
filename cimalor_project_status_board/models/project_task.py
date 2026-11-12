@@ -38,8 +38,9 @@ class ProjectTask(models.Model):
     def action_cimalor_timer_start(self):
         """Start the current user's timer on this task.
 
-        One timer per user, as Odoo Enterprise does: a timer already running
-        on another task is stopped and its time logged without a description.
+        One timer per user. If one is already running on another task, its
+        stop dialog opens first, because every timesheet needs a comment;
+        once it is logged, the dialog starts the timer on this task.
         The employee is checked here and not at the stop, so nobody runs a
         timer for an hour and then cannot log it.
         """
@@ -52,27 +53,21 @@ class ProjectTask(models.Model):
                 )
             )
         Timer = self.env["cimalor.project.timer"]
-        running = Timer.search([("user_id", "=", self.env.uid)])
-        for timer in running:
-            timer._cimalor_log_time(timer._cimalor_elapsed_hours())
+        running = Timer.search([("user_id", "=", self.env.uid)], limit=1)
+        if running.task_id == self:
+            return False
+        if running:
+            return running._cimalor_stop_action(next_task=self)
         Timer.create({"task_id": self.id})
+        return False
 
     def action_cimalor_timer_stop(self):
-        """Open the stop dialog to confirm the hours and add a description."""
+        """Open the stop dialog to confirm the hours and write the comment."""
         self.ensure_one()
         timer = self.env["cimalor.project.timer"].search(
             [("user_id", "=", self.env.uid), ("task_id", "=", self.id)], limit=1
         )
-        if not timer:
-            return False
-        return {
-            "type": "ir.actions.act_window",
-            "name": self.env._("Log Time"),
-            "res_model": "cimalor.project.timer.stop",
-            "view_mode": "form",
-            "target": "new",
-            "context": {"default_timer_id": timer.id},
-        }
+        return timer._cimalor_stop_action() if timer else False
 
     @api.depends("state")
     def _compute_cimalor_is_done(self):

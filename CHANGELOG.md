@@ -126,7 +126,10 @@ Odoo version. The same functional version number means the same features in both
   to-do list with planned and spent hours. Ticking a task closes it through its state and
   never touches its planned hours. Tasks can be reordered by dragging.
 - Timer on each task of the project form: live counter, one running timer per user, and a
-  stop dialog that logs a standard timesheet line (nothing under a minute).
+  stop dialog with a required comment that logs a standard timesheet line (nothing under a
+  minute). Play on another task first asks for the running one's comment.
+- Last timesheet comment of the project on its kanban card, on one line, with author and
+  date on hover.
 - Spanish translation.
 
 #### Notes

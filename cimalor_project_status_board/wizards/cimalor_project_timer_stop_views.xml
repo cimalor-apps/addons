@@ -8,8 +8,9 @@
                 <group>
                     <field name="task_id" readonly="1" />
                     <field name="hours" widget="float_time" />
-                    <field name="description" placeholder="What did you do? (optional)" />
+                    <field name="description" placeholder="What did you do?" />
                     <field name="timer_id" invisible="1" />
+                    <field name="next_task_id" invisible="1" />
                 </group>
                 <footer>
                     <button
