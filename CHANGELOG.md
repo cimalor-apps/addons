@@ -108,6 +108,15 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.1] - 2026-11-12
+
+#### Fixed
+
+- Users without HR rights could no longer read employees once the module was installed
+  (AccessError on "Daily Admin Time", seen in Enterprise timesheet validation). The field
+  is now for HR users only, as Odoo requires of employee fields that are not on the public
+  profile; the capacity still reads it.
+
 ### [18.0.0.1.0] - 2026-11-12
 
 #### Added
