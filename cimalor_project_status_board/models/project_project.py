@@ -153,9 +153,11 @@ class ProjectProject(models.Model):
     # the kanban template receives dates as text in 19.0 and cannot format
     # them; not stored, they only read the stored fields above.
     cimalor_last_comment_first_name = fields.Char(
+        string="Last Comment By (First Name)",
         compute="_compute_cimalor_last_comment_labels",
     )
     cimalor_last_comment_day = fields.Char(
+        string="Last Comment Day",
         compute="_compute_cimalor_last_comment_labels",
     )
     # Tooltip of the green dot on the card: who is timing the project now.

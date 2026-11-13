@@ -503,9 +503,19 @@ msgid "Last Comment By"
 msgstr "Autor del último comentario"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_first_name
+msgid "Last Comment By (First Name)"
+msgstr "Autor del último comentario (nombre)"
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_date
 msgid "Last Comment Date"
 msgstr "Fecha del último comentario"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_day
+msgid "Last Comment Day"
+msgstr "Día del último comentario"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__write_uid
