@@ -143,6 +143,11 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
+
+#. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_config
 msgid "Configuration"
 msgstr "Configuración"
@@ -275,6 +280,7 @@ msgstr "Descripción"
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__display_name
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
@@ -341,6 +347,17 @@ msgstr "Todos los proyectos en marcha llegan a tiempo según la previsión. Quit
 msgid ""
 "Every time a project changes state, it appears here: when, who and why."
 msgstr "Cada vez que un proyecto cambia de estado aparece aquí: cuándo, quién y por qué."
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Excluded Projects"
+msgstr "Proyectos excluidos"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_excluded
+msgid "Excluded from the Board"
+msgstr "Excluido del tablero"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
@@ -443,6 +460,7 @@ msgstr "Horas de cada día laborable dedicadas a reuniones, correo y otro trabaj
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project_stage__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__id
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -543,6 +561,13 @@ msgstr "Imputar horas"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "Log and Start Next"
 msgstr "Imputar y empezar la siguiente"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_excluded
+msgid ""
+"Matches the Excluded Projects filter of the settings: left out of the "
+"boards, the reports and everybody's workload."
+msgstr "Cumple el filtro de Proyectos excluidos de los ajustes: queda fuera de los tableros, los informes y la carga de todos."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
@@ -746,8 +771,14 @@ msgstr "Estado del proyecto cambiado"
 
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
 msgid "Project Status Board"
 msgstr "Project Status Board"
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.server,name:cimalor_project_status_board.ir_cron_refresh_excluded_projects_ir_actions_server
+msgid "Project Status Board: refresh excluded projects"
+msgstr "Project Status Board: actualizar proyectos excluidos"
 
 #. module: cimalor_project_status_board
 #: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_stop_reason
@@ -763,6 +794,14 @@ msgstr "Cola de trabajo de proyectos"
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
 msgstr "Proyectos"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid ""
+"Projects matching this filter, such as hour banks, are left out of the "
+"boards, the reports and everybody's workload."
+msgstr "Los proyectos que cumplen este filtro, como las bolsas de horas, quedan fuera de los tableros, los informes y la carga de todos."
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__queue_end_date
@@ -836,6 +875,11 @@ msgstr "Cronómetro de tarea en marcha"
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__sequence
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_settings
+msgid "Settings"
+msgstr "Ajustes"
 
 #. module: cimalor_project_status_board
 #. odoo-python
@@ -935,6 +979,12 @@ msgstr "Tareas"
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_technical_block
 msgid "Technical blocker"
 msgstr "Bloqueo técnico"
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "The Excluded Projects filter cannot be used: %(error)s"
+msgstr "No se puede usar el filtro de Proyectos excluidos: %(error)s"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_workload_report

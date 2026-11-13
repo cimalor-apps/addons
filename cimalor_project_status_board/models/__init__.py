@@ -7,4 +7,5 @@ from . import (
     project_project,
     project_project_stage,
     project_task,
+    res_config_settings,
 )

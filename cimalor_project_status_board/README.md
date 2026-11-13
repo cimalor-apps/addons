@@ -24,8 +24,9 @@ it is waiting for, who it depends on and when to chase it again.
 - **A timer on every task:** press play in the task list and a live counter starts; stop it
   to log the time as a standard timesheet line, with a required comment. One timer per
   person: pressing play on another task first asks for the running one's comment.
-- **The last comment on every card:** "User · date · comment" of the project's latest
-  timesheet comment, on one line under the state, whoever logged it and from wherever.
+- **The last comment on every card:** "Ana · 12/11 · comment" (first name and day/month)
+  of the project's latest timesheet comment, on one line under the state, whoever logged
+  it and from wherever. Project name and customer take one line each, cut if too long.
 - **History of every state change:** who, when, the reason and the dates, never rewritten.
   The chatter gets a note each time a project starts waiting or goes on hold.
 - **Configurable reasons**, ten to start with; On Hold ones propose who the project depends
@@ -79,6 +80,11 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   holidays are taken into account through Odoo's resource leaves.
 - **Margins:** give projects their allocated hours and delivery date, and tasks their
   planned hours. Tasks without planned hours count zero.
+- **Excluded projects:** Project › Configuration › Settings › Project Status Board (Odoo
+  administrators; also under the app's Configuration › Settings). A filter on projects,
+  with Odoo's domain editor: projects matching it, such as hour banks, are left out of the
+  boards, the reports and everybody's workload. They stay untouched in Project. The
+  filter is applied when saved, when projects change, and once a day.
 
 ## Usage
 
