@@ -108,6 +108,21 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.2] - 2026-11-13
+
+#### Added
+
+- Settings › Excluded Projects: a filter on projects, with Odoo's domain editor, in
+  Project's settings page (Odoo administrators). Projects matching it, such as hour banks,
+  leave the boards, Date Risk, Latest Changes, Workload, Capacity and everybody's queue;
+  Project keeps them as they are. Applied when the setting is saved, when projects are
+  created or written, and once a day for fields that change without a write.
+
+#### Changed
+
+- Kanban card: project name and customer on one line each, cut with an ellipsis and shown
+  whole on hover; the last comment reads "Ana · 12/11 · comment" (first name, day/month).
+
 ### [19.0.0.1.1] - 2026-11-12
 
 #### Fixed
