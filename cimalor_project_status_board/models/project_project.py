@@ -1,5 +1,7 @@
+from ast import literal_eval
+
 from odoo import api, fields, models
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from odoo.tools import format_date, plaintext2html
 
 from .cimalor_project_queue import NEVER
@@ -38,10 +40,25 @@ DAYS_HEALTH_SELECTION = [
     ("no_data", "No Forecast"),
 ]
 
+# Settings › Excluded Projects: a domain on project.project, as text.
+EXCLUDED_DOMAIN_PARAM = "cimalor_project_status_board.excluded_project_domain"
+
 
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
+    # Projects the board leaves out, such as hour banks: they match the
+    # Excluded Projects filter of the settings. Stored because the Workload
+    # report is a database view and needs a column to filter on; kept up to
+    # date by _cimalor_refresh_excluded (see there when).
+    cimalor_excluded = fields.Boolean(
+        string="Excluded from the Board",
+        readonly=True,
+        copy=False,
+        index=True,
+        help="Matches the Excluded Projects filter of the settings: left out of "
+        "the boards, the reports and everybody's workload.",
+    )
     # Stored so projects can be searched and grouped by lifecycle state.
     cimalor_state_type = fields.Selection(
         related="stage_id.cimalor_state_type",
@@ -131,6 +148,17 @@ class ProjectProject(models.Model):
         string="Last Comment By",
         compute="_compute_cimalor_last_comment",
         store=True,
+    )
+    # The card shows them as "Ana · 12/11 · comment". Prepared here because
+    # the kanban template receives dates as text in 19.0 and cannot format
+    # them; not stored, they only read the stored fields above.
+    cimalor_last_comment_first_name = fields.Char(
+        string="Last Comment By (First Name)",
+        compute="_compute_cimalor_last_comment_labels",
+    )
+    cimalor_last_comment_day = fields.Char(
+        string="Last Comment Day",
+        compute="_compute_cimalor_last_comment_labels",
     )
     # Tooltip of the green dot on the card: who is timing the project now.
     # compute_sudo: timers are private to their user (record rule), but the
@@ -381,6 +409,17 @@ class ProjectProject(models.Model):
             project.cimalor_last_comment_date = line.date
             project.cimalor_last_comment_user_id = line.user_id
 
+    @api.depends("cimalor_last_comment_user_id", "cimalor_last_comment_date")
+    def _compute_cimalor_last_comment_labels(self):
+        """First name of the last comment's author and its date as dd/mm."""
+        for project in self:
+            name = project.cimalor_last_comment_user_id.name or ""
+            project.cimalor_last_comment_first_name = name.split(" ")[0]
+            day = project.cimalor_last_comment_date
+            project.cimalor_last_comment_day = (
+                format_date(self.env, day, date_format="dd/MM") if day else False
+            )
+
     @api.depends("task_ids.remaining_hours", "task_ids.state", "task_ids.parent_id")
     def _compute_cimalor_pending_hours(self):
         """Hours still to do on the open main tasks of the project.
@@ -443,6 +482,7 @@ class ProjectProject(models.Model):
         today = fields.Date.context_today(self)
         active = self.filtered(
             lambda p: p.cimalor_state_type not in ("done", "stopped")
+            and not p.cimalor_excluded
         )
         forecast = Queue._project_forecast(today) if active else {}
         for project in self:
@@ -489,7 +529,12 @@ class ProjectProject(models.Model):
         """
         # One value, or a list of values.
         values = {value} if isinstance(value, str) else set(value)
-        projects = self.search([("cimalor_state_type", "not in", ["done", "stopped"])])
+        projects = self.search(
+            [
+                ("cimalor_state_type", "not in", ["done", "stopped"]),
+                ("cimalor_excluded", "=", False),
+            ]
+        )
         matching = projects.filtered(lambda p: p.cimalor_days_health in values)
         negative = operator in ("!=", "not in")
         return [("id", "not in" if negative else "in", matching.ids)]
@@ -527,10 +572,72 @@ class ProjectProject(models.Model):
             since = log.date
         return since and fields.Datetime.context_timestamp(self, since).date()
 
+    @api.model
+    def _cimalor_excluded_domain(self):
+        """The Excluded Projects filter of the settings, as a domain list.
+
+        An empty filter excludes nothing (an empty domain would match every
+        project, which is never what an empty setting means).
+        """
+        value = (
+            self.env["ir.config_parameter"].sudo().get_param(EXCLUDED_DOMAIN_PARAM)
+            or ""
+        ).strip()
+        domain = literal_eval(value) if value else []
+        return domain or False
+
+    @api.model
+    def _cimalor_refresh_excluded(self, projects=None):
+        """Recompute which projects match the Excluded Projects filter.
+
+        On `projects`, or on every project when not given. It runs when the
+        setting is saved, when projects are created or written, and once a
+        day (data/ir_cron_data.xml): the filter may use any field, also a
+        stored computed one that changes without a write on the project.
+
+        As superuser: the setting is company-wide and applies to every
+        project, whether the current user sees it or not; only this flag is
+        written. The context key stops write() from refreshing again.
+        """
+        Project = self.sudo().with_context(
+            active_test=False, cimalor_refreshing_excluded=True
+        )
+        scope = Project.browse(projects.ids) if projects is not None else None
+        domain = self._cimalor_excluded_domain()
+        if domain:
+            if scope is not None:
+                domain = [("id", "in", scope.ids)] + domain
+            excluded = Project.search(domain)
+        else:
+            excluded = Project.browse()
+        if scope is None:
+            scope = Project.search([("cimalor_excluded", "=", True)]) | excluded
+        (excluded - scope.filtered("cimalor_excluded")).write(
+            {"cimalor_excluded": True}
+        )
+        (scope.filtered("cimalor_excluded") - excluded).write(
+            {"cimalor_excluded": False}
+        )
+
+    @api.model
+    def _cimalor_check_excluded_domain(self, value):
+        """Refuse an Excluded Projects filter that cannot be used."""
+        try:
+            domain = literal_eval(value.strip()) if value and value.strip() else []
+            self.with_context(active_test=False).search(domain, limit=1)
+        except (SyntaxError, TypeError, ValueError) as error:
+            raise UserError(
+                self.env._(
+                    "The Excluded Projects filter cannot be used: %(error)s",
+                    error=error,
+                )
+            ) from error
+
     @api.model_create_multi
     def create(self, vals_list):
         projects = super().create(vals_list)
         projects._cimalor_log_state()
+        self._cimalor_refresh_excluded(projects)
         return projects
 
     def write(self, vals):
@@ -552,15 +659,18 @@ class ProjectProject(models.Model):
                 return others.write(vals) if others else True
         self._cimalor_check_write_access()
         if not set(STATE_FIELDS) & vals.keys():
-            return super().write(vals)
-        before = {project.id: project._cimalor_state_snapshot() for project in self}
-        result = super().write(vals)
-        changed = self.filtered(
-            lambda project: project._cimalor_state_snapshot() != before[project.id]
-        )
-        changed._cimalor_log_state()
-        changed._cimalor_post_state_note()
-        changed._cimalor_notify_manager()
+            result = super().write(vals)
+        else:
+            before = {project.id: project._cimalor_state_snapshot() for project in self}
+            result = super().write(vals)
+            changed = self.filtered(
+                lambda project: project._cimalor_state_snapshot() != before[project.id]
+            )
+            changed._cimalor_log_state()
+            changed._cimalor_post_state_note()
+            changed._cimalor_notify_manager()
+        if not self.env.context.get("cimalor_refreshing_excluded"):
+            self._cimalor_refresh_excluded(self)
         return result
 
     def _cimalor_write_date_with_start(self, vals):

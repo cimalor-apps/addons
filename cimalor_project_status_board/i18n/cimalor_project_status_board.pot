@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 18:47+0000\n"
-"PO-Revision-Date: 2026-11-12 18:47+0000\n"
+"POT-Creation-Date: 2026-11-13 10:32+0000\n"
+"PO-Revision-Date: 2026-11-13 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -134,6 +134,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__company_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__company_id
 msgid "Company"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -332,6 +337,17 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Excluded Projects"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_excluded
+msgid "Excluded from the Board"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid "Explain the reason"
 msgstr ""
@@ -469,8 +485,18 @@ msgid "Last Comment By"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_first_name
+msgid "Last Comment By (First Name)"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_date
 msgid "Last Comment Date"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_last_comment_day
+msgid "Last Comment Day"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -526,6 +552,13 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "Log and Start Next"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_excluded
+msgid ""
+"Matches the Excluded Projects filter of the settings: left out of the "
+"boards, the reports and everybody's workload."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -730,7 +763,13 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
 msgid "Project Status Board"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.server,name:cimalor_project_status_board.ir_cron_refresh_excluded_projects_ir_actions_server
+msgid "Project Status Board: refresh excluded projects"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -746,6 +785,14 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid ""
+"Projects matching this filter, such as hour banks, are left out of the "
+"boards, the reports and everybody's workload."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -819,6 +866,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_settings
+msgid "Settings"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -918,6 +970,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_technical_block
 msgid "Technical blocker"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "The Excluded Projects filter cannot be used: %(error)s"
 msgstr ""
 
 #. module: cimalor_project_status_board

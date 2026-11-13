@@ -36,6 +36,8 @@
                 <field name="cimalor_last_comment" />
                 <field name="cimalor_last_comment_date" />
                 <field name="cimalor_last_comment_user_id" />
+                <field name="cimalor_last_comment_first_name" />
+                <field name="cimalor_last_comment_day" />
                 <field name="cimalor_timer_running_by" />
                 <field name="cimalor_hours_health" />
                 <field name="cimalor_days_health" />
@@ -58,8 +60,19 @@
                                 (o_status_green), the one Project uses for
                                 tasks. Who, on hover.
                             -->
+                            <!--
+                                Name and customer on one line each: Bootstrap's
+                                text-truncate cuts them with an ellipsis (its
+                                overflow also lets the flex item shrink), and the
+                                full text shows on hover.
+                            -->
                             <div class="d-flex align-items-start gap-2">
-                                <field name="name" class="fw-bold fs-5" />
+                                <div
+                                    class="fw-bold fs-5 text-truncate"
+                                    t-att-title="record.name.value"
+                                >
+                                    <field name="name" />
+                                </div>
                                 <span
                                     t-if="record.cimalor_timer_running_by.raw_value"
                                     class="o_status o_status_green d-inline-block ms-auto mt-2 flex-shrink-0"
@@ -68,12 +81,19 @@
                                     t-att-aria-label="record.cimalor_timer_running_by.value"
                                 />
                             </div>
-                            <field name="partner_id" class="text-muted" />
+                            <div
+                                t-if="record.partner_id.raw_value"
+                                class="text-muted text-truncate"
+                                t-att-title="record.partner_id.value"
+                            >
+                                <field name="partner_id" />
+                            </div>
                             <field name="cimalor_state_summary" class="small mt-1" />
                             <!--
-                                The last timesheet comment as "User · date ·
-                                comment", on one line (text-truncate); the full
-                                comment on hover when it does not fit.
+                                The last timesheet comment as "Ana · 12/11 ·
+                                comment": first name and dd/mm come ready
+                                from the model, on one line (text-truncate);
+                                the full comment on hover.
                             -->
                             <div
                                 t-if="record.cimalor_last_comment.raw_value"
@@ -85,8 +105,11 @@
                                     role="img"
                                     aria-label="Last comment"
                                 />
-                                <span class="fw-semibold" t-out="record.cimalor_last_comment_user_id.value" />
-                                <t t-out="' · ' + record.cimalor_last_comment_date.value + ' · '" />
+                                <span
+                                    class="fw-semibold"
+                                    t-out="record.cimalor_last_comment_first_name.value"
+                                />
+                                <t t-out="' · ' + record.cimalor_last_comment_day.value + ' · '" />
                                 <t t-out="record.cimalor_last_comment.value" />
                             </div>
                             <div class="d-flex flex-wrap gap-1 mt-1">
@@ -490,11 +513,14 @@
 
     <!--
         The app's action names its kanban and form; the list is Project's own.
+        Projects matching the Excluded Projects setting (hour banks…) are left
+        out of every board and report of the app; Project still shows them.
     -->
     <record id="action_project_project" model="ir.actions.act_window">
         <field name="name">All Projects</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('cimalor_excluded', '=', False)]</field>
         <field name="search_view_id" ref="view_project_project_search" />
         <field
             name="view_ids"
@@ -526,7 +552,7 @@
         <field name="view_mode">kanban,list,form</field>
         <field
             name="domain"
-        >['|', ('user_id', '=', uid), ('tasks.user_ids', 'in', uid)]</field>
+        >[('cimalor_excluded', '=', False), '|', ('user_id', '=', uid), ('tasks.user_ids', 'in', uid)]</field>
         <field name="search_view_id" ref="view_project_project_search" />
         <field
             name="view_ids"
@@ -591,7 +617,7 @@
         <field name="view_mode">list,form</field>
         <field
             name="domain"
-        >[('cimalor_state_type', 'not in', ['done', 'stopped'])]</field>
+        >[('cimalor_excluded', '=', False), ('cimalor_state_type', 'not in', ['done', 'stopped'])]</field>
         <field name="context">{'search_default_cimalor_date_at_risk': 1}</field>
         <field name="search_view_id" ref="view_project_project_search" />
         <field

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Once a day, apply the Excluded Projects filter again: it may use a
+        field that changes without a write on the project (a stored computed
+        field, a value on a related record), which no write() override sees.
+    -->
+    <record id="ir_cron_refresh_excluded_projects" model="ir.cron">
+        <field name="name">Project Status Board: refresh excluded projects</field>
+        <field name="model_id" ref="project.model_project_project" />
+        <field name="state">code</field>
+        <field name="code">model._cimalor_refresh_excluded()</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

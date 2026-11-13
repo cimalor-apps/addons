@@ -77,6 +77,18 @@
         groups="project.group_project_manager"
         sequence="90"
     />
+    <!--
+        Project's own settings page, where the app adds its block. Odoo
+        administrators only (base.group_system), as every settings page.
+    -->
+    <menuitem
+        id="menu_cimalor_project_status_board_settings"
+        name="Settings"
+        parent="menu_cimalor_project_status_board_config"
+        action="project.project_config_settings_action"
+        groups="base.group_system"
+        sequence="5"
+    />
     <menuitem
         id="menu_cimalor_project_stop_reason"
         name="Reasons"
