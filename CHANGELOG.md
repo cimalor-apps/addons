@@ -108,6 +108,19 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.2] - 2026-11-13
+
+#### Added
+
+- Same as 19.0.0.1.2: Settings › Excluded Projects, a filter on projects (Odoo's domain
+  editor, in Project's settings page) that leaves hour banks and the like out of the
+  boards, the reports and everybody's workload.
+
+#### Changed
+
+- Same as 19.0.0.1.2: project name and customer on one line on the card; the last comment
+  as "Ana · 12/11 · comment".
+
 ### [18.0.0.1.1] - 2026-11-12
 
 #### Fixed

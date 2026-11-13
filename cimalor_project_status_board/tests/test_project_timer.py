@@ -158,3 +158,18 @@ class TestProjectTimer(TransactionCase):
     def test_timers_are_private(self):
         self.task_a.with_user(self.user).action_cimalor_timer_start()
         self.assertFalse(self.Timer.with_user(self.other).search([]))
+
+    def test_card_shows_first_name_and_day(self):
+        """The card's comment line: "Ana · 12/11 · comment"."""
+        self.user.name = "Ana Ruiz López"
+        task = self.task_a.with_user(self.user)
+        task.action_cimalor_timer_start()
+        self._dialog(
+            task.action_cimalor_timer_stop(), "Layout reviewed"
+        ).action_confirm()
+
+        self.assertEqual(self.project.cimalor_last_comment_first_name, "Ana")
+        line = self.Line.search([("task_id", "=", self.task_a.id)])
+        self.assertEqual(
+            self.project.cimalor_last_comment_day, line.date.strftime("%d/%m")
+        )

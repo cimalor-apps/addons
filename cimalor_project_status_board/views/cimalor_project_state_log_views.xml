@@ -96,6 +96,7 @@
         <field name="name">Latest Changes</field>
         <field name="res_model">cimalor.project.state.log</field>
         <field name="view_mode">list</field>
+        <field name="domain">[('project_id.cimalor_excluded', '=', False)]</field>
         <field name="view_id" ref="view_cimalor_project_state_log_report_list" />
         <field name="search_view_id" ref="view_cimalor_project_state_log_search" />
         <field name="help" type="html">
