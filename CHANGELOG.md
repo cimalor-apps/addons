@@ -108,6 +108,15 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.4] - 2026-11-15
+
+#### Changed
+
+- Queue by Person: one row per task under each person, with its bar and its own due date
+  (a diamond) on that row; the axis reaches the farthest due date (about six months at
+  most), due dates already passed are written next to the bar and the farthest ones at
+  the edge. The person's row keeps their capacity, late count and a summary bar.
+
 ### [19.0.0.1.3] - 2026-11-15
 
 #### Added
