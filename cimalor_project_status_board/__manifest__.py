@@ -1,6 +1,6 @@
 {
     "name": "Project Status Board",
-    "version": "19.0.0.1.4",
+    "version": "19.0.0.1.5",
     "category": "Services/Project",
     "summary": "Know which projects are moving, waiting or on hold, and why",
     "author": "Cimalor",

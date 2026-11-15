@@ -20,8 +20,14 @@ msgstr ""
 #. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
-msgid "%(hours)s h"
-msgstr "%(hours)s h"
+msgid "%(hours)s h · %(count)s tasks"
+msgstr "%(hours)s h · %(count)s tareas"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "%(hours)s h · 1 task"
+msgstr "%(hours)s h · 1 tarea"
 
 #. module: cimalor_project_status_board
 #. odoo-python
@@ -258,10 +264,22 @@ msgid "Days Margin"
 msgstr "Margen de días"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Delivery %(date)s"
+msgstr "Entrega: %(date)s"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_date_risk_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid "Delivery Date"
 msgstr "Fecha de entrega"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Delivery date passed on %(date)s"
+msgstr "Fecha de entrega vencida el %(date)s"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__depends_on
@@ -318,12 +336,6 @@ msgid "Due"
 msgstr "Entrega"
 
 #. module: cimalor_project_status_board
-#. odoo-javascript
-#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
-msgid "Due %(date)s"
-msgstr "Fecha límite: %(date)s"
-
-#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__date
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Due Date"
@@ -340,18 +352,6 @@ msgid "Due Week"
 msgstr "Semana límite"
 
 #. module: cimalor_project_status_board
-#. odoo-javascript
-#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
-msgid "Due date of that task"
-msgstr "Fecha límite de esa tarea"
-
-#. module: cimalor_project_status_board
-#. odoo-javascript
-#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
-msgid "Due date passed on %(date)s"
-msgstr "Fecha límite vencida el %(date)s"
-
-#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
 msgid ""
 "Each employee with a user appears here, with their capacity for\n"
@@ -363,8 +363,9 @@ msgstr "Aquí aparece cada empleado con usuario, con su capacidad para tareas y 
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
 msgid ""
 "Each person works through their tasks by due date, at their daily\n"
-"                            capacity. On hold projects are left out."
-msgstr "Cada persona hace sus tareas por fecha límite, con su capacidad diaria. Los proyectos parados no aparecen."
+"                            capacity; their tasks of one project share a row. On hold projects\n"
+"                            are left out."
+msgstr "Cada persona hace sus tareas por fecha límite, con su capacidad diaria; sus tareas de un mismo proyecto comparten fila. Los proyectos parados no aparecen."
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project
@@ -953,6 +954,12 @@ msgid "Project Work Queue"
 msgstr "Cola de trabajo de proyectos"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Project delivery date"
+msgstr "Fecha de entrega del proyecto"
+
+#. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
 msgstr "Proyectos"
@@ -1381,6 +1388,12 @@ msgid ""
 "Working days from the forecast end to the delivery date. Negative: the "
 "project will be late."
 msgstr "Días laborables entre el fin previsto y la fecha de entrega. Negativo: el proyecto no llega."
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Working on other projects"
+msgstr "Con otros proyectos"
 
 #. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_workload_report

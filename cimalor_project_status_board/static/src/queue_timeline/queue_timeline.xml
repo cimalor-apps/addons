@@ -34,12 +34,17 @@
                         <span><span class="o_cimalor_timeline_swatch bg-danger" /> Will be late</span>
                         <span>
                             <span class="o_cimalor_timeline_diamond o_cimalor_timeline_diamond_legend" />
-                            Due date of that task
+                            Project delivery date
+                        </span>
+                        <span>
+                            <span class="o_cimalor_timeline_swatch o_cimalor_timeline_swatch_gap bg-primary" />
+                            Working on other projects
                         </span>
                         <span><span class="o_cimalor_timeline_swatch o_cimalor_timeline_swatch_today" /> Today</span>
                         <span>
                             Each person works through their tasks by due date, at their daily
-                            capacity. On hold projects are left out.
+                            capacity; their tasks of one project share a row. On hold projects
+                            are left out.
                         </span>
                     </div>
                     <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (width + 300) + 'px;'">
@@ -87,25 +92,35 @@
                                     />
                                 </div>
                             </div>
-                            <!-- One row per task, in queue order: its bar and its own due date. -->
-                            <t t-foreach="person.items" t-as="item" t-key="item_index">
-                                <div class="o_cimalor_timeline_row o_cimalor_timeline_task_row">
+                            <!-- One row per project, in the order the person reaches it. -->
+                            <t t-foreach="person.items" t-as="item" t-key="item.project_id">
+                                <div class="o_cimalor_timeline_row o_cimalor_timeline_project_row">
                                     <div
-                                        class="o_cimalor_timeline_label o_cimalor_timeline_task_label text-truncate"
+                                        class="o_cimalor_timeline_label o_cimalor_timeline_project_label text-truncate"
                                         t-att-title="barTitle(item)"
                                     >
-                                        <t t-out="item.project" /> · <t t-out="item.task" />
-                                        <span class="text-muted ms-1">(<t t-out="hoursText(item)" />)</span>
+                                        <t t-out="item.project" />
+                                        <span class="text-muted ms-1">(<t t-out="sizeText(item)" />)</span>
                                     </div>
                                     <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
                                         <t t-call="cimalor_project_status_board.QueueTimelineBackground" />
-                                        <div
-                                            t-if="item.start !== null"
-                                            t-attf-class="o_cimalor_timeline_bar {{ item.late ? 'bg-danger' : 'bg-primary' }}"
-                                            t-att-style="barStyle(item)"
-                                            t-att-title="barTitle(item)"
-                                            t-on-click="() => this.openProject(item)"
-                                        />
+                                        <t t-if="item.start !== null">
+                                            <div
+                                                t-if="hasGaps(item)"
+                                                t-attf-class="o_cimalor_timeline_band {{ item.late ? 'bg-danger' : 'bg-primary' }}"
+                                                t-att-style="bandStyle(item)"
+                                                t-att-title="barTitle(item)"
+                                                t-on-click="() => this.openProject(item)"
+                                            />
+                                            <t t-foreach="item.segments" t-as="segment" t-key="segment_index">
+                                                <div
+                                                    t-attf-class="o_cimalor_timeline_bar {{ item.late ? 'bg-danger' : 'bg-primary' }}"
+                                                    t-att-style="segmentStyle(segment)"
+                                                    t-att-title="barTitle(item)"
+                                                    t-on-click="() => this.openProject(item)"
+                                                />
+                                            </t>
+                                        </t>
                                         <t t-set="kind" t-value="deadlineKind(item)" />
                                         <div
                                             t-if="kind === 'diamond'"
