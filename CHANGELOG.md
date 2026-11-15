@@ -116,6 +116,8 @@ Odoo version. The same functional version number means the same features in both
   requests and go on hold by themselves without them (reason _Hour bank without
   requests_), reasons that need no date, and the card badges _No open tasks_ and
   _Hour bank_.
+- Same as 19.0.0.1.3: Reporting › Queue by Person, the timeline of each person's
+  queue, and fixed column widths in the Capacity report.
 
 ### [18.0.0.1.2] - 2026-11-13
 

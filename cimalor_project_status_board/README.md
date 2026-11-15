@@ -42,6 +42,8 @@ it is waiting for, who it depends on and when to chase it again.
   and _Date at Risk_.
 - **Reporting:** _Workload_ (pending hours by person, project stage and due date),
   _Capacity_ (daily and weekly capacity, weeks of work and queue end per person),
+  _Queue by Person_ (a timeline of each person's queue: one bar per task in the order
+  they work through them, red when it ends after its due date, which is marked),
   _Date Risk_ (projects at risk) and _Latest Changes_ (every state change).
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.
@@ -135,6 +137,9 @@ Project **administrators** change any project and also manage the reasons.
   `cimalor.project.queue`, the per-person work queue behind the capacity and the days
   margin; extensions of `project.project`, `project.project.stage`, `project.task` and
   `hr.employee`.
+- _Queue by Person_ is a small OWL client action of the module
+  (`static/src/queue_timeline/`): Odoo's Gantt view is Enterprise. It reads
+  `cimalor.project.queue.get_timeline_data()`, with the user's own rights.
 - The days margin is computed when read, never stored: it depends on the other projects of
   the same people, which `@api.depends` cannot follow.
 - The live counter is the module's only JavaScript: the `cimalor_timer` field widget, which
