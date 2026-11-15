@@ -9,14 +9,19 @@
         <field name="name">cimalor.project.capacity.report.list</field>
         <field name="model">cimalor.project.capacity.report</field>
         <field name="arch" type="xml">
+            <!--
+                Fixed widths (the width attribute, as in Sales' order lines): left
+                alone, the person takes most of the row and the Spanish headers
+                ("Semanas de trabajo", "Capacidad semanal"...) get cut.
+            -->
             <list string="Capacity" create="0" edit="0" delete="0">
-                <field name="user_id" widget="many2one_avatar_user" />
-                <field name="daily_capacity" widget="float_time" />
-                <field name="weekly_capacity" widget="float_time" />
-                <field name="pending_hours" widget="float_time" sum="Total" />
-                <field name="weeks_of_work" digits="[16, 1]" />
-                <field name="queue_end_date" />
-                <field name="paused_hours" widget="float_time" sum="Total" />
+                <field name="user_id" widget="many2one_avatar_user" width="180px" />
+                <field name="daily_capacity" widget="float_time" width="140px" />
+                <field name="weekly_capacity" widget="float_time" width="150px" />
+                <field name="pending_hours" widget="float_time" sum="Total" width="140px" />
+                <field name="weeks_of_work" digits="[16, 1]" width="160px" />
+                <field name="queue_end_date" width="130px" />
+                <field name="paused_hours" widget="float_time" sum="Total" width="130px" />
                 <field name="company_id" groups="base.group_multi_company" optional="hide" />
             </list>
         </field>
