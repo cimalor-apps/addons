@@ -3,7 +3,7 @@ from datetime import date, datetime, time, timedelta
 
 from pytz import utc
 
-from odoo import models
+from odoo import api, fields, models
 
 # Capacity is read from the schedules in steps of this many days, up to the
 # limit: work beyond it is reported as not arriving, without a date.
@@ -109,24 +109,50 @@ class CimalorProjectQueue(models.AbstractModel):
                     yield day, hours
             start = stop
 
+    def _schedule(self, employee, today, logged_today, hours_list):
+        """Where each piece of work starts and ends, consumed in the given order.
+
+        `hours_list` is the hours of each piece in queue order. Each result is
+        (start day, start fraction, end day, end fraction): the fraction is
+        the share of that day's capacity already used, so the pieces of one
+        person follow each other without overlapping, even within a day.
+        Work beyond the limit ends on NEVER. A piece of zero hours starts and
+        ends where the queue stands.
+        """
+        days = self._capacity_days(employee, today, logged_today)
+        day, capacity = next(days, (NEVER, 0.0))
+        used = 0.0
+        pieces = []
+        for hours in hours_list:
+            if day != NEVER and hours > 0 and used >= capacity - 1e-6:
+                day, capacity = next(days, (NEVER, 0.0))
+                used = 0.0
+            if day == NEVER:
+                pieces.append((NEVER, 0.0, NEVER, 0.0))
+                continue
+            start = (day, used / capacity)
+            need = hours
+            while day != NEVER and need > capacity - used + 1e-6:
+                need -= capacity - used
+                day, capacity = next(days, (NEVER, 0.0))
+                used = 0.0
+            if day == NEVER:
+                pieces.append((*start, NEVER, 0.0))
+                continue
+            used = min(used + need, capacity)
+            pieces.append((*start, day, used / capacity))
+        return pieces
+
     def _finish_dates(self, employee, today, logged_today, hours_list):
         """Day each piece of work ends, consumed in the given order.
 
         `hours_list` is the hours of each piece in queue order; the result is
         a list of dates in the same order, NEVER for work beyond the limit.
         """
-        days = self._capacity_days(employee, today, logged_today)
-        day, available = next(days, (NEVER, 0.0))
-        finishes = []
-        for hours in hours_list:
-            need = hours
-            while day != NEVER and need > available + 1e-6:
-                need -= available
-                day, available = next(days, (NEVER, 0.0))
-            # Work of zero hours is done where the queue stands.
-            available = max(available - need, 0.0)
-            finishes.append(day)
-        return finishes
+        return [
+            piece[2]
+            for piece in self._schedule(employee, today, logged_today, hours_list)
+        ]
 
     def _queue_end_dates(self, user_hours, today):
         """Day each person's pending hours are used up, as {user id: date}.
@@ -173,14 +199,7 @@ class CimalorProjectQueue(models.AbstractModel):
 
         forecast = defaultdict(lambda: {"end": None, "users": {}})
         for user, user_rows in by_user.items():
-            user_rows.sort(
-                key=lambda row: (
-                    row.date or NEVER,
-                    -int(row.task_id.priority or 0),
-                    row.project_id.sequence,
-                    row.task_id.id,
-                )
-            )
+            self._sort_queue(user_rows)
             employee = employees.get(user.id)
             if employee and employee.resource_calendar_id:
                 finishes = self._finish_dates(
@@ -202,6 +221,120 @@ class CimalorProjectQueue(models.AbstractModel):
             ends = list(project["users"].values())
             project["end"] = False if False in ends else max(ends)
         return forecast
+
+    def _sort_queue(self, rows):
+        """Order one person's workload rows as they work through them (§4.8).
+
+        Nearest due date first; on the same date, task priority, then the
+        project's sequence, then the oldest task. Rows without a date go last.
+        """
+        rows.sort(
+            key=lambda row: (
+                row.date or NEVER,
+                -int(row.task_id.priority or 0),
+                row.project_id.sequence,
+                row.task_id.id,
+            )
+        )
+        return rows
+
+    @api.model
+    def get_timeline_data(self):
+        """The queue of each person, for the Queue by Person timeline.
+
+        Public (called by the timeline view), but it only reads the Workload
+        report with the user's own rights: each person sees their own queue
+        and Project administrators everybody's, as in Workload and Capacity.
+        A person's rows are always complete, so their queue is the real one.
+        Projects on hold are left out, as in the queue itself.
+
+        Positions are in days from today: a bar starts at `start` and ends at
+        `end`, fractions of a day included, so one person's bars follow each
+        other. A task is late when it ends after its due date.
+        """
+        today = fields.Date.context_today(self)
+        self.env.flush_all()
+        rows = self.env["cimalor.project.workload.report"].search(
+            [("state_type", "!=", "stopped"), ("user_id", "!=", False)]
+        )
+        by_user = defaultdict(list)
+        for row in rows:
+            by_user[row.user_id].append(row)
+        employees = self._employees_by_user(rows.user_id)
+        logged = self._logged_today(rows.user_id, today)
+
+        def offset(day, fraction):
+            return None if day == NEVER else (day - today).days + fraction
+
+        people = []
+        for user in sorted(by_user, key=lambda user: user.name or ""):
+            user_rows = self._sort_queue(by_user[user])
+            employee = employees.get(user.id)
+            calendar = employee.resource_calendar_id if employee else False
+            if calendar:
+                pieces = self._schedule(
+                    employee,
+                    today,
+                    logged.get(user.id, 0.0),
+                    [row.hours for row in user_rows],
+                )
+            else:
+                pieces = [None] * len(user_rows)
+            items = []
+            for row, piece in zip(user_rows, pieces, strict=True):
+                start = end = None
+                late = False
+                if piece:
+                    start, end = offset(*piece[:2]), offset(*piece[2:])
+                    late = bool(row.date) and (end is None or piece[2] > row.date)
+                items.append(
+                    {
+                        "task_id": row.task_id.id,
+                        "task": row.task_id.display_name,
+                        "project_id": row.project_id.id,
+                        "project": row.project_id.display_name,
+                        "hours": round(row.hours, 2),
+                        "start": start,
+                        "end": end,
+                        "end_date": (
+                            fields.Date.to_string(piece[2])
+                            if piece and piece[2] != NEVER
+                            else False
+                        ),
+                        "deadline": (
+                            fields.Date.to_string(row.date) if row.date else False
+                        ),
+                        "deadline_offset": (
+                            (row.date - today).days if row.date else None
+                        ),
+                        "late": late,
+                    }
+                )
+            ends = [item["end"] for item in items if item["end"] is not None]
+            people.append(
+                {
+                    "user_id": user.id,
+                    "name": user.name,
+                    "has_schedule": bool(calendar),
+                    "daily_capacity": (
+                        max(calendar.hours_per_day - employee.cimalor_admin_hours, 0.0)
+                        if calendar
+                        else 0.0
+                    ),
+                    "late_count": sum(item["late"] for item in items),
+                    "items": items,
+                    "last_end": max(ends) if ends else 0,
+                }
+            )
+        form = self.env.ref(
+            "cimalor_project_status_board.view_project_project_form",
+            raise_if_not_found=False,
+        )
+        return {
+            "today": fields.Date.to_string(today),
+            "people": people,
+            "project_form_id": form.id if form else False,
+        }
 
     def _working_days_margin(self, calendar, end, due):
         """Working days from the forecast end to the due date (spec §4.8).
