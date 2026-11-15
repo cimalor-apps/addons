@@ -240,7 +240,7 @@ class CimalorProjectQueue(models.AbstractModel):
 
     @api.model
     def get_timeline_data(self):
-        """The queue of each person, for the Queue by Person timeline.
+        """The queue of each person, project by project, for Queue by Person.
 
         Public (called by the timeline view), but it only reads the Workload
         report with the user's own rights: each person sees their own queue
@@ -248,9 +248,14 @@ class CimalorProjectQueue(models.AbstractModel):
         A person's rows are always complete, so their queue is the real one.
         Projects on hold are left out, as in the queue itself.
 
-        Positions are in days from today: a bar starts at `start` and ends at
-        `end`, fractions of a day included, so one person's bars follow each
-        other. A task is late when it ends after its due date.
+        The queue is still scheduled task by task, in the same order as the
+        days margin; the tasks of one project are then gathered in one row,
+        in the order the person reaches each project. Positions are in days
+        from today: `segments` are the stretches the person works on the
+        project, fractions of a day included (gaps when tasks of other
+        projects come in between), from `start` to `end`. A project is late
+        for that person when their part ends after its delivery date, the
+        same rule as the days margin.
         """
         today = fields.Date.context_today(self)
         self.env.flush_all()
@@ -280,36 +285,7 @@ class CimalorProjectQueue(models.AbstractModel):
                 )
             else:
                 pieces = [None] * len(user_rows)
-            items = []
-            for row, piece in zip(user_rows, pieces, strict=True):
-                start = end = None
-                late = False
-                if piece:
-                    start, end = offset(*piece[:2]), offset(*piece[2:])
-                    late = bool(row.date) and (end is None or piece[2] > row.date)
-                items.append(
-                    {
-                        "task_id": row.task_id.id,
-                        "task": row.task_id.display_name,
-                        "project_id": row.project_id.id,
-                        "project": row.project_id.display_name,
-                        "hours": round(row.hours, 2),
-                        "start": start,
-                        "end": end,
-                        "end_date": (
-                            fields.Date.to_string(piece[2])
-                            if piece and piece[2] != NEVER
-                            else False
-                        ),
-                        "deadline": (
-                            fields.Date.to_string(row.date) if row.date else False
-                        ),
-                        "deadline_offset": (
-                            (row.date - today).days if row.date else None
-                        ),
-                        "late": late,
-                    }
-                )
+            items = self._timeline_projects(user_rows, pieces, today, offset)
             ends = [item["end"] for item in items if item["end"] is not None]
             people.append(
                 {
@@ -335,6 +311,68 @@ class CimalorProjectQueue(models.AbstractModel):
             "people": people,
             "project_form_id": form.id if form else False,
         }
+
+    def _timeline_projects(self, user_rows, pieces, today, offset):
+        """Gather one person's scheduled tasks in one row per project.
+
+        `pieces` are the task schedules from _schedule, in queue order (None
+        when the person has no working schedule). A project ends with its last
+        task: never, if any task does not end within the limit.
+        """
+        projects = {}
+        previous = None
+        for row, piece in zip(user_rows, pieces, strict=True):
+            project = row.project_id
+            item = projects.get(project.id)
+            if item is None:
+                item = projects[project.id] = {
+                    "project_id": project.id,
+                    "project": project.display_name,
+                    "hours": 0.0,
+                    "task_count": 0,
+                    "segments": [],
+                    "end_day": None,
+                    "delivery": project.date,
+                }
+            item["hours"] += row.hours
+            item["task_count"] += 1
+            follows, previous = previous == project.id, project.id
+            if not piece:
+                continue
+            start, end = offset(*piece[:2]), offset(*piece[2:])
+            segments = item["segments"]
+            # Tasks one after the other in the queue make one stretch of work,
+            # weekends included; another project in between leaves a gap.
+            if segments and follows:
+                segments[-1]["end"] = end
+            else:
+                segments.append({"start": start, "end": end})
+            if item["end_day"] != NEVER:
+                item["end_day"] = max(item["end_day"] or piece[2], piece[2])
+
+        items = []
+        for item in projects.values():
+            segments, end_day = item.pop("segments"), item.pop("end_day")
+            delivery = item.pop("delivery")
+            ends = [segment["end"] for segment in segments]
+            item.update(
+                {
+                    "hours": round(item["hours"], 2),
+                    "segments": segments,
+                    "start": segments[0]["start"] if segments else None,
+                    "end": None if None in ends else max(ends, default=None),
+                    "end_date": (
+                        fields.Date.to_string(end_day)
+                        if end_day and end_day != NEVER
+                        else False
+                    ),
+                    "deadline": fields.Date.to_string(delivery) if delivery else False,
+                    "deadline_offset": (delivery - today).days if delivery else None,
+                    "late": bool(delivery and end_day and end_day > delivery),
+                }
+            )
+            items.append(item)
+        return items
 
     def _working_days_margin(self, calendar, end, due):
         """Working days from the forecast end to the due date (spec §4.8).

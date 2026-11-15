@@ -108,6 +108,16 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.5] - 2026-11-15
+
+#### Changed
+
+- Queue by Person: one row per project under each person instead of one per task, so
+  the view stays readable with many tasks. The row adds up the person's hours and tasks on
+  the project, shows the stretches they work on it (a light band across the gaps where
+  other projects come in between) and the project's delivery date as the diamond; it is
+  red when their part ends after that date, the same rule as the days margin.
+
 ### [19.0.0.1.4] - 2026-11-15
 
 #### Changed
