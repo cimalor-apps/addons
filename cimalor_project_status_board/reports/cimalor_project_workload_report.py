@@ -24,7 +24,8 @@ class CimalorProjectWorkloadReport(models.Model):
     - several people on a task: the hours are split evenly;
     - nobody on a task: the hours go to the project manager;
     - main tasks only, as on the project form; finished projects and the
-      ones matching the Excluded Projects setting (hour banks…) are left out.
+      ones matching the Excluded Projects setting are left out, and so are
+      the tasks matching Excluded Tasks (an hour bank's balance).
 
     The project state comes with each row, so Waiting and On Hold are counted
     but can be told apart (pivot columns, filters).
@@ -115,6 +116,7 @@ class CimalorProjectWorkloadReport(models.Model):
                 AND project.is_template IS NOT TRUE
                 AND project.cimalor_state_type IS DISTINCT FROM 'done'
                 AND project.cimalor_excluded IS NOT TRUE
+                AND task.cimalor_excluded IS NOT TRUE
             """)
 
     def init(self):

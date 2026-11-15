@@ -100,12 +100,12 @@ class TestExcludedProjects(TransactionCase):
         transaction handling, which is not what this test is about.
         """
         cron = self.env.ref(f"{MODULE}.ir_cron_refresh_excluded_projects")
-        self.assertEqual(cron.code.strip(), "model._cimalor_refresh_excluded()")
+        self.assertEqual(cron.code.strip(), "model._cimalor_daily_refresh()")
         self.env["ir.config_parameter"].set_param(
             f"{MODULE}.excluded_project_domain", "[('name', 'ilike', 'hour bank')]"
         )
         self.assertFalse(self.bank.cimalor_excluded)
-        self.env["project.project"]._cimalor_refresh_excluded()
+        self.env["project.project"]._cimalor_daily_refresh()
         self.assertTrue(self.bank.cimalor_excluded)
 
     def test_invalid_filter_is_refused(self):

@@ -108,6 +108,22 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.3] - 2026-11-15
+
+#### Added
+
+- Settings › Excluded Tasks: a filter on tasks. Matching tasks, such as the ones
+  holding an hour bank's balance, never count as work (pending work, Workload,
+  Capacity, queue).
+- Hour banks: projects with such tasks count only their requests, the other tasks.
+  Their hours margin is the requests' estimate minus their time (green, or red once a
+  request goes over). Without open requests they go on hold by themselves with the new
+  reason _Hour bank without requests_, and come back to In Progress with the next one;
+  a note in the chatter each time, no notice to the manager.
+- Reasons can need no date (_Requires Date_): their projects are not flagged as missing
+  data, and the card shows the reason alone.
+- Card badges _No open tasks_ (in progress with nothing left to do) and _Hour bank_.
+
 ### [19.0.0.1.2] - 2026-11-13
 
 #### Added
