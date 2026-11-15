@@ -37,3 +37,11 @@ class CimalorProjectStopReason(models.Model):
         help="For catch-all reasons such as Other: the project must explain it "
         "in a note.",
     )
+    # Most reasons come with the date to chase or restart the project. A few
+    # have none to give, such as an hour bank waiting for its next request:
+    # without this, their projects would be flagged as missing data forever.
+    requires_date = fields.Boolean(
+        default=True,
+        help="Projects with this reason must have a follow-up date (Waiting) or a "
+        "restart date (On Hold).",
+    )

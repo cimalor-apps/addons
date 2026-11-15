@@ -18,12 +18,24 @@
                         id="cimalor_excluded_projects"
                         class="col-lg-12"
                         string="Excluded Projects"
-                        help="Projects matching this filter, such as hour banks, are left out of the boards, the reports and everybody's workload."
+                        help="Projects matching this filter are left out of the boards, the reports and everybody's workload."
                     >
                         <field
                             name="cimalor_excluded_project_domain"
                             widget="domain"
                             options="{'model': 'project.project'}"
+                        />
+                    </setting>
+                    <setting
+                        id="cimalor_excluded_tasks"
+                        class="col-lg-12"
+                        string="Excluded Tasks"
+                        help="Tasks matching this filter, such as the ones holding an hour bank's balance, never count as work. A project with such tasks is an hour bank: it goes on hold by itself without other open tasks, and back to In Progress with the next one."
+                    >
+                        <field
+                            name="cimalor_excluded_task_domain"
+                            widget="domain"
+                            options="{'model': 'project.task'}"
                         />
                     </setting>
                 </block>

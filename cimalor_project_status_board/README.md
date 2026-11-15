@@ -85,6 +85,17 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   with Odoo's domain editor: projects matching it, such as hour banks, are left out of the
   boards, the reports and everybody's workload. They stay untouched in Project. The
   filter is applied when saved, when projects change, and once a day.
+- **Excluded tasks and hour banks:** in the same place, a filter on tasks. Matching tasks,
+  such as the ones holding an hour bank's balance, never count as work. A project with
+  such tasks is an **hour bank**: each customer request is a task of its own, and only
+  requests count (pending work, workload, queue, days margin). Its hours margin is the
+  requests' estimate minus their time: green, or red once a request goes over. Without
+  open requests the bank goes **on hold by itself** (reason _Hour bank without
+  requests_, no date needed) and comes back to In Progress with the next request, with a
+  note in the chatter each time. A bank put on hold by hand for another reason is left
+  alone.
+- **Reasons without date:** a reason can say it needs no follow-up or restart date
+  (_Requires Date_), so its projects are not flagged as missing data.
 
 ## Usage
 
