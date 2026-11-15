@@ -42,8 +42,9 @@ it is waiting for, who it depends on and when to chase it again.
   and _Date at Risk_.
 - **Reporting:** _Workload_ (pending hours by person, project stage and due date),
   _Capacity_ (daily and weekly capacity, weeks of work and queue end per person),
-  _Queue by Person_ (a timeline of each person's queue: one bar per task in the order
-  they work through them, red when it ends after its due date, which is marked),
+  _Queue by Person_ (a timeline of each person's queue: one row per project in the order
+  they reach it, red when their part ends after the project's delivery date, which is
+  marked),
   _Date Risk_ (projects at risk) and _Latest Changes_ (every state change).
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.

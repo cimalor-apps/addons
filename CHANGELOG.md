@@ -108,6 +108,12 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.5] - 2026-11-15
+
+#### Changed
+
+- Same as 19.0.0.1.5: Queue by Person with one row per project under each person.
+
 ### [18.0.0.1.4] - 2026-11-15
 
 #### Changed

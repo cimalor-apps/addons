@@ -17,12 +17,13 @@ const MAX_DAYS = 200;
  * Reporting › Queue by Person: each person's work queue on a time axis.
  *
  * One block per person: a header row with their capacity and a summary bar
- * of the whole queue, then one row per task in the order they work through
- * them (nearest due date first). Each task row holds its bar, from the day
- * it starts to the day it ends at the person's capacity, and its own due
- * date as a diamond, so there is no doubt which date belongs to which task.
- * A bar is red when the task ends after its due date. Due dates already
- * passed are written next to the bar; those beyond the axis at its edge.
+ * of the whole queue, then one row per project in the order they reach it
+ * (their tasks go by nearest due date first). Each project row holds the
+ * stretches the person works on it at their capacity, a light band across
+ * the gaps where other projects come in between, and the project's delivery
+ * date as a diamond. The bars are red when the person's part ends after the
+ * delivery date. Delivery dates already passed are written next to the bar;
+ * those beyond the axis at its edge.
  *
  * The figures come from cimalor.project.queue, the same queue as the days
  * margin, computed when the view opens. Odoo's Gantt view is Enterprise and
@@ -106,10 +107,23 @@ export class QueueTimeline extends Component {
     return offset === null ? this.dayCount : Math.min(offset, this.dayCount);
   }
 
-  barStyle(item) {
-    const left = item.start * DAY_WIDTH;
-    const width = Math.max((this.clip(item.end) - item.start) * DAY_WIDTH, 4);
-    return `left: ${left}px; width: ${width}px;`;
+  /** A bar from `start` to `end` (days from today), at least a sliver wide. */
+  spanStyle(start, end) {
+    const width = Math.max((this.clip(end) - start) * DAY_WIDTH, 4);
+    return `left: ${start * DAY_WIDTH}px; width: ${width}px;`;
+  }
+
+  segmentStyle(segment) {
+    return this.spanStyle(segment.start, segment.end);
+  }
+
+  /** The light band of a project row, shown only when its work has gaps. */
+  hasGaps(item) {
+    return item.segments.length > 1;
+  }
+
+  bandStyle(item) {
+    return this.spanStyle(item.start, item.end);
   }
 
   /** The light bar of a person's header row: from the first start to the last end. */
@@ -120,8 +134,7 @@ export class QueueTimeline extends Component {
     }
     const start = Math.min(...items.map((item) => item.start));
     const end = Math.max(...items.map((item) => this.clip(item.end)));
-    const width = Math.max((end - start) * DAY_WIDTH, 4);
-    return `left: ${start * DAY_WIDTH}px; width: ${width}px;`;
+    return this.spanStyle(start, end);
   }
 
   /** Where the due date goes: "diamond" on the axis, "passed", "beyond" or none. */
@@ -140,14 +153,14 @@ export class QueueTimeline extends Component {
     return `left: ${(item.deadline_offset + 1) * DAY_WIDTH}px;`;
   }
 
-  /** "Due date passed on 11 nov", written just after the bar. */
+  /** "Delivery date passed on 11 nov", written just after the bar. */
   passedStyle(item) {
     const end = item.start === null ? 0 : this.clip(item.end);
     return `left: ${end * DAY_WIDTH + 6}px;`;
   }
 
   passedText(item) {
-    return _t("Due date passed on %(date)s", {
+    return _t("Delivery date passed on %(date)s", {
       date: this.shortDate(item.deadline),
     });
   }
@@ -156,21 +169,29 @@ export class QueueTimeline extends Component {
     return `→ ${this.shortDate(item.deadline)}`;
   }
 
-  hoursText(item) {
-    return _t("%(hours)s h", { hours: item.hours });
+  /** "40 h · 3 tasks", the size of the person's part of the project. */
+  sizeText(item) {
+    if (item.task_count === 1) {
+      return _t("%(hours)s h · 1 task", { hours: item.hours });
+    }
+    return _t("%(hours)s h · %(count)s tasks", {
+      hours: item.hours,
+      count: item.task_count,
+    });
   }
 
   barTitle(item) {
     const lines = [
       item.project,
-      item.task,
-      this.hoursText(item),
+      this.sizeText(item),
       item.end_date
         ? _t("Ends %(date)s", { date: this.formatDate(item.end_date) })
         : _t("Does not end within the next two years"),
     ];
     if (item.deadline) {
-      lines.push(_t("Due %(date)s", { date: this.formatDate(item.deadline) }));
+      lines.push(
+        _t("Delivery %(date)s", { date: this.formatDate(item.deadline) }),
+      );
     }
     if (item.late) {
       lines.push(_t("Will be late"));

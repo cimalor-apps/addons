@@ -136,6 +136,44 @@ class TestProjectDateRisk(TransactionCase):
         self.assertEqual(person["late_count"], 1)
         self.assertNotIn("Held", items, "projects on hold are left out")
         self.assertEqual(person["daily_capacity"], 7)
+        self.assertEqual(items["A"]["segments"], [{"start": 0, "end": 2}])
+        self.assertEqual(items["A"]["deadline"], "2026-11-18")
+
+    @freeze_time(MONDAY)
+    def test_timeline_one_row_per_project(self):
+        """A second task of A, due Wed 25, comes after C: one row, two stretches.
+
+        A's first task fills Monday and Tuesday (0 to 2), C Wednesday to
+        Friday, A's second task Monday 23 (7 to 8), then B (8 to 10). A ends
+        on the 23rd, after its delivery date (18th): late.
+        """
+        self.env["project.task"].create(
+            {
+                "name": "More work on A",
+                "project_id": self.a.id,
+                "allocated_hours": 7,
+                "date_deadline": "2026-11-25 12:00:00",
+                "user_ids": [self.user.id],
+            }
+        )
+        data = (
+            self.env["cimalor.project.queue"].with_user(self.user).get_timeline_data()
+        )
+        person = data["people"][0]
+        self.assertEqual(
+            [item["project"] for item in person["items"]],
+            ["A", "C", "B", "Undated"],
+            "one row per project, in the order the person reaches it",
+        )
+        a = person["items"][0]
+        self.assertEqual((a["hours"], a["task_count"]), (21, 2))
+        self.assertEqual(
+            a["segments"], [{"start": 0, "end": 2}, {"start": 7, "end": 8}]
+        )
+        self.assertEqual((a["start"], a["end"]), (0, 8))
+        self.assertEqual(a["end_date"], "2026-11-23")
+        self.assertTrue(a["late"], "A's part ends after its delivery date")
+        self.assertEqual(person["late_count"], 2, "A and C")
 
 
 @tagged("post_install", "-at_install")

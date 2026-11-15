@@ -25,7 +25,7 @@
     border-right: 1px solid $border-color;
   }
 
-  .o_cimalor_timeline_task_label {
+  .o_cimalor_timeline_project_label {
     padding-left: 26px;
     white-space: nowrap;
   }
@@ -93,6 +93,21 @@
     height: 16px;
     border-radius: 3px;
     cursor: pointer;
+  }
+
+  // Across the gaps of a project row, where other projects come in between.
+  .o_cimalor_timeline_band {
+    position: absolute;
+    top: 13px;
+    height: 4px;
+    border-radius: 2px;
+    opacity: 0.3;
+    cursor: pointer;
+  }
+
+  .o_cimalor_timeline_swatch_gap {
+    height: 4px;
+    opacity: 0.3;
   }
 
   .o_cimalor_timeline_summary {
