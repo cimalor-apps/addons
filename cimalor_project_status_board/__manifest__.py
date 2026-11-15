@@ -27,6 +27,7 @@
         "views/cimalor_project_stop_reason_views.xml",
         "views/cimalor_project_workload_report_views.xml",
         "views/cimalor_project_capacity_report_views.xml",
+        "views/cimalor_project_queue_views.xml",
         "views/hr_employee_views.xml",
         "views/res_config_settings_views.xml",
         "views/project_project_views.xml",

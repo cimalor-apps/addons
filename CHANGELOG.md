@@ -123,6 +123,15 @@ Odoo version. The same functional version number means the same features in both
 - Reasons can need no date (_Requires Date_): their projects are not flagged as missing
   data, and the card shows the reason alone.
 - Card badges _No open tasks_ (in progress with nothing left to do) and _Hour bank_.
+- Reporting › Queue by Person: a timeline with one row per person and one bar per task
+  in queue order, from the day it starts to the day it ends at the person's capacity;
+  red when it ends after its due date, which is marked. Same queue as the days margin,
+  computed when opened; each person sees their own queue, Project administrators
+  everybody's. A view of the module's own, as Odoo's Gantt is Enterprise.
+
+#### Changed
+
+- Capacity report: fixed column widths, so the headers read whole.
 
 ### [19.0.0.1.2] - 2026-11-13
 
