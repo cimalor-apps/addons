@@ -44,8 +44,14 @@
     flex: 0 0 auto;
   }
 
+  // The days stay in sight while scrolling down the people.
   .o_cimalor_timeline_header {
+    position: sticky;
+    // Over the view's top padding (p-3), so no row shows above the days.
+    top: -1rem;
+    z-index: 4;
     min-height: 46px;
+    background: $o-view-background-color;
 
     .o_cimalor_timeline_day {
       position: absolute;
