@@ -19,6 +19,7 @@
                 <field name="daily_capacity" widget="float_time" width="140px" />
                 <field name="weekly_capacity" widget="float_time" width="150px" />
                 <field name="pending_hours" widget="float_time" sum="Total" width="140px" />
+                <field name="waiting_hours" widget="float_time" sum="Total" width="140px" />
                 <field name="weeks_of_work" digits="[16, 1]" width="160px" />
                 <field name="queue_end_date" width="130px" />
                 <field name="paused_hours" widget="float_time" sum="Total" width="130px" />

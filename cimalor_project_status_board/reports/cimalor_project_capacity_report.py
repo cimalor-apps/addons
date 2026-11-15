@@ -42,6 +42,15 @@ class CimalorProjectCapacityReport(models.Model):
         help="Hours left on the open tasks of projects to start, in progress or "
         "waiting.",
     )
+    # Part of the pending hours: work that exists but cannot be done until the
+    # customer answers. Shown apart so the hours that can be worked on now
+    # are pending minus waiting.
+    waiting_hours = fields.Float(
+        readonly=True,
+        help="Part of the pending hours that belongs to waiting projects: real "
+        "work, but blocked until the customer answers. Pending minus waiting is "
+        "what can be worked on now.",
+    )
     paused_hours = fields.Float(
         string="On Hold Hours",
         readonly=True,
@@ -91,6 +100,8 @@ class CimalorProjectCapacityReport(models.Model):
                 COALESCE(SUM(workload.hours)
                     FILTER (WHERE workload.state_type IS DISTINCT FROM 'stopped'), 0)
                     AS pending_hours,
+                COALESCE(SUM(workload.hours)
+                    FILTER (WHERE workload.state_type = 'waiting'), 0) AS waiting_hours,
                 COALESCE(SUM(workload.hours)
                     FILTER (WHERE workload.state_type = 'stopped'), 0) AS paused_hours
             FROM hr_employee AS employee

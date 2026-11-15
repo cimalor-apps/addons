@@ -840,6 +840,14 @@ msgid "Overdue"
 msgstr "Vencida"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__waiting_hours
+msgid ""
+"Part of the pending hours that belongs to waiting projects: real work, but "
+"blocked until the customer answers. Pending minus waiting is what can be "
+"worked on now."
+msgstr "Parte de las horas pendientes que es de proyectos en Esperando: trabajo real, pero bloqueado hasta que responda el cliente. Pendientes menos en espera es lo que se puede hacer ya."
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__pending_hours
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__hours
 msgid "Pending Hours"
@@ -1290,6 +1298,11 @@ msgstr "Usuario"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Waiting"
 msgstr "Esperando"
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__waiting_hours
+msgid "Waiting Hours"
+msgstr "Horas en espera"
 
 #. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_stop_reason
