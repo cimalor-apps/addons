@@ -3,6 +3,11 @@ from odoo.exceptions import UserError
 
 from odoo.addons.project.models.project_task import CLOSED_STATES
 
+from .cimalor_excluded import REFRESHING, TASK_PARAM, refresh_flags
+
+# A change in any of these fields may open or close a request of an hour bank.
+REQUEST_FIELDS = {"state", "project_id", "parent_id", "active", "cimalor_excluded"}
+
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
@@ -25,6 +30,47 @@ class ProjectTask(models.Model):
         string="Timer",
         compute="_compute_cimalor_timer_start",
     )
+
+    # Tasks matching Settings › Excluded Tasks, such as the tasks that hold an
+    # hour bank's balance: never counted as work. Stored for the Workload
+    # database view; kept in step like the projects' flag.
+    cimalor_excluded = fields.Boolean(
+        string="Excluded from the Workload",
+        readonly=True,
+        copy=False,
+        index=True,
+        help="Matches the Excluded Tasks filter of the settings: its hours are a "
+        "balance, not work, and never count in the board or the workload.",
+    )
+
+    @api.model
+    def _cimalor_refresh_excluded(self, tasks=None):
+        """Apply Settings › Excluded Tasks to `tasks` (every task when None)."""
+        changed = refresh_flags(self, TASK_PARAM, tasks)
+        changed.project_id._cimalor_sync_hour_bank_stage()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        tasks = super().create(vals_list)
+        self._cimalor_refresh_excluded(tasks)
+        tasks.project_id._cimalor_sync_hour_bank_stage()
+        return tasks
+
+    def write(self, vals):
+        """Keep the exclusion flag and the hour banks' stage in step."""
+        projects_before = self.project_id
+        result = super().write(vals)
+        if not self.env.context.get(REFRESHING):
+            self._cimalor_refresh_excluded(self)
+        if REQUEST_FIELDS & vals.keys():
+            (projects_before | self.project_id)._cimalor_sync_hour_bank_stage()
+        return result
+
+    def unlink(self):
+        projects = self.project_id
+        result = super().unlink()
+        projects.exists()._cimalor_sync_hour_bank_stage()
+        return result
 
     @api.depends_context("uid")
     def _compute_cimalor_timer_start(self):

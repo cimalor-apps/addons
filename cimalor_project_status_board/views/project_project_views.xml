@@ -33,6 +33,8 @@
                 <field name="cimalor_follow_up_overdue" />
                 <field name="cimalor_depends_on" />
                 <field name="cimalor_follow_up_date" />
+                <field name="cimalor_no_open_tasks" />
+                <field name="cimalor_is_hour_bank" />
                 <field name="cimalor_last_comment" />
                 <field name="cimalor_last_comment_date" />
                 <field name="cimalor_last_comment_user_id" />
@@ -117,6 +119,19 @@
                                     t-if="record.cimalor_missing_state_data.raw_value"
                                     class="badge rounded-pill text-bg-warning"
                                 >Data missing</span>
+                                <!--
+                                    In progress with nothing left to do: finished,
+                                    on hold or missing tasks? For somebody to
+                                    decide; hour banks move by themselves.
+                                -->
+                                <span
+                                    t-if="record.cimalor_no_open_tasks.raw_value"
+                                    class="badge rounded-pill text-bg-warning"
+                                >No open tasks</span>
+                                <span
+                                    t-if="record.cimalor_is_hour_bank.raw_value"
+                                    class="badge rounded-pill text-bg-light"
+                                >Hour bank</span>
                                 <!-- On Hold only: Waiting always depends on the customer. -->
                                 <span
                                     t-if="record.cimalor_state_type.raw_value == 'stopped' and record.cimalor_depends_on.raw_value"
@@ -300,6 +315,7 @@
                     />
                     <field name="cimalor_state_type" invisible="1" />
                     <field name="cimalor_reason_requires_note" invisible="1" />
+                    <field name="cimalor_reason_requires_date" invisible="1" />
 
                     <!--
                         Waiting and On Hold ask for their data here. It is
@@ -355,12 +371,12 @@
                             <field
                                 name="cimalor_follow_up_date"
                                 invisible="cimalor_state_type != 'waiting'"
-                                required="cimalor_state_type == 'waiting'"
+                                required="cimalor_state_type == 'waiting' and cimalor_reason_requires_date"
                             />
                             <field
                                 name="cimalor_restart_date"
                                 invisible="cimalor_state_type != 'stopped'"
-                                required="cimalor_state_type == 'stopped'"
+                                required="cimalor_state_type == 'stopped' and cimalor_reason_requires_date"
                             />
                         </group>
                         <field

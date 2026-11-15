@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-13 10:32+0000\n"
-"PO-Revision-Date: 2026-11-13 10:32+0000\n"
+"POT-Creation-Date: 2026-11-15 17:53+0000\n"
+"PO-Revision-Date: 2026-11-15 17:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__daily_capacity
 msgid "Average hours per working day of the schedule, minus the admin time."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Back to In Progress automatically: new request %(task)s."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -337,14 +343,29 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/res_config_settings.py:0
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
 msgid "Excluded Projects"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/res_config_settings.py:0
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_task_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Excluded Tasks"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_excluded
 msgid "Excluded from the Board"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__cimalor_excluded
+msgid "Excluded from the Workload"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -386,10 +407,32 @@ msgid "From"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_is_hour_bank
+msgid ""
+"Has tasks matching the Excluded Tasks filter of the settings: only its other"
+" tasks, the customer requests, count as work."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
 msgid ""
 "Here are the projects you manage or have tasks in. All Projects shows\n"
 "                the rest."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_is_hour_bank
+msgid "Hour Bank"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "Hour bank"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_hour_bank_idle
+msgid "Hour bank without requests"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -562,6 +605,19 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_task__cimalor_excluded
+msgid ""
+"Matches the Excluded Tasks filter of the settings: its hours are a balance, "
+"not work, and never count in the board or the workload."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Moved to On Hold automatically: the hour bank has no open requests."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "My Load"
 msgstr ""
@@ -597,6 +653,16 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__no_data
 msgid "No Forecast"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_no_open_tasks
+msgid "No Open Tasks"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
+msgid "No open tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -651,6 +717,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__ok
 msgid "On Time"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "On hold: %(reason)s. Depends on: %(depends_on)s."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -769,7 +841,7 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model:ir.actions.server,name:cimalor_project_status_board.ir_cron_refresh_excluded_projects_ir_actions_server
-msgid "Project Status Board: refresh excluded projects"
+msgid "Project Status Board: refresh excluded projects and tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -791,8 +863,16 @@ msgstr ""
 #: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_project_domain
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
 msgid ""
-"Projects matching this filter, such as hour banks, are left out of the "
-"boards, the reports and everybody's workload."
+"Projects matching this filter are left out of the boards, the reports and "
+"everybody's workload."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_stop_reason__requires_date
+#: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_reason_requires_date
+msgid ""
+"Projects with this reason must have a follow-up date (Waiting) or a restart "
+"date (On Hold)."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -844,6 +924,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_reporting
 msgid "Reporting"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_stop_reason__requires_date
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_reason_requires_date
+msgid "Requires Date"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -968,14 +1054,24 @@ msgid "Tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_task_domain
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid ""
+"Tasks matching this filter, such as the ones holding an hour bank's balance,"
+" never count as work. A project with such tasks is an hour bank: it goes on "
+"hold by itself without other open tasks, and back to In Progress with the "
+"next one."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_technical_block
 msgid "Technical blocker"
 msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-python
-#: code:addons/cimalor_project_status_board/models/project_project.py:0
-msgid "The Excluded Projects filter cannot be used: %(error)s"
+#: code:addons/cimalor_project_status_board/models/cimalor_excluded.py:0
+msgid "The %(filter)s filter cannot be used: %(error)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1080,6 +1176,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_stop_reason
 msgid "Waiting and On Hold Reasons"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/project_project.py:0
+msgid "Waiting for: %(reason)s."
 msgstr ""
 
 #. module: cimalor_project_status_board

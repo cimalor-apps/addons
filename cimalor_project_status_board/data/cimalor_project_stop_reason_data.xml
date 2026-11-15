@@ -74,4 +74,16 @@
         <field name="requires_note" eval="True" />
         <field name="sequence">150</field>
     </record>
+    <!--
+        Set by the module itself: an hour bank without open requests goes on
+        hold with this reason, and comes back to In Progress with the next
+        request. There is no date to give, so it asks for none.
+    -->
+    <record id="stop_reason_hour_bank_idle" model="cimalor.project.stop.reason">
+        <field name="name">Hour bank without requests</field>
+        <field name="reason_type">stopped</field>
+        <field name="depends_on">customer</field>
+        <field name="requires_date" eval="False" />
+        <field name="sequence">145</field>
+    </record>
 </odoo>

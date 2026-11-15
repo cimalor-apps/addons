@@ -1,9 +1,8 @@
-from ast import literal_eval
-
 from odoo import api, fields, models
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import AccessError
 from odoo.tools import format_date, plaintext2html
 
+from .cimalor_excluded import PROJECT_PARAM, REFRESHING, refresh_flags
 from .cimalor_project_queue import NEVER
 from .cimalor_project_stop_reason import DEPENDS_ON_SELECTION
 
@@ -39,9 +38,6 @@ DAYS_HEALTH_SELECTION = [
     ("ok", "On Time"),
     ("no_data", "No Forecast"),
 ]
-
-# Settings › Excluded Projects: a domain on project.project, as text.
-EXCLUDED_DOMAIN_PARAM = "cimalor_project_status_board.excluded_project_domain"
 
 
 class ProjectProject(models.Model):
@@ -119,6 +115,28 @@ class ProjectProject(models.Model):
     # so the form needs this flag on the project itself to require the note.
     cimalor_reason_requires_note = fields.Boolean(
         related="cimalor_reason_id.requires_note",
+    )
+    # Same reason as above, for the follow-up and restart dates: a reason such
+    # as "Hour bank without requests" has no date to give.
+    cimalor_reason_requires_date = fields.Boolean(
+        related="cimalor_reason_id.requires_date",
+    )
+    # An hour bank (spec §11.9): a project with tasks matching Settings ›
+    # Excluded Tasks. Those tasks hold the balance; each customer request is
+    # a task of its own, and only requests count. Stored to filter on it.
+    cimalor_is_hour_bank = fields.Boolean(
+        string="Hour Bank",
+        compute="_compute_cimalor_is_hour_bank",
+        store=True,
+        help="Has tasks matching the Excluded Tasks filter of the settings: only "
+        "its other tasks, the customer requests, count as work.",
+    )
+    # In progress, but nothing left to do: finished, on hold or missing tasks?
+    # Flagged on the card for somebody to decide. Hour banks move by
+    # themselves instead.
+    cimalor_no_open_tasks = fields.Boolean(
+        string="No Open Tasks",
+        compute="_compute_cimalor_no_open_tasks",
     )
     cimalor_state_summary = fields.Char(
         string="State Summary",
@@ -314,7 +332,7 @@ class ProjectProject(models.Model):
             reason = project.cimalor_reason_id
             project.cimalor_missing_state_data = state_type in state_date and (
                 not reason
-                or not state_date[state_type]
+                or (reason.requires_date and not state_date[state_type])
                 or (reason.requires_note and not project.cimalor_state_note)
             )
 
@@ -363,10 +381,15 @@ class ProjectProject(models.Model):
                     else reason
                 )
             elif state_type == "stopped":
-                summary = self.env._(
-                    "Until %(date)s: %(reason)s",
-                    date=format_date(self.env, project.cimalor_restart_date),
-                    reason=project._cimalor_reason_text(),
+                reason = project._cimalor_reason_text()
+                summary = (
+                    self.env._(
+                        "Until %(date)s: %(reason)s",
+                        date=format_date(self.env, project.cimalor_restart_date),
+                        reason=reason,
+                    )
+                    if project.cimalor_restart_date
+                    else reason
                 )
             project.cimalor_state_summary = summary
 
@@ -420,7 +443,34 @@ class ProjectProject(models.Model):
                 format_date(self.env, day, date_format="dd/MM") if day else False
             )
 
-    @api.depends("task_ids.remaining_hours", "task_ids.state", "task_ids.parent_id")
+    @api.depends("task_ids.cimalor_excluded")
+    def _compute_cimalor_is_hour_bank(self):
+        for project in self:
+            project.cimalor_is_hour_bank = any(
+                project.task_ids.mapped("cimalor_excluded")
+            )
+
+    @api.depends(
+        "cimalor_state_type",
+        "cimalor_is_hour_bank",
+        "task_ids.state",
+        "task_ids.parent_id",
+        "task_ids.cimalor_excluded",
+    )
+    def _compute_cimalor_no_open_tasks(self):
+        for project in self:
+            project.cimalor_no_open_tasks = (
+                project.cimalor_state_type == "in_progress"
+                and not project.cimalor_is_hour_bank
+                and not project._cimalor_open_requests()
+            )
+
+    @api.depends(
+        "task_ids.remaining_hours",
+        "task_ids.state",
+        "task_ids.parent_id",
+        "task_ids.cimalor_excluded",
+    )
     def _compute_cimalor_pending_hours(self):
         """Hours still to do on the open main tasks of the project.
 
@@ -428,12 +478,11 @@ class ProjectProject(models.Model):
         used, and Odoo already subtracts their spent time from their parent's
         remaining hours. The task's remaining hours (hr_timesheet) are its
         planned minus spent; a task over its estimate adds nothing rather
-        than lowering the total, and a task without estimate is zero.
+        than lowering the total, and a task without estimate is zero. Hour
+        bank tasks (Settings › Excluded Tasks) hold a balance, not work.
         """
         for project in self:
-            tasks = project.task_ids.filtered(
-                lambda task: not task.parent_id and not task.is_closed
-            )
+            tasks = project._cimalor_open_requests()
             project.cimalor_pending_hours = sum(
                 max(task.remaining_hours, 0.0) for task in tasks
             )
@@ -443,6 +492,10 @@ class ProjectProject(models.Model):
         "timesheet_ids.unit_amount",
         "cimalor_pending_hours",
         "cimalor_state_type",
+        "cimalor_is_hour_bank",
+        "task_ids.allocated_hours",
+        "task_ids.effective_hours",
+        "task_ids.subtask_effective_hours",
     )
     def _compute_cimalor_hours_margin(self):
         """Allocated hours left (hr_timesheet's remaining hours) minus pending work.
@@ -451,11 +504,27 @@ class ProjectProject(models.Model):
         without allocated hours: the pending work alone would show a false
         red. Everything spent counts against the budget, closed tasks
         included.
+
+        Hour banks are measured on their open requests only: what was
+        estimated for them minus what has been spent on them, red once a
+        request goes over its estimate and green before. No amber: with the
+        usual formula a request on track sits exactly at zero, since its
+        estimate is its whole budget.
         """
         for project in self:
             margin, health = 0.0, False
             if project.cimalor_state_type == "done":
                 pass
+            elif project.cimalor_is_hour_bank:
+                requests = project._cimalor_open_requests()
+                if requests:
+                    margin = sum(
+                        task.allocated_hours
+                        - task.effective_hours
+                        - task.subtask_effective_hours
+                        for task in requests
+                    )
+                    health = "over" if margin < 0 else "ok"
             elif not project.allocated_hours:
                 health = "no_budget"
             else:
@@ -573,65 +642,99 @@ class ProjectProject(models.Model):
         return since and fields.Datetime.context_timestamp(self, since).date()
 
     @api.model
-    def _cimalor_excluded_domain(self):
-        """The Excluded Projects filter of the settings, as a domain list.
-
-        An empty filter excludes nothing (an empty domain would match every
-        project, which is never what an empty setting means).
-        """
-        value = (
-            self.env["ir.config_parameter"].sudo().get_param(EXCLUDED_DOMAIN_PARAM)
-            or ""
-        ).strip()
-        domain = literal_eval(value) if value else []
-        return domain or False
-
-    @api.model
     def _cimalor_refresh_excluded(self, projects=None):
-        """Recompute which projects match the Excluded Projects filter.
+        """Apply Settings › Excluded Projects to `projects` (every project when None).
 
-        On `projects`, or on every project when not given. It runs when the
-        setting is saved, when projects are created or written, and once a
-        day (data/ir_cron_data.xml): the filter may use any field, also a
-        stored computed one that changes without a write on the project.
-
-        As superuser: the setting is company-wide and applies to every
-        project, whether the current user sees it or not; only this flag is
-        written. The context key stops write() from refreshing again.
+        It runs when the setting is saved, when projects are created or
+        written, and once a day (_cimalor_daily_refresh): the filter may use
+        any field, also a stored computed one that changes without a write.
         """
-        Project = self.sudo().with_context(
-            active_test=False, cimalor_refreshing_excluded=True
-        )
-        scope = Project.browse(projects.ids) if projects is not None else None
-        domain = self._cimalor_excluded_domain()
-        if domain:
-            if scope is not None:
-                domain = [("id", "in", scope.ids)] + domain
-            excluded = Project.search(domain)
-        else:
-            excluded = Project.browse()
-        if scope is None:
-            scope = Project.search([("cimalor_excluded", "=", True)]) | excluded
-        (excluded - scope.filtered("cimalor_excluded")).write(
-            {"cimalor_excluded": True}
-        )
-        (scope.filtered("cimalor_excluded") - excluded).write(
-            {"cimalor_excluded": False}
-        )
+        refresh_flags(self, PROJECT_PARAM, projects)
 
     @api.model
-    def _cimalor_check_excluded_domain(self, value):
-        """Refuse an Excluded Projects filter that cannot be used."""
-        try:
-            domain = literal_eval(value.strip()) if value and value.strip() else []
-            self.with_context(active_test=False).search(domain, limit=1)
-        except (SyntaxError, TypeError, ValueError) as error:
-            raise UserError(
-                self.env._(
-                    "The Excluded Projects filter cannot be used: %(error)s",
-                    error=error,
+    def _cimalor_daily_refresh(self):
+        """Daily job: both exclusion filters again, then the hour banks' stage."""
+        self._cimalor_refresh_excluded()
+        self.env["project.task"]._cimalor_refresh_excluded()
+        self.sudo().search(
+            [("cimalor_is_hour_bank", "=", True)]
+        )._cimalor_sync_hour_bank_stage()
+
+    def _cimalor_open_requests(self):
+        """Open main tasks that count as work: not hour bank tasks."""
+        self.ensure_one()
+        return self.task_ids.filtered(
+            lambda task: not task.parent_id
+            and not task.is_closed
+            and not task.cimalor_excluded
+        )
+
+    def _cimalor_sync_hour_bank_stage(self):
+        """Hour banks follow their requests (spec §11.9).
+
+        An hour bank is a project with tasks matching Settings › Excluded
+        Tasks: those hold the balance, not work. Each customer request is a
+        task of its own. Without open requests the bank goes on hold, with
+        the "Hour bank without requests" reason and no date; with a new
+        request it comes back to In Progress, whether the task was created
+        by hand or comes from elsewhere. A bank put on hold by hand for
+        another reason is left alone.
+
+        As superuser: the change follows the tasks, whoever touched them, and
+        the user may not be allowed to write the project. Each move leaves
+        its own note in the chatter, instead of the usual state note and the
+        notice to the manager.
+        """
+        reason = self.env.ref(
+            "cimalor_project_status_board.stop_reason_hour_bank_idle",
+            raise_if_not_found=False,
+        )
+        Stage = self.env["project.project.stage"].sudo()
+        automatic = {"cimalor_automatic_state": True}
+        for project in self.sudo().filtered("cimalor_is_hour_bank"):
+            requests = project._cimalor_open_requests()
+            state_type = project.cimalor_state_type
+            company_domain = [("company_id", "in", [project.company_id.id, False])]
+            if not requests and state_type in ("to_start", "in_progress", "waiting"):
+                stage = Stage.search(
+                    [("cimalor_state_type", "=", "stopped")] + company_domain,
+                    order="sequence, id",
+                    limit=1,
                 )
-            ) from error
+                if not stage:
+                    continue
+                project.with_context(**automatic).write(
+                    {"stage_id": stage.id, "cimalor_reason_id": reason.id}
+                )
+                project.message_post(
+                    body=self.env._(
+                        "Moved to On Hold automatically: the hour bank has no open "
+                        "requests."
+                    ),
+                    subtype_xmlid="mail.mt_note",
+                )
+            elif (
+                requests
+                and state_type == "stopped"
+                and reason
+                and project.cimalor_reason_id == reason
+            ):
+                stage = Stage.search(
+                    [("cimalor_state_type", "=", "in_progress")] + company_domain,
+                    order="sequence, id",
+                    limit=1,
+                )
+                if not stage:
+                    continue
+                project.with_context(**automatic).write({"stage_id": stage.id})
+                newest = requests.sorted("id")[-1:]
+                project.message_post(
+                    body=self.env._(
+                        "Back to In Progress automatically: new request %(task)s.",
+                        task=newest.name,
+                    ),
+                    subtype_xmlid="mail.mt_note",
+                )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -667,9 +770,12 @@ class ProjectProject(models.Model):
                 lambda project: project._cimalor_state_snapshot() != before[project.id]
             )
             changed._cimalor_log_state()
-            changed._cimalor_post_state_note()
-            changed._cimalor_notify_manager()
-        if not self.env.context.get("cimalor_refreshing_excluded"):
+            # Automatic moves (hour banks) post their own note, and nobody
+            # needs a notice for what the module did by itself.
+            if not self.env.context.get("cimalor_automatic_state"):
+                changed._cimalor_post_state_note()
+                changed._cimalor_notify_manager()
+        if not self.env.context.get(REFRESHING):
             self._cimalor_refresh_excluded(self)
         return result
 
@@ -835,15 +941,25 @@ class ProjectProject(models.Model):
                 if state_type == "waiting"
                 else self.env._("On hold: the reason or the restart date is missing.")
             )
+        reason = self._cimalor_reason_text()
         if state_type == "waiting":
+            if not self.cimalor_follow_up_date:
+                return self.env._("Waiting for: %(reason)s.", reason=reason)
             return self.env._(
                 "Waiting for: %(reason)s. Follow-up on %(date)s.",
-                reason=self._cimalor_reason_text(),
+                reason=reason,
                 date=format_date(self.env, self.cimalor_follow_up_date),
+            )
+        depends_on = depends_on_labels.get(self.cimalor_depends_on, "")
+        if not self.cimalor_restart_date:
+            return self.env._(
+                "On hold: %(reason)s. Depends on: %(depends_on)s.",
+                reason=reason,
+                depends_on=depends_on,
             )
         return self.env._(
             "On hold: %(reason)s. Depends on: %(depends_on)s. Restart on %(date)s.",
-            reason=self._cimalor_reason_text(),
-            depends_on=depends_on_labels.get(self.cimalor_depends_on, ""),
+            reason=reason,
+            depends_on=depends_on,
             date=format_date(self.env, self.cimalor_restart_date),
         )

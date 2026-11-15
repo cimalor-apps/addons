@@ -14,6 +14,7 @@
                     required="reason_type == 'stopped'"
                 />
                 <field name="requires_note" />
+                <field name="requires_date" />
                 <field name="active" column_invisible="1" />
             </list>
         </field>
