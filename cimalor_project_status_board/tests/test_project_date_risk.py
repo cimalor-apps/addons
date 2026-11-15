@@ -111,6 +111,32 @@ class TestProjectDateRisk(TransactionCase):
         # 14 + 21 + 14 + 1 h (the undated task, last) at 7 h a day.
         self.assertEqual(row.queue_end_date, date(2026, 11, 25))
 
+    @freeze_time(MONDAY)
+    def test_timeline_follows_the_queue(self):
+        """Queue by Person: bars in days from today, A then C then B.
+
+        A fills Monday and Tuesday (0 to 2), C Wednesday to Friday (2 to 5,
+        late: due Thursday), B Monday 23 and Tuesday 24 (7 to 9).
+        """
+        data = (
+            self.env["cimalor.project.queue"].with_user(self.user).get_timeline_data()
+        )
+        self.assertEqual(
+            [person["user_id"] for person in data["people"]],
+            [self.user.id],
+            "a project user sees their own queue only",
+        )
+        person = data["people"][0]
+        items = {item["project"]: item for item in person["items"]}
+        self.assertEqual((items["A"]["start"], items["A"]["end"]), (0, 2))
+        self.assertEqual((items["C"]["start"], items["C"]["end"]), (2, 5))
+        self.assertEqual((items["B"]["start"], items["B"]["end"]), (7, 9))
+        self.assertFalse(items["A"]["late"])
+        self.assertTrue(items["C"]["late"])
+        self.assertEqual(person["late_count"], 1)
+        self.assertNotIn("Held", items, "projects on hold are left out")
+        self.assertEqual(person["daily_capacity"], 7)
+
 
 @tagged("post_install", "-at_install")
 class TestDeliveryDate(TransactionCase):

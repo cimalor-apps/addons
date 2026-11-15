@@ -56,11 +56,18 @@
         sequence="7"
     />
     <menuitem
+        id="menu_cimalor_project_queue_timeline"
+        name="Queue by Person"
+        parent="menu_cimalor_project_status_board_reporting"
+        action="action_cimalor_project_queue_timeline"
+        sequence="8"
+    />
+    <menuitem
         id="menu_cimalor_project_date_risk"
         name="Date Risk"
         parent="menu_cimalor_project_status_board_reporting"
         action="action_project_project_date_risk"
-        sequence="8"
+        sequence="9"
     />
     <menuitem
         id="menu_cimalor_project_state_log_report"

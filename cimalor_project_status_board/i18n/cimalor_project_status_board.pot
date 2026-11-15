@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-15 17:53+0000\n"
-"PO-Revision-Date: 2026-11-15 17:53+0000\n"
+"POT-Creation-Date: 2026-11-15 18:23+0000\n"
+"PO-Revision-Date: 2026-11-15 18:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "%(hours)s h"
+msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-python
@@ -279,6 +285,12 @@ msgid "Display Name"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Does not end within the next two years"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_task__cimalor_is_done
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__done
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_workload_report__state_type__done
@@ -291,6 +303,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "Due"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Due %(date)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -310,10 +328,24 @@ msgid "Due Week"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Due date"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
 msgid ""
 "Each employee with a user appears here, with their capacity for\n"
 "                tasks and the day their pending work ends."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid ""
+"Each person works through their tasks by due date, at their daily\n"
+"                            capacity. On hold projects are left out."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -327,6 +359,12 @@ msgstr ""
 #: model:ir.model,name:cimalor_project_status_board.model_hr_employee
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__employee_id
 msgid "Employee"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Ends %(date)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -559,6 +597,9 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__late
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
@@ -583,6 +624,12 @@ msgstr ""
 msgid ""
 "Lifecycle meaning of the stage for Project Status Board. Waiting and On Hold"
 " ask for a reason and a date."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Loading…"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -666,6 +713,8 @@ msgid "No open tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_workload_report
 msgid "No pending work"
 msgstr ""
@@ -683,6 +732,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_state_log_report
 msgid "No state changes yet"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "No working schedule"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -738,6 +793,12 @@ msgid "On hold: the reason or the restart date is missing."
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "On time"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_open_task_ids
 msgid "Open Tasks"
 msgstr ""
@@ -786,6 +847,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__user_id
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Person"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid ""
+"Plan hours on the tasks and assign them: each person's\n"
+"                                queue appears here, in due date order."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -878,6 +947,12 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__queue_end_date
 msgid "Queue Ends"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.client,name:cimalor_project_status_board.action_cimalor_project_queue_timeline
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_queue_timeline
+msgid "Queue by Person"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1284,6 +1359,18 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
 msgid "e.g. Brochure automation"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "h/day"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "late"
 msgstr ""
 
 #. module: cimalor_project_status_board

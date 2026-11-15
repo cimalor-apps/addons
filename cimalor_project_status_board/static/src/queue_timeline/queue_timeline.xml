@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cimalor_project_status_board.QueueTimeline">
+        <Layout display="{ controlPanel: {} }">
+            <div class="o_cimalor_timeline p-3 h-100 overflow-auto">
+                <t t-if="state.loading">
+                    <div class="text-muted">Loading…</div>
+                </t>
+                <t t-elif="!state.data.people.length">
+                    <div class="o_view_nocontent">
+                        <div class="o_nocontent_help">
+                            <p class="o_view_nocontent_smiling_face">No pending work</p>
+                            <p>
+                                Plan hours on the tasks and assign them: each person's
+                                queue appears here, in due date order.
+                            </p>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="d-flex flex-wrap gap-3 align-items-center small text-muted mb-2">
+                        <span>
+                            <span class="o_cimalor_timeline_swatch bg-primary" /> On time
+                        </span>
+                        <span>
+                            <span class="o_cimalor_timeline_swatch bg-danger" /> Late
+                        </span>
+                        <span>
+                            <span class="o_cimalor_timeline_swatch o_cimalor_timeline_swatch_due" /> Due date
+                        </span>
+                        <span>
+                            Each person works through their tasks by due date, at their daily
+                            capacity. On hold projects are left out.
+                        </span>
+                    </div>
+                    <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (width + 240) + 'px;'">
+                        <!-- Header: day labels. -->
+                        <div class="o_cimalor_timeline_row o_cimalor_timeline_header">
+                            <div class="o_cimalor_timeline_person" />
+                            <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
+                                <t t-foreach="days" t-as="day" t-key="day.index">
+                                    <div
+                                        t-attf-class="o_cimalor_timeline_day {{ day.weekend ? 'o_cimalor_timeline_weekend' : '' }}"
+                                        t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
+                                    >
+                                        <div class="o_cimalor_timeline_label" t-if="day.label" t-out="day.label" />
+                                        <div t-out="day.letter" />
+                                        <div class="fw-semibold" t-out="day.number" />
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <!-- One row per person. -->
+                        <t t-foreach="state.data.people" t-as="person" t-key="person.user_id">
+                            <div class="o_cimalor_timeline_row">
+                                <div class="o_cimalor_timeline_person">
+                                    <div class="fw-semibold text-truncate" t-out="person.name" />
+                                    <div class="small text-muted">
+                                        <t t-if="person.has_schedule">
+                                            <t t-out="person.daily_capacity" /> h/day
+                                        </t>
+                                        <t t-else="">No working schedule</t>
+                                        <span
+                                            t-if="person.late_count"
+                                            class="badge rounded-pill text-bg-danger ms-1"
+                                        >
+                                            <t t-out="person.late_count" /> late
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
+                                    <t t-foreach="days" t-as="day" t-key="day.index">
+                                        <div
+                                            t-if="day.weekend"
+                                            class="o_cimalor_timeline_weekend o_cimalor_timeline_shade"
+                                            t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
+                                        />
+                                    </t>
+                                    <t t-foreach="scheduled(person)" t-as="item" t-key="item_index">
+                                        <div
+                                            t-attf-class="o_cimalor_timeline_bar text-truncate {{ item.late ? 'bg-danger' : 'bg-primary' }}"
+                                            t-att-style="barStyle(item)"
+                                            t-att-title="barTitle(item)"
+                                            t-on-click="() => this.openProject(item)"
+                                        >
+                                            <t t-out="item.project" /> · <t t-out="item.task" />
+                                        </div>
+                                        <div
+                                            t-attf-class="o_cimalor_timeline_due {{ item.late ? 'o_cimalor_timeline_due_late' : '' }}"
+                                            t-att-style="deadlineStyle(item)"
+                                            t-att-title="barTitle(item)"
+                                        />
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </Layout>
+    </t>
+</templates>
