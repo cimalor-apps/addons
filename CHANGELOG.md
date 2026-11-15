@@ -131,7 +131,10 @@ Odoo version. The same functional version number means the same features in both
 
 #### Changed
 
-- Capacity report: fixed column widths, so the headers read whole.
+- Capacity report: fixed column widths, so the headers read whole, and a _Waiting
+  Hours_ column: the part of the pending hours that belongs to waiting projects, real
+  work blocked until the customer answers. Pending minus waiting is what can be done
+  now.
 
 ### [19.0.0.1.2] - 2026-11-13
 
