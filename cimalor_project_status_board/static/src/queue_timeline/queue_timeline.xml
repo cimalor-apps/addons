@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
+    <!-- The weekend shading and today's line, under every row of the axis. -->
+    <t t-name="cimalor_project_status_board.QueueTimelineBackground">
+        <t t-foreach="weekends" t-as="day" t-key="day.index">
+            <div
+                class="o_cimalor_timeline_weekend o_cimalor_timeline_shade"
+                t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
+            />
+        </t>
+        <div class="o_cimalor_timeline_today" />
+    </t>
+
     <t t-name="cimalor_project_status_board.QueueTimeline">
         <Layout display="{ controlPanel: {} }">
             <div class="o_cimalor_timeline p-3 h-100 overflow-auto">
@@ -19,47 +30,41 @@
                 </t>
                 <t t-else="">
                     <div class="d-flex flex-wrap gap-3 align-items-center small text-muted mb-2">
+                        <span><span class="o_cimalor_timeline_swatch bg-primary" /> On time</span>
+                        <span><span class="o_cimalor_timeline_swatch bg-danger" /> Will be late</span>
                         <span>
-                            <span class="o_cimalor_timeline_swatch bg-primary" /> On time
+                            <span class="o_cimalor_timeline_diamond o_cimalor_timeline_diamond_legend" />
+                            Due date of that task
                         </span>
-                        <span>
-                            <span class="o_cimalor_timeline_swatch bg-danger" /> Late
-                        </span>
-                        <span>
-                            <span class="o_cimalor_timeline_swatch o_cimalor_timeline_swatch_due" /> Due date
-                        </span>
+                        <span><span class="o_cimalor_timeline_swatch o_cimalor_timeline_swatch_today" /> Today</span>
                         <span>
                             Each person works through their tasks by due date, at their daily
                             capacity. On hold projects are left out.
                         </span>
                     </div>
-                    <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (width + 240) + 'px;'">
-                        <!-- Header: day labels. -->
+                    <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (width + 300) + 'px;'">
+                        <!-- Header: day letters and numbers, a label each Monday. -->
                         <div class="o_cimalor_timeline_row o_cimalor_timeline_header">
-                            <div class="o_cimalor_timeline_person" />
+                            <div class="o_cimalor_timeline_label" />
                             <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
                                 <t t-foreach="days" t-as="day" t-key="day.index">
                                     <div
                                         t-attf-class="o_cimalor_timeline_day {{ day.weekend ? 'o_cimalor_timeline_weekend' : '' }}"
                                         t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
                                     >
-                                        <div class="o_cimalor_timeline_label" t-if="day.label" t-out="day.label" />
+                                        <div class="o_cimalor_timeline_month" t-if="day.label" t-out="day.label" />
                                         <div t-out="day.letter" />
-                                        <div class="fw-semibold" t-out="day.number" />
+                                        <div t-out="day.number" />
                                     </div>
                                 </t>
                             </div>
                         </div>
-                        <!-- One row per person. -->
                         <t t-foreach="state.data.people" t-as="person" t-key="person.user_id">
-                            <div class="o_cimalor_timeline_row">
-                                <div class="o_cimalor_timeline_person">
-                                    <div class="fw-semibold text-truncate" t-out="person.name" />
-                                    <div class="small text-muted">
-                                        <t t-if="person.has_schedule">
-                                            <t t-out="person.daily_capacity" /> h/day
-                                        </t>
-                                        <t t-else="">No working schedule</t>
+                            <!-- Person: capacity, late count and a summary bar of the queue. -->
+                            <div class="o_cimalor_timeline_row o_cimalor_timeline_person_row">
+                                <div class="o_cimalor_timeline_label">
+                                    <div>
+                                        <span class="fw-bold" t-out="person.name" />
                                         <span
                                             t-if="person.late_count"
                                             class="badge rounded-pill text-bg-danger ms-1"
@@ -67,32 +72,62 @@
                                             <t t-out="person.late_count" /> late
                                         </span>
                                     </div>
+                                    <div class="small text-muted">
+                                        <t t-if="person.has_schedule">
+                                            <t t-out="person.daily_capacity" /> h/day
+                                        </t>
+                                        <t t-else="">No working schedule</t>
+                                    </div>
                                 </div>
                                 <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
-                                    <t t-foreach="days" t-as="day" t-key="day.index">
+                                    <t t-call="cimalor_project_status_board.QueueTimelineBackground" />
+                                    <div
+                                        t-attf-class="o_cimalor_timeline_summary {{ person.late_count ? 'bg-danger' : 'bg-primary' }}"
+                                        t-att-style="summaryStyle(person)"
+                                    />
+                                </div>
+                            </div>
+                            <!-- One row per task, in queue order: its bar and its own due date. -->
+                            <t t-foreach="person.items" t-as="item" t-key="item_index">
+                                <div class="o_cimalor_timeline_row o_cimalor_timeline_task_row">
+                                    <div
+                                        class="o_cimalor_timeline_label o_cimalor_timeline_task_label text-truncate"
+                                        t-att-title="barTitle(item)"
+                                    >
+                                        <t t-out="item.project" /> · <t t-out="item.task" />
+                                        <span class="text-muted ms-1">(<t t-out="hoursText(item)" />)</span>
+                                    </div>
+                                    <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
+                                        <t t-call="cimalor_project_status_board.QueueTimelineBackground" />
                                         <div
-                                            t-if="day.weekend"
-                                            class="o_cimalor_timeline_weekend o_cimalor_timeline_shade"
-                                            t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
-                                        />
-                                    </t>
-                                    <t t-foreach="scheduled(person)" t-as="item" t-key="item_index">
-                                        <div
-                                            t-attf-class="o_cimalor_timeline_bar text-truncate {{ item.late ? 'bg-danger' : 'bg-primary' }}"
+                                            t-if="item.start !== null"
+                                            t-attf-class="o_cimalor_timeline_bar {{ item.late ? 'bg-danger' : 'bg-primary' }}"
                                             t-att-style="barStyle(item)"
                                             t-att-title="barTitle(item)"
                                             t-on-click="() => this.openProject(item)"
-                                        >
-                                            <t t-out="item.project" /> · <t t-out="item.task" />
-                                        </div>
+                                        />
+                                        <t t-set="kind" t-value="deadlineKind(item)" />
                                         <div
-                                            t-attf-class="o_cimalor_timeline_due {{ item.late ? 'o_cimalor_timeline_due_late' : '' }}"
-                                            t-att-style="deadlineStyle(item)"
+                                            t-if="kind === 'diamond'"
+                                            t-attf-class="o_cimalor_timeline_diamond {{ item.late ? 'o_cimalor_timeline_diamond_late' : '' }}"
+                                            t-att-style="diamondStyle(item)"
                                             t-att-title="barTitle(item)"
                                         />
-                                    </t>
+                                        <div
+                                            t-elif="kind === 'passed'"
+                                            class="o_cimalor_timeline_note text-danger fw-semibold"
+                                            t-att-style="passedStyle(item)"
+                                        >
+                                            ◆ <t t-out="passedText(item)" />
+                                        </div>
+                                        <div
+                                            t-elif="kind === 'beyond'"
+                                            class="o_cimalor_timeline_note o_cimalor_timeline_beyond text-muted"
+                                            t-out="beyondText(item)"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            </t>
                         </t>
                     </div>
                 </t>
