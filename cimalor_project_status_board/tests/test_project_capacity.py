@@ -86,6 +86,7 @@ class TestCapacityReport(TransactionCase):
         self.assertEqual(row.weekly_capacity, 35)
         self.assertEqual(row.pending_hours, 21)
         self.assertEqual(row.paused_hours, 10, "on hold shown apart")
+        self.assertEqual(row.waiting_hours, 0)
         self.assertAlmostEqual(row.weeks_of_work, 0.6)
         self.assertEqual(row.queue_end_date, date(2026, 11, 18))
 
@@ -124,6 +125,30 @@ class TestCapacityReport(TransactionCase):
         row = self._row()
         self.assertEqual(row.daily_capacity, 5)
         self.assertEqual(row.queue_end_date, date(2026, 11, 20))
+
+    @freeze_time(MONDAY)
+    def test_waiting_hours_shown_apart(self):
+        """Waiting work counts as pending, and is also shown on its own."""
+        waiting = self.env["project.project"].create(
+            {
+                "name": "Capacity waiting",
+                "stage_id": self.env.ref(
+                    "cimalor_project_status_board.project_project_stage_waiting"
+                ).id,
+            }
+        )
+        self.env["project.task"].create(
+            {
+                "name": "Needs the customer's data",
+                "project_id": waiting.id,
+                "allocated_hours": 6,
+                "user_ids": [self.user.id],
+            }
+        )
+        row = self._row()
+        self.assertEqual(row.pending_hours, 27, "21 in progress + 6 waiting")
+        self.assertEqual(row.waiting_hours, 6)
+        self.assertEqual(row.paused_hours, 10)
 
     def test_employees_readable_without_hr_rights(self):
         """The admin time must not lock employees away from non-HR users.
