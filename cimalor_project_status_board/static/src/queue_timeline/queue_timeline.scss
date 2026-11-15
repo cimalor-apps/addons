@@ -3,23 +3,40 @@
 .o_cimalor_timeline {
   .o_cimalor_timeline_grid {
     position: relative;
+    background: $o-view-background-color;
+    border: 1px solid $border-color;
   }
 
   .o_cimalor_timeline_row {
     display: flex;
     border-bottom: 1px solid $border-color;
-    min-height: 44px;
+    min-height: 30px;
   }
 
-  .o_cimalor_timeline_person {
+  .o_cimalor_timeline_label {
     position: sticky;
     left: 0;
-    z-index: 2;
-    flex: 0 0 240px;
-    width: 240px;
-    padding: 4px 8px;
+    z-index: 3;
+    flex: 0 0 300px;
+    width: 300px;
+    padding: 5px 10px;
+    font-size: 0.8125rem;
     background: $o-view-background-color;
     border-right: 1px solid $border-color;
+  }
+
+  .o_cimalor_timeline_task_label {
+    padding-left: 26px;
+    white-space: nowrap;
+  }
+
+  .o_cimalor_timeline_person_row {
+    min-height: 42px;
+
+    .o_cimalor_timeline_label,
+    .o_cimalor_timeline_lane {
+      background: $gray-100;
+    }
   }
 
   .o_cimalor_timeline_lane {
@@ -28,19 +45,20 @@
   }
 
   .o_cimalor_timeline_header {
-    min-height: 58px;
+    min-height: 46px;
 
     .o_cimalor_timeline_day {
       position: absolute;
       top: 0;
       bottom: 0;
-      padding-top: 18px;
+      padding-top: 16px;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
+      line-height: 1.15;
       color: $text-muted;
     }
 
-    .o_cimalor_timeline_label {
+    .o_cimalor_timeline_month {
       position: absolute;
       top: 2px;
       left: 2px;
@@ -51,7 +69,7 @@
   }
 
   .o_cimalor_timeline_weekend {
-    background: rgba($black, 0.04);
+    background: rgba($black, 0.045);
   }
 
   .o_cimalor_timeline_shade {
@@ -60,30 +78,66 @@
     bottom: 0;
   }
 
+  .o_cimalor_timeline_today {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: rgba($blue, 0.55);
+  }
+
   .o_cimalor_timeline_bar {
     position: absolute;
-    top: 10px;
-    height: 24px;
-    padding: 0 6px;
-    line-height: 24px;
-    font-size: 0.75rem;
-    color: $white;
-    border-radius: 4px;
-    border-right: 2px solid $o-view-background-color;
+    top: 7px;
+    height: 16px;
+    border-radius: 3px;
     cursor: pointer;
   }
 
-  .o_cimalor_timeline_due {
+  .o_cimalor_timeline_summary {
     position: absolute;
-    top: 4px;
-    bottom: 4px;
-    width: 3px;
-    background: $gray-700;
-    border-radius: 2px;
+    top: 15px;
+    height: 12px;
+    border-radius: 3px;
+    opacity: 0.35;
   }
 
-  .o_cimalor_timeline_due_late {
+  .o_cimalor_timeline_diamond {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    width: 13px;
+    height: 13px;
+    margin-left: -7px;
+    transform: rotate(45deg);
+    background: $gray-800;
+    border: 2px solid $o-view-background-color;
+  }
+
+  .o_cimalor_timeline_diamond_late {
     background: $danger;
+  }
+
+  .o_cimalor_timeline_diamond_legend {
+    position: static;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 4px 0 2px;
+    vertical-align: middle;
+    border: 0;
+  }
+
+  .o_cimalor_timeline_note {
+    position: absolute;
+    top: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .o_cimalor_timeline_beyond {
+    right: 6px;
   }
 
   .o_cimalor_timeline_swatch {
@@ -94,9 +148,9 @@
     vertical-align: middle;
   }
 
-  .o_cimalor_timeline_swatch_due {
+  .o_cimalor_timeline_swatch_today {
     width: 3px;
     height: 14px;
-    background: $gray-700;
+    background: rgba($blue, 0.55);
   }
 }

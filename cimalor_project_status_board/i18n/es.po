@@ -336,8 +336,14 @@ msgstr "Semana límite"
 #. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
-msgid "Due date"
-msgstr "Fecha límite"
+msgid "Due date of that task"
+msgstr "Fecha límite de esa tarea"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+msgid "Due date passed on %(date)s"
+msgstr "Fecha límite vencida el %(date)s"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
@@ -603,9 +609,6 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: cimalor_project_status_board
-#. odoo-javascript
-#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
-#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__late
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
@@ -1216,6 +1219,12 @@ msgid "To Start"
 msgstr "Por arrancar"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Today"
+msgstr "Hoy"
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_list
 msgid "Total"
@@ -1311,6 +1320,13 @@ msgstr "Semanas de trabajo"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "What did you do?"
 msgstr "¿Qué has hecho?"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
+#: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+msgid "Will be late"
+msgstr "No llega"
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_search
