@@ -108,6 +108,13 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.6] - 2026-11-15
+
+#### Fixed
+
+- Queue by Person scrolls down: with many people or projects the rest of the view was
+  cut off at the bottom of the window. The row of days stays in sight while scrolling.
+
 ### [18.0.0.1.5] - 2026-11-15
 
 #### Changed

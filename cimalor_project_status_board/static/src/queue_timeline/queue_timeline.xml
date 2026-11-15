@@ -12,6 +12,9 @@
     </t>
 
     <t t-name="cimalor_project_status_board.QueueTimeline">
+        <!-- o_action gives the content the window's height, so it scrolls
+             (as Odoo's own client actions do, e.g. the report viewer). -->
+        <div class="o_action">
         <Layout display="{ controlPanel: {} }">
             <div class="o_cimalor_timeline p-3 h-100 overflow-auto">
                 <t t-if="state.loading">
@@ -148,5 +151,6 @@
                 </t>
             </div>
         </Layout>
+        </div>
     </t>
 </templates>
