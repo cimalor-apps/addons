@@ -108,6 +108,22 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.7] - 2026-11-17
+
+#### Added
+
+- Reporting › Team Activity, in place of Latest Changes: what each person is on now
+  (their running timer, live; a timer left running since another day says since when)
+  and the hours they logged by project over the last five working days, each day
+  against their capacity. At most five projects per person, the running timer's first;
+  the rest are added up as other projects. Each person sees themselves, Project
+  administrators everybody.
+
+#### Removed
+
+- The Latest Changes menu. State changes are still logged and shown in each project's
+  chatter.
+
 ### [19.0.0.1.6] - 2026-11-15
 
 #### Fixed

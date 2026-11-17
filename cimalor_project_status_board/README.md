@@ -45,7 +45,10 @@ it is waiting for, who it depends on and when to chase it again.
   _Queue by Person_ (a timeline of each person's queue: one row per project in the order
   they reach it, red when their part ends after the project's delivery date, which is
   marked),
-  _Date Risk_ (projects at risk) and _Latest Changes_ (every state change).
+  _Date Risk_ (projects at risk) and _Team Activity_ (what each person is on now, from
+  their running timer, and the hours they logged by project over the last five working
+  days, at most five projects each). State changes are still logged in each project's
+  chatter.
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.
 
@@ -141,6 +144,14 @@ Project **administrators** change any project and also manage the reasons.
 - _Queue by Person_ is a small OWL client action of the module
   (`static/src/queue_timeline/`): Odoo's Gantt view is Enterprise. It reads
   `cimalor.project.queue.get_timeline_data()`, with the user's own rights.
+- _Team Activity_ is another client action (`static/src/team_activity/`), fed by
+  `cimalor.project.activity.get_activity_data()`: it picks the people first (oneself, or
+  every Project user with an employee for Project administrators), then reads their
+  timers and timesheets as superuser, since timers are private to their user.
+- _Team Activity_ is another client action (`static/src/team_activity/`), fed by
+  `cimalor.project.activity.get_activity_data()`: it picks the people first (oneself, or
+  every Project user with an employee for Project administrators), then reads their
+  timers and timesheets as superuser, since timers are private to their user.
 - The days margin is computed when read, never stored: it depends on the other projects of
   the same people, which `@api.depends` cannot follow.
 - The live counter is the module's only JavaScript: the `cimalor_timer` field widget, which
