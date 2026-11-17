@@ -54,6 +54,12 @@ msgid "%(logged)s h + %(open)s h open"
 msgstr "%(logged)s h + %(open)s h abierto"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "%(minutes)s min"
+msgstr "%(minutes)s min"
+
+#. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "%(user)s moved the project to %(stage)s"
