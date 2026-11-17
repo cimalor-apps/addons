@@ -138,7 +138,13 @@ export class TeamActivity extends Component {
     return formatFloat(value, { digits: [16, 1], trailingZeros: false });
   }
 
+  /** "1.5 h"; a few minutes, which would round to 0 h, as "4 min". */
   hoursText(value) {
+    if (value > 0 && value < 0.1) {
+      return _t("%(minutes)s min", {
+        minutes: Math.max(Math.round(value * 60), 1),
+      });
+    }
     return _t("%(hours)s h", { hours: this.hours(value) });
   }
 
