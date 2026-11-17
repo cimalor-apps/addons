@@ -1,4 +1,5 @@
 from . import (
+    test_project_activity,
     test_project_capacity,
     test_project_date_risk,
     test_project_excluded,
