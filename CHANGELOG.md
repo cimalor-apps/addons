@@ -108,6 +108,14 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.8] - 2026-11-17
+
+#### Changed
+
+- Store page: Queue by Person and Team Activity, with their screenshots, and the hour
+  bank settings; every screenshot retaken with the current cards.
+- Team Activity: a timer running for less than an hour reads "51 min", not "0 h 51 min".
+
 ### [18.0.0.1.7] - 2026-11-17
 
 #### Added
