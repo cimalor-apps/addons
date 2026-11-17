@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Reporting › Team Activity: what each person is on now (their running
+        timer) and the hours they logged by project over the last working days.
+        A client action of the module (static/src/team_activity/).
+    -->
+    <record id="action_cimalor_project_team_activity" model="ir.actions.client">
+        <field name="name">Team Activity</field>
+        <field name="tag">cimalor_project_team_activity</field>
+    </record>
+</odoo>

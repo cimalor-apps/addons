@@ -1,6 +1,6 @@
 {
     "name": "Project Status Board",
-    "version": "18.0.0.1.6",
+    "version": "18.0.0.1.7",
     "category": "Services/Project",
     "summary": "Know which projects are moving, waiting or on hold, and why",
     "author": "Cimalor",
@@ -28,6 +28,7 @@
         "views/cimalor_project_workload_report_views.xml",
         "views/cimalor_project_capacity_report_views.xml",
         "views/cimalor_project_queue_views.xml",
+        "views/cimalor_project_activity_views.xml",
         "views/hr_employee_views.xml",
         "views/res_config_settings_views.xml",
         "views/project_project_views.xml",

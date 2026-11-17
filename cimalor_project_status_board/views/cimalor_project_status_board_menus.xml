@@ -69,11 +69,15 @@
         action="action_project_project_date_risk"
         sequence="9"
     />
+    <!--
+        Team Activity took the place of Latest Changes: state changes are still
+        logged and shown in each project's chatter.
+    -->
     <menuitem
-        id="menu_cimalor_project_state_log_report"
-        name="Latest Changes"
+        id="menu_cimalor_project_team_activity"
+        name="Team Activity"
         parent="menu_cimalor_project_status_board_reporting"
-        action="action_cimalor_project_state_log_report"
+        action="action_cimalor_project_team_activity"
         sequence="10"
     />
 
