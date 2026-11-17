@@ -202,6 +202,9 @@ export class TeamActivity extends Component {
 
   elapsedText(person) {
     const minutes = Math.floor(this.elapsed(person) * 60);
+    if (minutes < 60) {
+      return _t("%(minutes)s min", { minutes });
+    }
     return _t("%(hours)s h %(minutes)s min", {
       hours: Math.floor(minutes / 60),
       minutes: minutes % 60,
