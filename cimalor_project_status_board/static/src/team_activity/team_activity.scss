@@ -1,0 +1,161 @@
+// Team Activity: one column per day; widths are fixed so the bars of all the
+// rows compare. Colours come from Bootstrap's classes.
+.o_cimalor_activity {
+  .o_cimalor_activity_grid {
+    width: max-content;
+    background: $o-view-background-color;
+    border: 1px solid $border-color;
+  }
+
+  .o_cimalor_activity_row {
+    display: flex;
+    min-height: 32px;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .o_cimalor_activity_label {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    flex: 0 0 300px;
+    width: 300px;
+    padding: 6px 10px;
+    font-size: 0.8125rem;
+    background: $o-view-background-color;
+    border-right: 1px solid $border-color;
+  }
+
+  .o_cimalor_activity_project {
+    padding-left: 26px;
+    white-space: nowrap;
+  }
+
+  .o_cimalor_activity_day {
+    flex: 0 0 150px;
+    width: 150px;
+    padding: 6px 8px;
+    white-space: nowrap;
+    border-right: 1px solid $border-color;
+  }
+
+  .o_cimalor_activity_today {
+    background: rgba($blue, 0.05);
+  }
+
+  .o_cimalor_activity_cell {
+    cursor: pointer;
+  }
+
+  .o_cimalor_activity_total {
+    flex: 0 0 110px;
+    width: 110px;
+    padding: 6px 10px;
+    text-align: right;
+    font-size: 0.8125rem;
+  }
+
+  // The days stay in sight while scrolling down the people.
+  .o_cimalor_activity_header {
+    position: sticky;
+    top: -1rem;
+    z-index: 3;
+    background: $o-view-background-color;
+
+    .o_cimalor_activity_day,
+    .o_cimalor_activity_total {
+      text-align: center;
+      font-size: 0.75rem;
+      color: $text-muted;
+
+      .fw-bold {
+        color: $body-color;
+        font-size: 0.8125rem;
+      }
+    }
+  }
+
+  .o_cimalor_activity_person_row {
+    min-height: 48px;
+
+    .o_cimalor_activity_label,
+    .o_cimalor_activity_day,
+    .o_cimalor_activity_total {
+      background-color: $gray-100;
+    }
+
+    .o_cimalor_activity_today {
+      background-color: mix($blue, $gray-100, 8%);
+    }
+  }
+
+  .o_cimalor_activity_bar {
+    display: inline-block;
+    height: 14px;
+    vertical-align: middle;
+    border-radius: 3px;
+  }
+
+  .o_cimalor_activity_bar_joined {
+    border-radius: 3px 0 0 3px;
+  }
+
+  .o_cimalor_activity_open {
+    background: repeating-linear-gradient(
+      45deg,
+      $success,
+      $success 4px,
+      rgba($success, 0.45) 4px,
+      rgba($success, 0.45) 8px
+    );
+  }
+
+  .o_cimalor_activity_bar.o_cimalor_activity_open {
+    border-radius: 0 3px 3px 0;
+  }
+
+  .o_cimalor_activity_hours {
+    margin-left: 5px;
+    font-size: 0.75rem;
+    color: $text-muted;
+    vertical-align: middle;
+  }
+
+  .o_cimalor_activity_gauge {
+    position: relative;
+    height: 8px;
+    margin-top: 4px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: $gray-200;
+  }
+
+  .o_cimalor_activity_gauge_fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.65;
+  }
+
+  .o_cimalor_activity_dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: $success;
+    box-shadow: 0 0 0 3px rgba($success, 0.25);
+  }
+
+  .o_cimalor_activity_swatch {
+    display: inline-block;
+    width: 14px;
+    height: 10px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
+
+  .o_cimalor_activity_swatch_gauge {
+    background: $gray-200;
+  }
+}

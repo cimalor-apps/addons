@@ -19,6 +19,24 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "%(date)s at %(time)s"
+msgstr "el %(date)s a las %(time)s"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "%(hours)s h"
+msgstr "%(hours)s h"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "%(hours)s h %(minutes)s min"
+msgstr "%(hours)s h %(minutes)s min"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
 msgid "%(hours)s h · %(count)s tasks"
 msgstr "%(hours)s h · %(count)s tareas"
@@ -28,6 +46,12 @@ msgstr "%(hours)s h · %(count)s tareas"
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.js:0
 msgid "%(hours)s h · 1 task"
 msgstr "%(hours)s h · 1 tarea"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "%(logged)s h + %(open)s h open"
+msgstr "%(logged)s h + %(open)s h abierto"
 
 #. module: cimalor_project_status_board
 #. odoo-python
@@ -130,6 +154,12 @@ msgstr "Capacidad"
 #: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_capacity_report
 msgid "Capacity Analysis"
 msgstr "Análisis de capacidad"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid "Capacity of the day"
+msgstr "Capacidad del día"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__user_id
@@ -299,6 +329,7 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_activity__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_queue__display_name
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__display_name
@@ -537,6 +568,7 @@ msgid ""
 msgstr "Horas de cada día laborable dedicadas a reuniones, correo y otro trabajo fuera de las tareas de proyecto. Se restan del horario laboral para obtener la capacidad para tareas."
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_activity__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_queue__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__id
@@ -622,6 +654,14 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid ""
+"Last working days, today included. Timesheets keep hours per day,\n"
+"                            so each day shows a total."
+msgstr "Últimos días laborables, hoy incluido. Las hojas de horas guardan horas por día, así que cada día muestra un total."
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_days_health__late
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
@@ -635,7 +675,6 @@ msgstr "No llega por"
 
 #. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_state_log_report
-#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_state_log_report
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_report_list
 msgid "Latest Changes"
 msgstr "Últimos cambios"
@@ -650,7 +689,15 @@ msgstr "Qué significa la etapa en el ciclo de vida para Project Status Board. E
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid ""
+"Link the users of Project to their employee to see their activity here."
+msgstr "Vincula los usuarios de Proyecto con su empleado para ver aquí su actividad."
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 msgid "Loading…"
 msgstr "Cargando…"
 
@@ -665,6 +712,12 @@ msgstr "Imputar horas"
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_timer_stop_form
 msgid "Log and Start Next"
 msgstr "Imputar y empezar la siguiente"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid "Logged hours"
+msgstr "Horas imputadas"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_excluded
@@ -758,14 +811,40 @@ msgstr "Todavía no hay cambios de estado"
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "No timer running"
+msgstr "Sin parte abierto"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "No timer running · last time entry %(moment)s"
+msgstr "Sin parte abierto · último parte %(moment)s"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/queue_timeline/queue_timeline.xml:0
 msgid "No working schedule"
 msgstr "Sin horario laboral"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
 msgid "Nobody to show"
 msgstr "No hay nadie que mostrar"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "Now: %(what)s · %(time)s"
+msgstr "Ahora: %(what)s · %(time)s"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "Now: %(what)s · running since %(date)s"
+msgstr "Ahora: %(what)s · abierto desde el %(date)s"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_state_log__state_type__stopped
@@ -830,6 +909,12 @@ msgstr "Tareas abiertas"
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_waiting_other
 msgid "Other"
 msgstr "Otro"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "Other projects (%(count)s)"
+msgstr "Otros proyectos (%(count)s)"
 
 #. module: cimalor_project_status_board
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__project_project__cimalor_hours_health__over
@@ -1175,6 +1260,13 @@ msgid ""
 msgstr "Las tareas que cumplen este filtro, como las que guardan el saldo de una bolsa de horas, no cuentan nunca como trabajo. Un proyecto con tareas así es una bolsa: pasa sola a Parado cuando no tiene otras tareas abiertas, y vuelve a En proceso con la siguiente."
 
 #. module: cimalor_project_status_board
+#: model:ir.actions.client,name:cimalor_project_status_board.action_cimalor_project_team_activity
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_activity
+#: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_team_activity
+msgid "Team Activity"
+msgstr "Actividad del equipo"
+
+#. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_technical_block
 msgid "Technical blocker"
 msgstr "Bloqueo técnico"
@@ -1220,6 +1312,12 @@ msgid "Timer Running"
 msgstr "Cronómetro en marcha"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid "Timer running now"
+msgstr "Parte abierto ahora"
+
+#. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "Timer running: %(users)s"
@@ -1244,6 +1342,8 @@ msgid "Today"
 msgstr "Hoy"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_list
 msgid "Total"
@@ -1459,6 +1559,8 @@ msgid "late"
 msgstr "no llegan"
 
 #. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "of"
 msgstr "de"
@@ -1472,3 +1574,21 @@ msgstr "."
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "tasks"
 msgstr "tareas"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "today at %(time)s"
+msgstr "hoy a las %(time)s"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
+msgid "yesterday at %(time)s"
+msgstr "ayer a las %(time)s"
+
+#. module: cimalor_project_status_board
+#. odoo-javascript
+#: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+msgid "· today"
+msgstr "· hoy"
