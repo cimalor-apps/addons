@@ -246,7 +246,8 @@ class CimalorProjectQueue(models.AbstractModel):
         report with the user's own rights: each person sees their own queue
         and Project administrators everybody's, as in Workload and Capacity.
         A person's rows are always complete, so their queue is the real one.
-        Projects on hold are left out, as in the queue itself.
+        Projects on hold are left out, as in the queue itself, and so are the
+        people of Settings › Users Left Out of the Reports.
 
         The queue is still scheduled task by task, in the same order as the
         days margin; the tasks of one project are then gathered in one row,
@@ -260,7 +261,11 @@ class CimalorProjectQueue(models.AbstractModel):
         today = fields.Date.context_today(self)
         self.env.flush_all()
         rows = self.env["cimalor.project.workload.report"].search(
-            [("state_type", "!=", "stopped"), ("user_id", "!=", False)]
+            [
+                ("state_type", "!=", "stopped"),
+                ("user_id", "!=", False),
+                ("user_excluded", "=", False),
+            ]
         )
         by_user = defaultdict(list)
         for row in rows:

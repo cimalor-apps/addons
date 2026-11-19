@@ -47,11 +47,12 @@
                             </t>
                             <div class="o_cimalor_activity_total">Total</div>
                         </div>
-                        <t t-foreach="state.data.people" t-as="person" t-key="person.user_id">
+                        <!-- One card per person, so the eye can tell where each one starts. -->
+                        <div class="o_cimalor_activity_card" t-foreach="state.data.people" t-as="person" t-key="person.user_id">
                             <!-- Person: what they are on now, and each day against their capacity. -->
                             <div class="o_cimalor_activity_row o_cimalor_activity_person_row">
                                 <div class="o_cimalor_activity_label">
-                                    <div class="fw-bold" t-out="person.name" />
+                                    <div class="o_cimalor_activity_name fw-bold" t-out="person.name" />
                                     <div t-if="person.timer" class="small fw-semibold text-success">
                                         <span class="o_cimalor_activity_dot" />
                                         <t t-out="nowText(person)" />
@@ -121,7 +122,7 @@
                                 </t>
                                 <div class="o_cimalor_activity_total" t-out="hoursText(rowTotal(person.others))" />
                             </div>
-                        </t>
+                        </div>
                     </div>
                 </t>
             </div>

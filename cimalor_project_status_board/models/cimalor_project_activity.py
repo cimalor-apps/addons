@@ -46,7 +46,8 @@ class CimalorProjectActivity(models.AbstractModel):
         """The people shown: oneself, or everybody for Project administrators.
 
         Everybody means the users of Project linked to an employee of the
-        current companies, so people who logged nothing show up too.
+        current companies, so people who logged nothing show up too, except
+        the ones of Settings › Users Left Out of the Reports.
         """
         user = self.env.user
         if not user.has_group("project.group_project_manager"):
@@ -63,8 +64,10 @@ class CimalorProjectActivity(models.AbstractModel):
                 ]
             )
         )
+        excluded = self.env["res.users"]._cimalor_report_excluded_users()
         return employees.user_id.filtered(
             lambda person: person.has_group("project.group_project_user")
+            and person not in excluded
         )
 
     @api.model
