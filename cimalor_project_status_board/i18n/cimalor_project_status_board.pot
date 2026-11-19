@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260630\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-17 18:04+0000\n"
-"PO-Revision-Date: 2026-11-17 18:04+0000\n"
+"POT-Creation-Date: 2026-11-19 18:08+0000\n"
+"PO-Revision-Date: 2026-11-19 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,53 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(company)s: Project Status Board, %(date)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(count)s at risk"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(count)s follow-ups overdue"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(count)s working days late (ends %(date)s)"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "%(date)s at %(time)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(days)s days ago"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-javascript
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "%(hours)s h"
 msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "%(hours)s h %(minutes)s min"
 msgstr ""
@@ -46,6 +80,12 @@ msgid "%(hours)s h · 1 task"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "%(hours)s over"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "%(logged)s h + %(open)s h open"
@@ -53,6 +93,8 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "%(minutes)s min"
 msgstr ""
@@ -61,6 +103,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "%(user)s moved the project to %(stage)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "1 at risk"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "1 follow-up overdue"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "1 working day late (ends %(date)s)"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -92,6 +152,13 @@ msgstr ""
 msgid ""
 "A Waiting reason is offered only for Waiting projects, an On Hold reason "
 "only for projects on hold."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid ""
+"A summary of the board every day: team activity, projects at risk and "
+"overdue follow-ups. Each recipient gets what they can see in the reports."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -144,6 +211,11 @@ msgid "Back to In Progress automatically: new request %(task)s."
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Because of"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_capacity_report
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_capacity_report
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
@@ -181,6 +253,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__note
 msgid "Comment"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -247,6 +324,17 @@ msgid "Daily Capacity"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Daily Email"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_company__cimalor_digest_user_ids
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_digest_user_ids
+msgid "Daily Email Recipients"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "Data missing"
 msgstr ""
@@ -291,6 +379,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_days_margin
 msgid "Days Margin"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Delivery"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -455,6 +548,7 @@ msgid "Explain the reason"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "Follow-up"
 msgstr ""
@@ -517,6 +611,11 @@ msgid "Hour bank without requests"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Hours"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_hours_health
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_search
 msgid "Hours Health"
@@ -550,6 +649,11 @@ msgstr ""
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_capacity_report__pending_hours
 msgid ""
 "Hours left on the open tasks of projects to start, in progress or waiting."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Hours logged on the last working days, against each person's capacity."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -660,6 +764,12 @@ msgid "Late Because Of"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "Late, no end in sight"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.actions.act_window,name:cimalor_project_status_board.action_cimalor_project_state_log_report
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_report_list
 msgid "Latest Changes"
@@ -700,9 +810,19 @@ msgid "Log and Start Next"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Logged"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 msgid "Logged hours"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Manager"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -743,6 +863,16 @@ msgid "Name"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_digest_next_send
+msgid "Next Daily Email"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Next Email"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__next_task_id
 msgid "Next Task"
 msgstr ""
@@ -769,6 +899,11 @@ msgid "No Open Tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "No follow-up overdue."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "No open tasks"
 msgstr ""
@@ -786,6 +921,11 @@ msgid "No project at risk"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "No project at risk."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_project_project_my
 msgid "No projects of yours yet"
 msgstr ""
@@ -796,9 +936,21 @@ msgid "No state changes yet"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "No time entries yet"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "No timer running"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "No timer running · last time entry %(date)s at %(time)s"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -818,6 +970,11 @@ msgstr ""
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
 #: model_terms:ir.actions.act_window,help:cimalor_project_status_board.action_cimalor_project_capacity_report
 msgid "Nobody to show"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Nobody to show."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -891,6 +1048,11 @@ msgid "Open Tasks"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Open the board"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_stopped_other
 #: model:cimalor.project.stop.reason,name:cimalor_project_status_board.stop_reason_waiting_other
 msgid "Other"
@@ -898,6 +1060,8 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-javascript
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "Other projects (%(count)s)"
 msgstr ""
@@ -912,6 +1076,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:cimalor_project_status_board.selection__cimalor_project_workload_report__due_status__overdue
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Overdue"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Overdue Follow-ups"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -939,6 +1108,23 @@ msgid "Pending hours over the weekly capacity."
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_company__cimalor_excluded_user_ids
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_user_ids
+msgid ""
+"People who do not appear in the team views of the reports (Team Activity, "
+"Workload, Capacity, Queue by Person, daily email), such as managers who do "
+"not log project work. Their tasks still count for the projects' margins."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_company__cimalor_digest_user_ids
+#: model:ir.model.fields,help:cimalor_project_status_board.field_res_config_settings__cimalor_digest_user_ids
+msgid ""
+"People who receive the daily email of the board. Each one gets what they can"
+" see in the reports."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_project_project__cimalor_late_by
 msgid "People whose part of the project ends after the delivery date."
 msgstr ""
@@ -948,6 +1134,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__user_id
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 msgid "Person"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_capacity_report__user_excluded
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__user_excluded
+msgid "Person Left Out"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -968,6 +1160,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_state_log__project_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer_stop__project_id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_workload_report__project_id
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_state_log_search
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_search
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_form
@@ -1005,8 +1198,19 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_root
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
 msgid "Project Status Board"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_digest
+msgid "Project Status Board Daily Email"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.actions.server,name:cimalor_project_status_board.ir_cron_cimalor_project_digest_ir_actions_server
+msgid "Project Status Board: daily email"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1033,6 +1237,11 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_status_board_project_root
 msgid "Projects"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Projects at Risk"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1096,6 +1305,11 @@ msgstr ""
 msgid ""
 "Reasons explain why a project is waiting or on hold, and who it\n"
 "                depends on."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Recipients"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1249,6 +1463,7 @@ msgstr ""
 #: model:ir.actions.client,name:cimalor_project_status_board.action_cimalor_project_team_activity
 #: model:ir.model,name:cimalor_project_status_board.model_cimalor_project_activity
 #: model:ir.ui.menu,name:cimalor_project_status_board.menu_cimalor_project_team_activity
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 msgid "Team Activity"
 msgstr ""
 
@@ -1273,6 +1488,21 @@ msgstr ""
 #. module: cimalor_project_status_board
 #: model:ir.model.fields,help:cimalor_project_status_board.field_cimalor_project_workload_report__date
 msgid "The task's deadline or, when it has none, the project's delivery date."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid ""
+"They do not appear in Team Activity, Workload, Capacity, Queue by Person or "
+"the daily email, such as managers who do not log project work. Their tasks "
+"still count for the projects' margins."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid ""
+"They will need more hours than allocated, or will not make their delivery "
+"date."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1305,6 +1535,18 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "Timer running since %(date)s at %(time)s: %(what)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "Timer running when this email was sent: %(what)s · %(time)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "Timer running: %(users)s"
 msgstr ""
@@ -1330,6 +1572,7 @@ msgstr ""
 #. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_capacity_report_list
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_cimalor_project_workload_report_list
 msgid "Total"
@@ -1360,8 +1603,16 @@ msgid "Used For"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model:ir.model,name:cimalor_project_status_board.model_res_users
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_cimalor_project_timer__user_id
 msgid "User"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_company__cimalor_excluded_user_ids
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__cimalor_excluded_user_ids
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.res_config_settings_view_form
+msgid "Users Left Out of the Reports"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1387,6 +1638,11 @@ msgid "Waiting and On Hold Reasons"
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid "Waiting for"
+msgstr ""
+
+#. module: cimalor_project_status_board
 #. odoo-python
 #: code:addons/cimalor_project_status_board/models/project_project.py:0
 msgid "Waiting for: %(reason)s."
@@ -1403,6 +1659,13 @@ msgstr ""
 msgid ""
 "Waiting or On Hold without its reason or date, typically after dragging the "
 "card on the board."
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid ""
+"Waiting projects whose follow-up date has passed: time to chase the "
+"customer."
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -1498,6 +1761,13 @@ msgid ""
 msgstr ""
 
 #. module: cimalor_project_status_board
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
+msgid ""
+"You receive this email as a recipient set in Project › Settings › Daily "
+"Email."
+msgstr ""
+
+#. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "d"
 msgstr ""
@@ -1522,6 +1792,7 @@ msgstr ""
 #. module: cimalor_project_status_board
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.xml:0
+#: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.cimalor_project_digest_email
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
 msgid "of"
 msgstr ""
@@ -1540,6 +1811,12 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/cimalor_project_status_board/static/src/team_activity/team_activity.js:0
 msgid "today at %(time)s"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#. odoo-python
+#: code:addons/cimalor_project_status_board/models/cimalor_project_digest.py:0
+msgid "yesterday"
 msgstr ""
 
 #. module: cimalor_project_status_board

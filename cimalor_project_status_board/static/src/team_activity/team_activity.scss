@@ -1,16 +1,55 @@
 // Team Activity: one column per day; widths are fixed so the bars of all the
 // rows compare. Colours come from Bootstrap's classes.
 .o_cimalor_activity {
+  $card-radius: 8px;
+
   .o_cimalor_activity_grid {
     width: max-content;
-    background: $o-view-background-color;
-    border: 1px solid $border-color;
   }
 
   .o_cimalor_activity_row {
     display: flex;
     min-height: 32px;
     border-bottom: 1px solid $border-color;
+  }
+
+  // One card per person, apart from the next one. No overflow: hidden to clip
+  // the corners: it would make the card the scrolling box and break the
+  // sticky names column; the corner cells are rounded instead.
+  .o_cimalor_activity_card {
+    margin-top: 12px;
+    background: $o-view-background-color;
+    border: 1px solid $border-color;
+    border-radius: $card-radius;
+    box-shadow: 0 1px 3px rgba($black, 0.08);
+
+    > .o_cimalor_activity_row:last-child {
+      border-bottom: 0;
+    }
+
+    > .o_cimalor_activity_row:first-child {
+      > :first-child {
+        border-top-left-radius: $card-radius;
+      }
+
+      > :last-child {
+        border-top-right-radius: $card-radius;
+      }
+    }
+
+    > .o_cimalor_activity_row:last-child {
+      > :first-child {
+        border-bottom-left-radius: $card-radius;
+      }
+
+      > :last-child {
+        border-bottom-right-radius: $card-radius;
+      }
+    }
+  }
+
+  .o_cimalor_activity_name {
+    font-size: 0.9375rem;
   }
 
   .o_cimalor_activity_label {

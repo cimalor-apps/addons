@@ -83,6 +83,23 @@ class CimalorProjectCapacityReport(models.Model):
         "off and holidays included. Empty without a working schedule.",
     )
 
+    # Only to search, as in the Workload report.
+    user_excluded = fields.Boolean(
+        string="Person Left Out",
+        compute="_compute_user_excluded",
+        search="_search_user_excluded",
+    )
+
+    def _compute_user_excluded(self):
+        excluded = self.env["res.users"]._cimalor_report_excluded_users()
+        for row in self:
+            row.user_excluded = row.user_id in excluded
+
+    def _search_user_excluded(self, operator, value):
+        return self.env["res.users"]._cimalor_report_excluded_domain(
+            "user_id", operator, value
+        )
+
     def _query(self):
         """One row per active employee with a user, with their workload.
 
