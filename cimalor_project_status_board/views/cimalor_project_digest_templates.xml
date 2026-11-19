@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        The daily email (models/cimalor_project_digest.py). Mail clients run
+        no JavaScript and drop most CSS, so it is made of tables with inline
+        styles, like Odoo's own digest email. Every text comes ready from
+        Python; the template only lays it out.
+    -->
+    <template id="cimalor_project_digest_email">
+        <div style="margin: 0; padding: 24px 0; background-color: #f2f3f5; font-family: Arial, Helvetica, sans-serif; color: #212529;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 760px; margin: 0 auto; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 0 16px 16px 16px;">
+                        <div style="font-size: 13px; color: #6c757d;" t-out="company.name" />
+                        <div style="font-size: 22px; font-weight: bold; margin-top: 2px;">Project Status Board</div>
+                        <div style="font-size: 13px; color: #6c757d; margin-top: 2px;" t-out="date_text" />
+                        <div style="font-size: 13px; margin-top: 10px;">
+                            <span t-attf-style="color: {{ at_risk and '#dc3545' or '#198754' }}; font-weight: bold;">
+                                <t t-out="at_risk_text" />
+                            </span>
+                            ·
+                            <span t-attf-style="color: {{ overdue and '#dc3545' or '#198754' }}; font-weight: bold;">
+                                <t t-out="overdue_text" />
+                            </span>
+                            ·
+                            <a t-att-href="board_url" style="color: #017e84;">Open the board</a>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Team activity: one card per person. -->
+                <tr>
+                    <td style="padding: 8px 16px 4px 16px;">
+                        <div style="font-size: 17px; font-weight: bold;">
+                            <a t-att-href="activity_url" style="color: #212529; text-decoration: none;">Team Activity</a>
+                        </div>
+                        <div style="font-size: 12px; color: #6c757d; margin: 2px 0 10px 0;">
+                            Hours logged on the last working days, against each person's capacity.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0 16px;">
+                        <div t-if="not activity['people']" style="font-size: 13px; color: #6c757d; margin-bottom: 16px;">
+                            Nobody to show.
+                        </div>
+                        <t t-foreach="activity['people']" t-as="person">
+                            <table
+                                role="presentation"
+                                width="100%"
+                                cellpadding="0"
+                                cellspacing="0"
+                                style="border-collapse: separate; border-spacing: 0; background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; margin: 0 0 16px 0; font-size: 12px;"
+                            >
+                                <tr>
+                                    <td
+                                        t-att-colspan="len(activity['days']) + 2"
+                                        style="padding: 10px 12px; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6; border-radius: 8px 8px 0 0;"
+                                    >
+                                        <div style="font-size: 15px; font-weight: bold;" t-out="person['name']" />
+                                        <div
+                                            t-attf-style="margin-top: 2px; color: {{ person['running'] and '#198754' or '#6c757d' }};{{ person['running'] and ' font-weight: bold;' or '' }}"
+                                        >
+                                            <t t-if="person['running']">● </t>
+                                            <t t-out="person['now']" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 12px; color: #6c757d;" />
+                                    <t t-foreach="activity['days']" t-as="day">
+                                        <td
+                                            t-attf-style="padding: 6px 4px; text-align: center; color: #6c757d; width: 80px;{{ day['today'] and ' background-color: #eef4fb; font-weight: bold;' or '' }}"
+                                            t-out="day['name']"
+                                        />
+                                    </t>
+                                    <td style="padding: 6px 12px; text-align: right; color: #6c757d; width: 80px;">Total</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 12px; border-top: 1px solid #dee2e6; font-weight: bold;">Logged</td>
+                                    <t t-foreach="person['days']" t-as="cell">
+                                        <td
+                                            t-attf-style="padding: 6px 4px; text-align: center; border-top: 1px solid #dee2e6;{{ cell['today'] and ' background-color: #eef4fb;' or '' }}"
+                                        >
+                                            <div
+                                                t-attf-style="font-weight: bold;{{ cell['full'] and ' color: #198754;' or '' }}"
+                                                t-out="cell['text']"
+                                            />
+                                            <div t-if="cell['capacity']" style="color: #6c757d;">
+                                                of <t t-out="cell['capacity']" />
+                                            </div>
+                                        </td>
+                                    </t>
+                                    <td style="padding: 6px 12px; text-align: right; border-top: 1px solid #dee2e6;">
+                                        <div style="font-weight: bold;" t-out="person['total']" />
+                                        <div t-if="person['capacity']" style="color: #6c757d;">
+                                            of <t t-out="person['capacity']" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <t t-foreach="person['rows']" t-as="row">
+                                    <tr>
+                                        <td style="padding: 6px 12px 6px 20px; border-top: 1px solid #eef0f2;">
+                                            <span t-if="row['open']" style="color: #198754;">● </span>
+                                            <a t-att-href="row['url']" style="color: #212529; text-decoration: none;" t-out="row['name']" />
+                                        </td>
+                                        <t t-foreach="row['cells']" t-as="cell">
+                                            <td
+                                                t-attf-style="padding: 6px 4px; text-align: center; border-top: 1px solid #eef0f2;{{ cell['today'] and ' background-color: #eef4fb;' or '' }}{{ cell['open'] and ' color: #198754; font-weight: bold;' or '' }}"
+                                                t-out="cell['text']"
+                                            />
+                                        </t>
+                                        <td
+                                            style="padding: 6px 12px; text-align: right; border-top: 1px solid #eef0f2;"
+                                            t-out="row['total']"
+                                        />
+                                    </tr>
+                                </t>
+                                <tr t-if="person['others']">
+                                    <td
+                                        style="padding: 6px 12px 6px 20px; border-top: 1px solid #eef0f2; color: #6c757d;"
+                                        t-out="person['others']['name']"
+                                    />
+                                    <t t-foreach="person['others']['cells']" t-as="cell">
+                                        <td
+                                            t-attf-style="padding: 6px 4px; text-align: center; border-top: 1px solid #eef0f2; color: #6c757d;{{ cell['today'] and ' background-color: #eef4fb;' or '' }}"
+                                            t-out="cell['text']"
+                                        />
+                                    </t>
+                                    <td
+                                        style="padding: 6px 12px; text-align: right; border-top: 1px solid #eef0f2; color: #6c757d;"
+                                        t-out="person['others']['total']"
+                                    />
+                                </tr>
+                            </table>
+                        </t>
+                    </td>
+                </tr>
+
+                <!-- Projects at risk. -->
+                <tr>
+                    <td style="padding: 8px 16px 16px 16px;">
+                        <div style="font-size: 17px; font-weight: bold;">Projects at Risk</div>
+                        <div style="font-size: 12px; color: #6c757d; margin: 2px 0 10px 0;">
+                            They will need more hours than allocated, or will not make their delivery date.
+                        </div>
+                        <div t-if="not at_risk" style="font-size: 13px; color: #198754;">No project at risk.</div>
+                        <table
+                            t-else=""
+                            role="presentation"
+                            width="100%"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="border-collapse: separate; border-spacing: 0; background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; font-size: 12px;"
+                        >
+                            <tr style="color: #6c757d;">
+                                <td style="padding: 8px 12px;">Project</td>
+                                <td style="padding: 8px 12px;">Manager</td>
+                                <td style="padding: 8px 12px;">Hours</td>
+                                <td style="padding: 8px 12px;">Delivery</td>
+                            </tr>
+                            <tr t-foreach="at_risk" t-as="project">
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;">
+                                    <a t-att-href="project['url']" style="color: #212529; font-weight: bold; text-decoration: none;" t-out="project['name']" />
+                                </td>
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;" t-out="project['manager']" />
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2; color: #dc3545;" t-out="project['hours']" />
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;">
+                                    <div style="color: #dc3545;" t-out="project['days']" />
+                                    <div t-if="project['late_by']" style="color: #6c757d;">
+                                        Because of <t t-out="project['late_by']" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Overdue follow-ups. -->
+                <tr>
+                    <td style="padding: 8px 16px 16px 16px;">
+                        <div style="font-size: 17px; font-weight: bold;">Overdue Follow-ups</div>
+                        <div style="font-size: 12px; color: #6c757d; margin: 2px 0 10px 0;">
+                            Waiting projects whose follow-up date has passed: time to chase the customer.
+                        </div>
+                        <div t-if="not overdue" style="font-size: 13px; color: #198754;">No follow-up overdue.</div>
+                        <table
+                            t-else=""
+                            role="presentation"
+                            width="100%"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="border-collapse: separate; border-spacing: 0; background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; font-size: 12px;"
+                        >
+                            <tr style="color: #6c757d;">
+                                <td style="padding: 8px 12px;">Project</td>
+                                <td style="padding: 8px 12px;">Waiting for</td>
+                                <td style="padding: 8px 12px;">Follow-up</td>
+                                <td style="padding: 8px 12px;">Manager</td>
+                            </tr>
+                            <tr t-foreach="overdue" t-as="project">
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;">
+                                    <a t-att-href="project['url']" style="color: #212529; font-weight: bold; text-decoration: none;" t-out="project['name']" />
+                                    <div t-if="project['customer']" style="color: #6c757d;" t-out="project['customer']" />
+                                </td>
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;" t-out="project['reason']" />
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2; color: #dc3545;">
+                                    <t t-out="project['date']" />
+                                    <div style="color: #6c757d;" t-out="project['ago']" />
+                                </td>
+                                <td style="padding: 8px 12px; border-top: 1px solid #eef0f2;" t-out="project['manager']" />
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 16px 0 16px; font-size: 11px; color: #6c757d;">
+                        You receive this email as a recipient set in Project › Settings › Daily Email.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+</odoo>

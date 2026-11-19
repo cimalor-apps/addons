@@ -102,6 +102,16 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   alone.
 - **Reasons without date:** a reason can say it needs no follow-up or restart date
   (_Requires Date_), so its projects are not flagged as missing data.
+- **Users left out of the reports:** in the same place, a list of people (such as managers
+  who do not log project work) who do not appear in Team Activity, Workload, Capacity,
+  Queue by Person or the daily email. Their tasks still count for the projects' margins.
+  The list only trims the views of Project administrators: a person who only sees
+  themselves keeps seeing themselves. One list per company.
+- **Daily email:** in the same place, the recipients and the time of the next email; it
+  then repeats every day at that time (the scheduled action _Project Status Board: daily
+  email_). It holds the team activity, the projects at risk and the overdue follow-ups,
+  and each recipient gets what they can see in the reports. It goes out through the
+  database's outgoing mail server, like any other Odoo email: set one up first.
 
 ## Usage
 
@@ -148,10 +158,11 @@ Project **administrators** change any project and also manage the reasons.
   `cimalor.project.activity.get_activity_data()`: it picks the people first (oneself, or
   every Project user with an employee for Project administrators), then reads their
   timers and timesheets as superuser, since timers are private to their user.
-- _Team Activity_ is another client action (`static/src/team_activity/`), fed by
-  `cimalor.project.activity.get_activity_data()`: it picks the people first (oneself, or
-  every Project user with an employee for Project administrators), then reads their
-  timers and timesheets as superuser, since timers are private to their user.
+- The daily email (`cimalor.project.digest`) reads the same data as each recipient
+  (`with_user`) and renders a QWeb template of tables with inline styles
+  (`views/cimalor_project_digest_templates.xml`): mail clients run no JavaScript and keep
+  little CSS, so it cannot reuse the OWL view. The lists of people live on the company
+  (`res.company`) and are edited in the settings through related fields.
 - The days margin is computed when read, never stored: it depends on the other projects of
   the same people, which `@api.depends` cannot follow.
 - The live counter is the module's only JavaScript: the `cimalor_timer` field widget, which

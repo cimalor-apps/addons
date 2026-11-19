@@ -38,6 +38,36 @@
                             options="{'model': 'project.task'}"
                         />
                     </setting>
+                    <setting
+                        id="cimalor_excluded_users"
+                        string="Users Left Out of the Reports"
+                        help="They do not appear in Team Activity, Workload, Capacity, Queue by Person or the daily email, such as managers who do not log project work. Their tasks still count for the projects' margins."
+                    >
+                        <field
+                            name="cimalor_excluded_user_ids"
+                            widget="many2many_tags"
+                            domain="[('share', '=', False)]"
+                        />
+                    </setting>
+                    <setting
+                        id="cimalor_digest"
+                        string="Daily Email"
+                        help="A summary of the board every day: team activity, projects at risk and overdue follow-ups. Each recipient gets what they can see in the reports."
+                    >
+                        <div class="row mt-2">
+                            <label for="cimalor_digest_user_ids" string="Recipients" class="col-lg-4 o_light_label" />
+                            <field
+                                name="cimalor_digest_user_ids"
+                                widget="many2many_tags"
+                                domain="[('share', '=', False)]"
+                                class="col-lg-8"
+                            />
+                        </div>
+                        <div class="row">
+                            <label for="cimalor_digest_next_send" string="Next Email" class="col-lg-4 o_light_label" />
+                            <field name="cimalor_digest_next_send" class="col-lg-8" />
+                        </div>
+                    </setting>
                 </block>
             </xpath>
         </field>

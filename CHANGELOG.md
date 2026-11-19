@@ -108,6 +108,28 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.9] - 2026-11-19
+
+#### Added
+
+- Daily email: team activity (each person on a card, with their hours of the last
+  working days against their capacity and their running timer), projects at risk (hours
+  or days margin negative) and overdue follow-ups. Recipients and the time of the next
+  email in Settings › Project Status Board › Daily Email; it then repeats every day at
+  that time. Each recipient gets what they can see in the reports. Sent through the
+  database's own outgoing mail server.
+- Settings › Users Left Out of the Reports: people, such as managers who do not log
+  project work, who do not appear in Team Activity, Workload, Capacity, Queue by Person
+  or the daily email. Their tasks still count for the projects' margins, and a person
+  who only sees themselves keeps seeing themselves.
+
+#### Changed
+
+- Team Activity: each person is a card of their own, apart from the next one, so the eye
+  can tell where each person starts.
+- Store page: the daily email and the users left out of the reports, the Team Activity
+  screenshot retaken with the cards, and a screenshot of the daily email.
+
 ### [19.0.0.1.8] - 2026-11-17
 
 #### Changed
