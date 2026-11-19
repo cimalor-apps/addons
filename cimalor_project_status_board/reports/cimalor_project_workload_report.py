@@ -61,6 +61,24 @@ class CimalorProjectWorkloadReport(models.Model):
     )
     hours = fields.Float(string="Pending Hours", readonly=True, aggregator="sum")
     company_id = fields.Many2one(comodel_name="res.company", readonly=True)
+    # Only to search: the action leaves out the people of Settings › Users
+    # Left Out of the Reports. A view column cannot hold it, because the list
+    # depends on who reads (see res.users).
+    user_excluded = fields.Boolean(
+        string="Person Left Out",
+        compute="_compute_user_excluded",
+        search="_search_user_excluded",
+    )
+
+    def _compute_user_excluded(self):
+        excluded = self.env["res.users"]._cimalor_report_excluded_users()
+        for row in self:
+            row.user_excluded = row.user_id in excluded
+
+    def _search_user_excluded(self, operator, value):
+        return self.env["res.users"]._cimalor_report_excluded_domain(
+            "user_id", operator, value
+        )
 
     def _query(self):
         """The rows of the report, one per open main task and person.

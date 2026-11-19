@@ -13,4 +13,24 @@
         <field name="code">model._cimalor_daily_refresh()</field>
         <field name="interval_type">days</field>
     </record>
+
+    <!--
+        The daily email. noupdate: the time of the next run is edited in the
+        settings (Daily Email › Next Email), and an upgrade must not reset it.
+        First run tomorrow at 17:00 UTC, the end of a working day in Europe.
+        It runs every day and sends nothing while nobody is on the list.
+    -->
+    <data noupdate="1">
+        <record id="ir_cron_cimalor_project_digest" model="ir.cron">
+            <field name="name">Project Status Board: daily email</field>
+            <field name="model_id" ref="model_cimalor_project_digest" />
+            <field name="state">code</field>
+            <field name="code">model._cron_send_daily_email()</field>
+            <field name="interval_type">days</field>
+            <field
+                name="nextcall"
+                eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"
+            />
+        </record>
+    </data>
 </odoo>
