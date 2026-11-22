@@ -390,7 +390,12 @@
                     <notebook>
                         <page string="Tasks" name="cimalor_open_tasks">
                             <field name="cimalor_open_task_ids">
-                                <list editable="bottom">
+                                <!--
+                                    delete="0": in a one2many line the trash icon
+                                    deletes the task itself. Tasks are deleted
+                                    from the Project app, on purpose.
+                                -->
+                                <list editable="bottom" delete="0">
                                     <!--
                                         Drag to reorder when needed. It writes the
                                         task's own `sequence`, the same one
