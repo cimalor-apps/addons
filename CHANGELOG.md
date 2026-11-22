@@ -108,6 +108,22 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.11] - 2026-11-22
+
+#### Changed
+
+- The Configuration menu (Settings, Reasons, Stages) is for Odoo administrators only,
+  not Project administrators. Odoo administrators can manage reasons even without the
+  Project administrator role.
+- Daily email: a recipient who is not a Project administrator gets only their own
+  projects at risk and overdue follow-ups (the ones they manage or have tasks in, as in
+  My Projects), besides their own activity.
+
+#### Fixed
+
+- Project form: the task lines no longer show the trash icon, which deleted the task
+  itself. Tasks are deleted from the Project app.
+
 ### [18.0.0.1.10] - 2026-11-22
 
 #### Changed

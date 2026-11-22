@@ -280,8 +280,17 @@ class CimalorProjectDigest(models.AbstractModel):
     # Projects --------------------------------------------------------------
 
     def _project_domain(self):
-        """Projects of the board: not excluded (18.0 has no project templates)."""
-        return [("cimalor_excluded", "=", False)]
+        """Projects of the email: not excluded (18.0 has no project templates).
+
+        Project administrators get every project they see. Anybody else gets
+        their own: the ones they manage or have tasks in, as in My Projects,
+        so the email is about their work, not every public project.
+        """
+        domain = [("cimalor_excluded", "=", False)]
+        if not self.env.user.has_group("project.group_project_manager"):
+            uid = self.env.uid
+            domain += ["|", ("user_id", "=", uid), ("tasks.user_ids", "in", uid)]
+        return domain
 
     def _at_risk_values(self, base_url):
         """Projects that will need more hours or will be late.
