@@ -47,7 +47,7 @@
         <field name="name">Capacity</field>
         <field name="res_model">cimalor.project.capacity.report</field>
         <field name="view_mode">list</field>
-        <!-- Settings › Users Left Out of the Reports. -->
+        <!-- Settings › Employees Left Out of the Reports. -->
         <field name="domain">[('user_excluded', '=', False)]</field>
         <field name="search_view_id" ref="view_cimalor_project_capacity_report_search" />
         <field name="help" type="html">

@@ -39,14 +39,15 @@
                         />
                     </setting>
                     <setting
-                        id="cimalor_excluded_users"
-                        string="Users Left Out of the Reports"
+                        id="cimalor_excluded_employees"
+                        string="Employees Left Out of the Reports"
                         help="They do not appear in Team Activity, Workload, Capacity, Queue by Person or the daily email, such as managers who do not log project work. Their tasks still count for the projects' margins."
                     >
+                        <!-- Only employees with a user: the reports show nobody else. -->
                         <field
-                            name="cimalor_excluded_user_ids"
+                            name="cimalor_excluded_employee_ids"
                             widget="many2many_tags"
-                            domain="[('share', '=', False)]"
+                            domain="[('user_id', '!=', False)]"
                         />
                     </setting>
                     <setting

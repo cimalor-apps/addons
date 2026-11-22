@@ -26,8 +26,8 @@ class ResConfigSettings(models.TransientModel):
         "Progress with the next one.",
     )
     # Lists of people, kept on the company (see res.company).
-    cimalor_excluded_user_ids = fields.Many2many(
-        related="company_id.cimalor_excluded_user_ids",
+    cimalor_excluded_employee_ids = fields.Many2many(
+        related="company_id.cimalor_excluded_employee_ids",
         readonly=False,
     )
     cimalor_digest_user_ids = fields.Many2many(

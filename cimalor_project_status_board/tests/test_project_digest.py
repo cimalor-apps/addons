@@ -90,7 +90,11 @@ class PeopleCase(TransactionCase):
 
     def _leave_out(self, *users):
         self.env["res.config.settings"].create(
-            {"cimalor_excluded_user_ids": [Command.set([user.id for user in users])]}
+            {
+                "cimalor_excluded_employee_ids": [
+                    Command.set([user.employee_id.id for user in users])
+                ]
+            }
         ).execute()
 
 
@@ -98,7 +102,16 @@ class PeopleCase(TransactionCase):
 class TestExcludedUsers(PeopleCase):
     def test_setting_lives_on_the_company(self):
         self._leave_out(self.boss)
-        self.assertEqual(self.env.company.cimalor_excluded_user_ids, self.boss)
+        self.assertEqual(
+            self.env.company.cimalor_excluded_employee_ids, self.boss.employee_id
+        )
+        self.assertEqual(
+            self.env["res.users"]
+            .with_user(self.admin)
+            ._cimalor_report_excluded_users(),
+            self.boss,
+            "read by a Project administrator without HR rights",
+        )
 
     @freeze_time(MONDAY)
     def test_team_activity(self):
