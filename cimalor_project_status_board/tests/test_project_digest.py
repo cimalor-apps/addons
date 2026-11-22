@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from freezegun import freeze_time
+from lxml import etree
 
 from odoo import Command
 from odoo.tests import tagged
@@ -261,6 +262,20 @@ class TestDailyEmail(PeopleCase):
         self.assertTrue({"Worker", "Boss"} <= self._cards(admin_mail))
 
     @freeze_time(MONDAY)
+    def test_non_administrator_gets_their_projects_only(self):
+        """Their own projects (managed or with tasks), as in My Projects."""
+        mails = self._send(self.admin, self.worker)
+        worker_body = mails.filtered(
+            lambda m: m.email_to == self.worker.email_formatted
+        ).body_html
+        admin_body = (
+            mails - mails.filtered(lambda m: m.email_to == self.worker.email_formatted)
+        ).body_html
+        self.assertIn("Overrun", worker_body, "they have a task in it")
+        self.assertNotIn("Silent customer", worker_body, "nothing of theirs there")
+        self.assertIn("Silent customer", admin_body, "administrators get them all")
+
+    @freeze_time(MONDAY)
     def test_recipient_without_email_is_skipped(self):
         self.worker.email = False
         self.assertEqual(len(self._send(self.admin, self.worker)), 1)
@@ -287,3 +302,32 @@ class TestDailyEmail(PeopleCase):
         self.assertEqual(cron.nextcall, when)
         settings = self.env["res.config.settings"].create({})
         self.assertEqual(settings.cimalor_digest_next_send, when)
+
+
+@tagged("post_install", "-at_install")
+class TestConfigurationAndTaskList(TransactionCase):
+    def test_configuration_for_odoo_administrators_only(self):
+        config = self.env.ref(f"{MODULE}.menu_cimalor_project_status_board_config")
+        project_admin = new_test_user(
+            self.env, login="psb_config_project_admin", groups=MANAGER_GROUPS
+        )
+        odoo_admin = new_test_user(
+            self.env,
+            login="psb_config_odoo_admin",
+            groups=GROUPS + ",base.group_system",
+        )
+        Menu = self.env["ir.ui.menu"]
+        self.assertNotIn(config.id, Menu.with_user(project_admin)._visible_menu_ids())
+        self.assertIn(config.id, Menu.with_user(odoo_admin)._visible_menu_ids())
+        # The menu's Reasons work for an Odoo administrator, Project one or not.
+        Reason = self.env["cimalor.project.stop.reason"].with_user(odoo_admin)
+        self.assertTrue(Reason.create({"name": "Test", "reason_type": "waiting"}))
+
+    def test_open_tasks_cannot_be_deleted_from_the_form(self):
+        """No trash icon on the task lines: tasks are deleted in Project."""
+        arch = self.env["project.project"].get_view(
+            self.env.ref(f"{MODULE}.view_project_project_form").id, "form"
+        )["arch"]
+        tree = etree.fromstring(arch)
+        task_list = tree.xpath("//field[@name='cimalor_open_task_ids']/list")[0]
+        self.assertEqual(task_list.get("delete"), "0")

@@ -74,7 +74,8 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 
 ## Configuration
 
-- **Reasons:** Project Status Board › Configuration › Reasons (Project administrators). Each
+- **Reasons:** Project Status Board › Configuration › Reasons. The Configuration menu is for
+  Odoo administrators only; Project administrators can still manage reasons. Each
   reason is used for Waiting or for On Hold and can require a note (as _Other_ does). On
   Hold reasons also propose who the project depends on.
 - **Stages:** Project Status Board › Configuration › Stages, which is Project's own stage
@@ -110,9 +111,11 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   per company.
 - **Daily email:** in the same place, the recipients and the time of the next email; it
   then repeats every day at that time (the scheduled action _Project Status Board: daily
-  email_). It holds the team activity, the projects at risk and the overdue follow-ups,
-  and each recipient gets what they can see in the reports. It goes out through the
-  database's outgoing mail server, like any other Odoo email: set one up first.
+  email_). It holds the team activity, the projects at risk and the overdue follow-ups.
+  Project administrators get the whole team and every project they see; anybody else
+  gets their own activity and their own projects (the ones they manage or have tasks
+  in, as in My Projects). It goes out through the database's outgoing mail server, like
+  any other Odoo email: set one up first.
 
 ## Usage
 
