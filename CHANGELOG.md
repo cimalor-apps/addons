@@ -108,6 +108,15 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.10] - 2026-11-22
+
+#### Changed
+
+- Settings › Users Left Out of the Reports becomes **Employees Left Out of the
+  Reports**: the reports are about the people who log time, who are employees, so the
+  list offers employees with a user instead of every user. The upgrade turns each user
+  already in the list into their active employee in the same company.
+
 ### [18.0.0.1.9] - 2026-11-19
 
 #### Added

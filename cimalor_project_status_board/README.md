@@ -102,11 +102,12 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   alone.
 - **Reasons without date:** a reason can say it needs no follow-up or restart date
   (_Requires Date_), so its projects are not flagged as missing data.
-- **Users left out of the reports:** in the same place, a list of people (such as managers
-  who do not log project work) who do not appear in Team Activity, Workload, Capacity,
-  Queue by Person or the daily email. Their tasks still count for the projects' margins.
-  The list only trims the views of Project administrators: a person who only sees
-  themselves keeps seeing themselves. One list per company.
+- **Employees left out of the reports:** in the same place, a list of employees with a
+  user (such as managers who do not log project work) who do not appear in Team
+  Activity, Workload, Capacity, Queue by Person or the daily email. Their tasks still
+  count for the projects' margins. The list only trims the views of Project
+  administrators: a person who only sees themselves keeps seeing themselves. One list
+  per company.
 - **Daily email:** in the same place, the recipients and the time of the next email; it
   then repeats every day at that time (the scheduled action _Project Status Board: daily
   email_). It holds the team activity, the projects at risk and the overdue follow-ups,

@@ -47,7 +47,7 @@ class CimalorProjectActivity(models.AbstractModel):
 
         Everybody means the users of Project linked to an employee of the
         current companies, so people who logged nothing show up too, except
-        the ones of Settings › Users Left Out of the Reports.
+        the ones of Settings › Employees Left Out of the Reports.
         """
         user = self.env.user
         if not user.has_group("project.group_project_manager"):
