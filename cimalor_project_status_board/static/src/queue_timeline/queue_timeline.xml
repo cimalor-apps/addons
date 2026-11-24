@@ -2,10 +2,10 @@
 <templates xml:space="preserve">
     <!-- The weekend shading and today's line, under every row of the axis. -->
     <t t-name="cimalor_project_status_board.QueueTimelineBackground">
-        <t t-foreach="weekends" t-as="day" t-key="day.index">
+        <t t-foreach="this.weekends" t-as="day" t-key="day.index">
             <div
                 class="o_cimalor_timeline_weekend o_cimalor_timeline_shade"
-                t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
+                t-att-style="'left: ' + day.left + 'px; width: ' + this.dayWidth + 'px;'"
             />
         </t>
         <div class="o_cimalor_timeline_today" />
@@ -17,10 +17,10 @@
         <div class="o_action">
         <Layout display="{ controlPanel: {} }">
             <div class="o_cimalor_timeline p-3 h-100 overflow-auto">
-                <t t-if="state.loading">
+                <t t-if="this.state.loading">
                     <div class="text-muted">Loading…</div>
                 </t>
-                <t t-elif="!state.data.people.length">
+                <t t-elif="!this.state.data.people.length">
                     <div class="o_view_nocontent">
                         <div class="o_nocontent_help">
                             <p class="o_view_nocontent_smiling_face">No pending work</p>
@@ -50,15 +50,15 @@
                             are left out.
                         </span>
                     </div>
-                    <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (width + 300) + 'px;'">
+                    <div class="o_cimalor_timeline_grid" t-att-style="'width: ' + (this.width + 300) + 'px;'">
                         <!-- Header: day letters and numbers, a label each Monday. -->
                         <div class="o_cimalor_timeline_row o_cimalor_timeline_header">
                             <div class="o_cimalor_timeline_label" />
-                            <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
-                                <t t-foreach="days" t-as="day" t-key="day.index">
+                            <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + this.width + 'px;'">
+                                <t t-foreach="this.days" t-as="day" t-key="day.index">
                                     <div
                                         t-attf-class="o_cimalor_timeline_day {{ day.weekend ? 'o_cimalor_timeline_weekend' : '' }}"
-                                        t-att-style="'left: ' + day.left + 'px; width: ' + dayWidth + 'px;'"
+                                        t-att-style="'left: ' + day.left + 'px; width: ' + this.dayWidth + 'px;'"
                                     >
                                         <div class="o_cimalor_timeline_month" t-if="day.label" t-out="day.label" />
                                         <div t-out="day.letter" />
@@ -67,7 +67,7 @@
                                 </t>
                             </div>
                         </div>
-                        <t t-foreach="state.data.people" t-as="person" t-key="person.user_id">
+                        <t t-foreach="this.state.data.people" t-as="person" t-key="person.user_id">
                             <!-- Person: capacity, late count and a summary bar of the queue. -->
                             <div class="o_cimalor_timeline_row o_cimalor_timeline_person_row">
                                 <div class="o_cimalor_timeline_label">
@@ -87,11 +87,11 @@
                                         <t t-else="">No working schedule</t>
                                     </div>
                                 </div>
-                                <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
+                                <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + this.width + 'px;'">
                                     <t t-call="cimalor_project_status_board.QueueTimelineBackground" />
                                     <div
                                         t-attf-class="o_cimalor_timeline_summary {{ person.late_count ? 'bg-danger' : 'bg-primary' }}"
-                                        t-att-style="summaryStyle(person)"
+                                        t-att-style="this.summaryStyle(person)"
                                     />
                                 </div>
                             </div>
@@ -100,48 +100,48 @@
                                 <div class="o_cimalor_timeline_row o_cimalor_timeline_project_row">
                                     <div
                                         class="o_cimalor_timeline_label o_cimalor_timeline_project_label text-truncate"
-                                        t-att-title="barTitle(item)"
+                                        t-att-title="this.barTitle(item)"
                                     >
                                         <t t-out="item.project" />
-                                        <span class="text-muted ms-1">(<t t-out="sizeText(item)" />)</span>
+                                        <span class="text-muted ms-1">(<t t-out="this.sizeText(item)" />)</span>
                                     </div>
-                                    <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + width + 'px;'">
+                                    <div class="o_cimalor_timeline_lane" t-att-style="'width: ' + this.width + 'px;'">
                                         <t t-call="cimalor_project_status_board.QueueTimelineBackground" />
                                         <t t-if="item.start !== null">
                                             <div
-                                                t-if="hasGaps(item)"
+                                                t-if="this.hasGaps(item)"
                                                 t-attf-class="o_cimalor_timeline_band {{ item.late ? 'bg-danger' : 'bg-primary' }}"
-                                                t-att-style="bandStyle(item)"
-                                                t-att-title="barTitle(item)"
+                                                t-att-style="this.bandStyle(item)"
+                                                t-att-title="this.barTitle(item)"
                                                 t-on-click="() => this.openProject(item)"
                                             />
                                             <t t-foreach="item.segments" t-as="segment" t-key="segment_index">
                                                 <div
                                                     t-attf-class="o_cimalor_timeline_bar {{ item.late ? 'bg-danger' : 'bg-primary' }}"
-                                                    t-att-style="segmentStyle(segment)"
-                                                    t-att-title="barTitle(item)"
+                                                    t-att-style="this.segmentStyle(segment)"
+                                                    t-att-title="this.barTitle(item)"
                                                     t-on-click="() => this.openProject(item)"
                                                 />
                                             </t>
                                         </t>
-                                        <t t-set="kind" t-value="deadlineKind(item)" />
+                                        <t t-set="kind" t-value="this.deadlineKind(item)" />
                                         <div
                                             t-if="kind === 'diamond'"
                                             t-attf-class="o_cimalor_timeline_diamond {{ item.late ? 'o_cimalor_timeline_diamond_late' : '' }}"
-                                            t-att-style="diamondStyle(item)"
-                                            t-att-title="barTitle(item)"
+                                            t-att-style="this.diamondStyle(item)"
+                                            t-att-title="this.barTitle(item)"
                                         />
                                         <div
                                             t-elif="kind === 'passed'"
                                             class="o_cimalor_timeline_note text-danger fw-semibold"
-                                            t-att-style="passedStyle(item)"
+                                            t-att-style="this.passedStyle(item)"
                                         >
-                                            ◆ <t t-out="passedText(item)" />
+                                            ◆ <t t-out="this.passedText(item)" />
                                         </div>
                                         <div
                                             t-elif="kind === 'beyond'"
                                             class="o_cimalor_timeline_note o_cimalor_timeline_beyond text-muted"
-                                            t-out="beyondText(item)"
+                                            t-out="this.beyondText(item)"
                                         />
                                     </div>
                                 </div>

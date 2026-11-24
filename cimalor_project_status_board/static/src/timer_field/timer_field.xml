@@ -2,9 +2,9 @@
 <templates xml:space="preserve">
     <t t-name="cimalor_project_status_board.TimerField">
         <span
-            t-if="elapsed"
+            t-if="this.elapsed"
             class="badge rounded-pill text-bg-success font-monospace"
-            t-out="elapsed"
+            t-out="this.elapsed"
         />
     </t>
 </templates>

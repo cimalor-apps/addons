@@ -5,10 +5,10 @@
         <div class="o_action">
         <Layout display="{ controlPanel: {} }">
             <div class="o_cimalor_activity p-3 h-100 overflow-auto">
-                <t t-if="state.loading">
+                <t t-if="this.state.loading">
                     <div class="text-muted">Loading…</div>
                 </t>
-                <t t-elif="!state.data.people.length">
+                <t t-elif="!this.state.data.people.length">
                     <div class="o_view_nocontent">
                         <div class="o_nocontent_help">
                             <p class="o_view_nocontent_smiling_face">Nobody to show</p>
@@ -36,46 +36,46 @@
                         <!-- Header: one column per day, then the total. -->
                         <div class="o_cimalor_activity_row o_cimalor_activity_header">
                             <div class="o_cimalor_activity_label" />
-                            <t t-foreach="state.data.days" t-as="day" t-key="day.date">
+                            <t t-foreach="this.state.data.days" t-as="day" t-key="day.date">
                                 <div t-attf-class="o_cimalor_activity_day {{ day.today ? 'o_cimalor_activity_today' : '' }}">
                                     <div class="fw-bold">
-                                        <t t-out="dayName(day)" />
+                                        <t t-out="this.dayName(day)" />
                                         <t t-if="day.today"> · today</t>
                                     </div>
-                                    <div t-out="dayMonth(day)" />
+                                    <div t-out="this.dayMonth(day)" />
                                 </div>
                             </t>
                             <div class="o_cimalor_activity_total">Total</div>
                         </div>
                         <!-- One card per person, so the eye can tell where each one starts. -->
-                        <div class="o_cimalor_activity_card" t-foreach="state.data.people" t-as="person" t-key="person.user_id">
+                        <div class="o_cimalor_activity_card" t-foreach="this.state.data.people" t-as="person" t-key="person.user_id">
                             <!-- Person: what they are on now, and each day against their capacity. -->
                             <div class="o_cimalor_activity_row o_cimalor_activity_person_row">
                                 <div class="o_cimalor_activity_label">
                                     <div class="o_cimalor_activity_name fw-bold" t-out="person.name" />
                                     <div t-if="person.timer" class="small fw-semibold text-success">
                                         <span class="o_cimalor_activity_dot" />
-                                        <t t-out="nowText(person)" />
+                                        <t t-out="this.nowText(person)" />
                                     </div>
                                     <div t-else="" class="small text-muted">
-                                        ○ <t t-out="lastEntryText(person)" />
+                                        ○ <t t-out="this.lastEntryText(person)" />
                                     </div>
                                 </div>
-                                <t t-foreach="state.data.days" t-as="day" t-key="day.date">
+                                <t t-foreach="this.state.data.days" t-as="day" t-key="day.date">
                                     <div t-attf-class="o_cimalor_activity_day {{ day.today ? 'o_cimalor_activity_today' : '' }}">
-                                        <div class="small text-center" t-out="dayText(person, day_index)" />
+                                        <div class="small text-center" t-out="this.dayText(person, day_index)" />
                                         <div t-if="person.capacity[day_index]" class="o_cimalor_activity_gauge">
                                             <div
-                                                t-attf-class="o_cimalor_activity_gauge_fill {{ isFull(person, day_index) ? 'bg-success' : 'bg-primary' }}"
-                                                t-att-style="gaugeStyle(person, day_index)"
+                                                t-attf-class="o_cimalor_activity_gauge_fill {{ this.isFull(person, day_index) ? 'bg-success' : 'bg-primary' }}"
+                                                t-att-style="this.gaugeStyle(person, day_index)"
                                             />
                                         </div>
                                     </div>
                                 </t>
                                 <div class="o_cimalor_activity_total">
-                                    <div class="fw-bold" t-out="hoursText(total(person))" />
-                                    <div t-if="totalCapacity(person)" class="small text-muted">
-                                        of <t t-out="hoursText(totalCapacity(person))" />
+                                    <div class="fw-bold" t-out="this.hoursText(this.total(person))" />
+                                    <div t-if="this.totalCapacity(person)" class="small text-muted">
+                                        of <t t-out="this.hoursText(this.totalCapacity(person))" />
                                     </div>
                                 </div>
                             </div>
@@ -86,41 +86,41 @@
                                         <span t-if="row.open" class="o_cimalor_activity_dot" />
                                         <t t-out="row.project" />
                                     </div>
-                                    <t t-foreach="state.data.days" t-as="day" t-key="day.date">
+                                    <t t-foreach="this.state.data.days" t-as="day" t-key="day.date">
                                         <div
                                             t-attf-class="o_cimalor_activity_day o_cimalor_activity_cell {{ day.today ? 'o_cimalor_activity_today' : '' }}"
                                             t-on-click="() => this.openProject(row)"
                                         >
                                             <span
                                                 t-if="row.hours[day_index]"
-                                                t-attf-class="o_cimalor_activity_bar bg-primary {{ openHours(person, row, day_index) ? 'o_cimalor_activity_bar_joined' : '' }}"
-                                                t-att-style="barStyle(person, day_index, row.hours[day_index])"
+                                                t-attf-class="o_cimalor_activity_bar bg-primary {{ this.openHours(person, row, day_index) ? 'o_cimalor_activity_bar_joined' : '' }}"
+                                                t-att-style="this.barStyle(person, day_index, row.hours[day_index])"
                                             />
                                             <span
-                                                t-if="openHours(person, row, day_index)"
+                                                t-if="this.openHours(person, row, day_index)"
                                                 class="o_cimalor_activity_bar o_cimalor_activity_open"
-                                                t-att-style="barStyle(person, day_index, openHours(person, row, day_index))"
+                                                t-att-style="this.barStyle(person, day_index, this.openHours(person, row, day_index))"
                                             />
-                                            <span class="o_cimalor_activity_hours" t-out="cellText(person, row, day_index)" />
+                                            <span class="o_cimalor_activity_hours" t-out="this.cellText(person, row, day_index)" />
                                         </div>
                                     </t>
-                                    <div class="o_cimalor_activity_total" t-out="rowText(person, row)" />
+                                    <div class="o_cimalor_activity_total" t-out="this.rowText(person, row)" />
                                 </div>
                             </t>
                             <div t-if="person.others" class="o_cimalor_activity_row text-muted">
-                                <div class="o_cimalor_activity_label o_cimalor_activity_project" t-out="othersText(person)" />
-                                <t t-foreach="state.data.days" t-as="day" t-key="day.date">
+                                <div class="o_cimalor_activity_label o_cimalor_activity_project" t-out="this.othersText(person)" />
+                                <t t-foreach="this.state.data.days" t-as="day" t-key="day.date">
                                     <div t-attf-class="o_cimalor_activity_day {{ day.today ? 'o_cimalor_activity_today' : '' }}">
                                         <t t-if="person.others.hours[day_index]">
                                             <span
                                                 class="o_cimalor_activity_bar bg-secondary"
-                                                t-att-style="barStyle(person, day_index, person.others.hours[day_index])"
+                                                t-att-style="this.barStyle(person, day_index, person.others.hours[day_index])"
                                             />
-                                            <span class="o_cimalor_activity_hours" t-out="hoursText(person.others.hours[day_index])" />
+                                            <span class="o_cimalor_activity_hours" t-out="this.hoursText(person.others.hours[day_index])" />
                                         </t>
                                     </div>
                                 </t>
-                                <div class="o_cimalor_activity_total" t-out="hoursText(rowTotal(person.others))" />
+                                <div class="o_cimalor_activity_total" t-out="this.hoursText(this.rowTotal(person.others))" />
                             </div>
                         </div>
                     </div>

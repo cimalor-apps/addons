@@ -103,7 +103,8 @@
                                 t-att-title="record.cimalor_last_comment.value"
                             >
                                 <i
-                                    class="fa fa-comment-o me-1"
+                                    class="oi me-1"
+                                    data-icon="chat_bubble"
                                     role="img"
                                     aria-label="Last comment"
                                 />
@@ -159,7 +160,8 @@
                                     t-att-title="record.cimalor_hours_health.value"
                                 >
                                     <i
-                                        class="fa fa-clock-o me-1"
+                                        class="oi me-1"
+                                        data-icon="schedule"
                                         role="img"
                                         aria-label="Hours margin"
                                     />
@@ -178,7 +180,8 @@
                                     t-att-title="record.cimalor_late_by.raw_value ? record.cimalor_days_health.value + ': ' + record.cimalor_late_by.value : record.cimalor_days_health.value"
                                 >
                                     <i
-                                        class="fa fa-calendar me-1"
+                                        class="oi me-1"
+                                        data-icon="calendar_today"
                                         role="img"
                                         aria-label="Days margin"
                                     />
@@ -442,14 +445,14 @@
                                     <button
                                         name="action_cimalor_timer_start"
                                         type="object"
-                                        icon="fa-play"
+                                        icon="play_arrow"
                                         title="Start timer"
                                         invisible="cimalor_timer_start or not id"
                                     />
                                     <button
                                         name="action_cimalor_timer_stop"
                                         type="object"
-                                        icon="fa-stop"
+                                        icon="stop"
                                         title="Stop timer"
                                         class="text-danger"
                                         invisible="not cimalor_timer_start"
