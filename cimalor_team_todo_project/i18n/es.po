@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0-20260630\n"
+"Project-Id-Version: Odoo Server 20.0-20261112\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 15:57+0000\n"
 "PO-Revision-Date: 2026-09-09 15:57+0000\n"
@@ -17,6 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: cimalor_team_todo_project
+#: model:ir.module.module,description:base.module_cimalor_team_todo_project
+msgid ""
+"\n"
+"Companion to Team To-Do: adds an optional link from each team task to a\n"
+"project of the Project app. Installs itself when both are present.\n"
+msgstr ""
+"\n"
+"Complemento de Team To-Do: añade un enlace opcional de cada tarea de equipo a un\n"
+"proyecto de la app Proyecto. Se instala solo cuando están los dos.\n"
+
+#. module: cimalor_team_todo_project
 #: model:ir.model.fields,field_description:cimalor_team_todo_project.field_team_todo_task__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
@@ -25,6 +36,11 @@ msgstr "Nombre mostrado"
 #: model:ir.model.fields,field_description:cimalor_team_todo_project.field_team_todo_task__id
 msgid "ID"
 msgstr "ID"
+
+#. module: cimalor_team_todo_project
+#: model:ir.module.module,summary:base.module_cimalor_team_todo_project
+msgid "Link Team To-Do tasks to the projects of the Project app"
+msgstr "Enlaza las tareas de Team To-Do con los proyectos de la app Proyecto"
 
 #. module: cimalor_team_todo_project
 #: model_terms:ir.ui.view,arch_db:cimalor_team_todo_project.view_team_todo_task_kanban_project
@@ -41,3 +57,8 @@ msgstr "Proyecto"
 #: model:ir.model,name:cimalor_team_todo_project.model_team_todo_task
 msgid "Team Task"
 msgstr "Tarea de equipo"
+
+#. module: cimalor_team_todo_project
+#: model:ir.module.module,shortdesc:base.module_cimalor_team_todo_project
+msgid "Team To-Do: Project link"
+msgstr "Team To-Do: enlace con Proyecto"

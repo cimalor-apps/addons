@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_team_todo_task_user,Team To-Do: users create and edit their own tasks,team.todo.task,group_team_todo_user,cru,"[('user_id', '=', user.id)]"
+access_team_todo_task_manager,Team To-Do: administrators manage every task,team.todo.task,group_team_todo_manager,crud,
+access_team_todo_stage_user,Team To-Do: users read the stages,team.todo.stage,group_team_todo_user,r,
+access_team_todo_stage_manager,Team To-Do: administrators manage the stages,team.todo.stage,group_team_todo_manager,crud,

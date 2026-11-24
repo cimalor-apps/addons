@@ -39,7 +39,7 @@ class TeamTodoTask(models.Model):
     # between several people is what makes the follow-up hard, so the model
     # forbids it instead of leaving it to discipline.
     # required, like stage_id: a task with no owner would also be a task no
-    # plain user can see, because the record rule filters on this field.
+    # plain user can see, because the access rule (ir.access) filters on it.
     user_id = fields.Many2one(
         comodel_name="res.users",
         string="Assignee",
@@ -47,7 +47,7 @@ class TeamTodoTask(models.Model):
         default=lambda self: self.env.user,
         # Portal and public users are not staff: they cannot be given work.
         domain="[('share', '=', False)]",
-        # The record rule filters every read by this column.
+        # The access rule (ir.access) filters every read by this column.
         index=True,
         tracking=True,
     )
