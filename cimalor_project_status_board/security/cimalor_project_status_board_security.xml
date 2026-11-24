@@ -1,90 +1,117 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Odoo 20 merges model access and record rules into ir.access. A record with
+    a group is a permission: the permissions of a user's groups are OR-ed. A
+    record without a group is a restriction: it applies to everybody and is
+    AND-ed with the permissions. The plain grants live in ir.access.csv; the
+    ones with a domain live here, so the reason for each domain stays next to
+    it. noupdate, as Project does with its own: administrators may customise
+    them and an upgrade must not undo that.
+-->
 <odoo noupdate="1">
     <!--
-        Same domain as Project's own multi-company rule on projects: a user
-        only sees the history of projects of their companies, or of projects
-        shared by all companies.
+        Odoo only lets Project administrators write on projects. The module lets
+        Project users update (not create or delete) the projects they can see,
+        with the same domain as Project's own read access for employees
+        (project_public_members_rule, 20.0 domain). Which of those projects they
+        may really change (the ones they manage or have tasks in) is checked in
+        project.project._cimalor_check_write_access(), as in 19.0.
     -->
-    <record id="cimalor_project_state_log_comp_rule" model="ir.rule">
-        <field name="name">Project State Change: multi-company</field>
-        <field name="model_id" ref="model_cimalor_project_state_log" />
-        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    <record id="access_project_project_user_cimalor" model="ir.access">
+        <field name="name">Project: Project users update the projects they see (Project Status Board)</field>
+        <field name="model_id" ref="project.model_project_project" />
+        <field name="group_id" ref="project.group_project_user" />
+        <field name="operation">u</field>
+        <field name="domain">['|',
+            ('privacy_visibility', 'in', ['employees', 'portal']),
+            ('allowed_internal_user_ids', 'in', user.id)]</field>
     </record>
 
     <!--
-        The history follows the visibility of its project, as Project's own
-        rule for employees (project_public_members_rule, 19.0 domain): without
-        it, the Latest Changes report would show the changes of private
-        projects to people who cannot open them. Project administrators see
-        every row through the second rule (rules of different groups are OR-ed).
-        18.0's rule reads ('privacy_visibility', '!=', 'followers'): 19.0 added
-        'invited_users', so the 19.0 domain lists the public values instead.
+        The history follows the visibility of its project, with Project's own
+        domain for employees (project_public_members_rule, 20.0 domain): without
+        it, the Latest Changes report would show the changes of private projects
+        to people who cannot open them. Project administrators see every row.
+        Rows are created by the state changes and never edited or deleted.
     -->
-    <record id="cimalor_project_state_log_visibility_rule" model="ir.rule">
+    <record id="access_cimalor_project_state_log_user" model="ir.access">
         <field name="name">Project State Change: follow the project's visibility</field>
         <field name="model_id" ref="model_cimalor_project_state_log" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_user'))]" />
-        <field name="domain_force">['|',
+        <field name="group_id" ref="project.group_project_user" />
+        <field name="operation">cr</field>
+        <field name="domain">['|',
             ('project_id.privacy_visibility', 'in', ['employees', 'portal']),
-            ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+            ('project_id.allowed_internal_user_ids', 'in', user.id)]</field>
     </record>
-    <record id="cimalor_project_state_log_manager_rule" model="ir.rule">
+    <record id="access_cimalor_project_state_log_manager" model="ir.access">
         <field name="name">Project State Change: project administrators see all</field>
         <field name="model_id" ref="model_cimalor_project_state_log" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_manager'))]" />
-        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="group_id" ref="project.group_project_manager" />
+        <field name="operation">cr</field>
+    </record>
+    <!-- Same domain as Project's own multi-company restriction on projects. -->
+    <record id="cimalor_project_state_log_comp_rule" model="ir.access">
+        <field name="name">Project State Change: multi-company</field>
+        <field name="model_id" ref="model_cimalor_project_state_log" />
+        <field name="operation">crud</field>
+        <field name="domain">[('company_id', 'in', company_ids + [False])]</field>
     </record>
 
     <!--
         Workload: each person sees their own load; Project administrators see
-        everybody's, to share the work out (rules of different groups are
-        OR-ed, so the second one widens the first for them). Plus the usual
-        multi-company rule.
+        everybody's, to share the work out. Plus the usual multi-company
+        restriction. The report is an SQL view: read only.
     -->
-    <record id="cimalor_project_workload_report_comp_rule" model="ir.rule">
-        <field name="name">Workload: multi-company</field>
-        <field name="model_id" ref="model_cimalor_project_workload_report" />
-        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
-    </record>
-    <record id="cimalor_project_workload_report_own_rule" model="ir.rule">
+    <record id="access_cimalor_project_workload_report_user" model="ir.access">
         <field name="name">Workload: own load only</field>
         <field name="model_id" ref="model_cimalor_project_workload_report" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_user'))]" />
-        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="group_id" ref="project.group_project_user" />
+        <field name="operation">r</field>
+        <field name="domain">[('user_id', '=', user.id)]</field>
     </record>
-    <record id="cimalor_project_workload_report_manager_rule" model="ir.rule">
+    <record id="access_cimalor_project_workload_report_manager" model="ir.access">
         <field name="name">Workload: project administrators see all</field>
         <field name="model_id" ref="model_cimalor_project_workload_report" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_manager'))]" />
-        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="group_id" ref="project.group_project_manager" />
+        <field name="operation">r</field>
+    </record>
+    <record id="cimalor_project_workload_report_comp_rule" model="ir.access">
+        <field name="name">Workload: multi-company</field>
+        <field name="model_id" ref="model_cimalor_project_workload_report" />
+        <field name="operation">crud</field>
+        <field name="domain">[('company_id', 'in', company_ids + [False])]</field>
     </record>
 
     <!-- Capacity: the same visibility as the Workload. -->
-    <record id="cimalor_project_capacity_report_comp_rule" model="ir.rule">
-        <field name="name">Capacity: multi-company</field>
-        <field name="model_id" ref="model_cimalor_project_capacity_report" />
-        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
-    </record>
-    <record id="cimalor_project_capacity_report_own_rule" model="ir.rule">
+    <record id="access_cimalor_project_capacity_report_user" model="ir.access">
         <field name="name">Capacity: own capacity only</field>
         <field name="model_id" ref="model_cimalor_project_capacity_report" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_user'))]" />
-        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="group_id" ref="project.group_project_user" />
+        <field name="operation">r</field>
+        <field name="domain">[('user_id', '=', user.id)]</field>
     </record>
-    <record id="cimalor_project_capacity_report_manager_rule" model="ir.rule">
+    <record id="access_cimalor_project_capacity_report_manager" model="ir.access">
         <field name="name">Capacity: project administrators see all</field>
         <field name="model_id" ref="model_cimalor_project_capacity_report" />
-        <field name="groups" eval="[Command.link(ref('project.group_project_manager'))]" />
-        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="group_id" ref="project.group_project_manager" />
+        <field name="operation">r</field>
+    </record>
+    <record id="cimalor_project_capacity_report_comp_rule" model="ir.access">
+        <field name="name">Capacity: multi-company</field>
+        <field name="model_id" ref="model_cimalor_project_capacity_report" />
+        <field name="operation">crud</field>
+        <field name="domain">[('company_id', 'in', company_ids + [False])]</field>
     </record>
 
     <!--
         A running timer is personal: nobody sees, stops or deletes another
         user's timer, administrators included (the time is theirs to log).
+        A restriction, not a permission, so no group can widen it.
     -->
-    <record id="cimalor_project_timer_own_rule" model="ir.rule">
+    <record id="cimalor_project_timer_own_rule" model="ir.access">
         <field name="name">Task Timer: own timers only</field>
         <field name="model_id" ref="model_cimalor_project_timer" />
-        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="operation">crud</field>
+        <field name="domain">[('user_id', '=', user.id)]</field>
     </record>
 </odoo>

@@ -1,6 +1,6 @@
 # Project Status Board
 
-Know which projects are moving, waiting or on hold, and why. For Odoo 19 with the Project
+Know which projects are moving, waiting or on hold, and why. For Odoo 20 with the Project
 and Timesheets apps.
 
 Project's stages tell you where a project is, not why it is stuck. Project Status Board turns

@@ -1,4 +1,4 @@
-import { Component, onWillDestroy, useState } from "@odoo/owl";
+import { Component, onWillDestroy, proxy, useProps } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 
@@ -24,10 +24,10 @@ function formatElapsed(totalSeconds) {
  */
 export class CimalorTimerField extends Component {
   static template = "cimalor_project_status_board.TimerField";
-  static props = standardFieldProps;
+  props = useProps(standardFieldProps);
 
   setup() {
-    this.state = useState({ now: DateTime.now() });
+    this.state = proxy({ now: DateTime.now() });
     this.interval = setInterval(() => {
       this.state.now = DateTime.now();
     }, 1000);
