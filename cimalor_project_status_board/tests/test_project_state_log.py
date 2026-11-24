@@ -328,7 +328,8 @@ class TestProjectStateSecurity(TransactionCase):
         domain = [("project_id", "=", private.id)]
         self.assertFalse(Log.with_user(self.outsider).search(domain))
 
-        private.message_subscribe(partner_ids=self.outsider.partner_id.ids)
+        # 20.0: a private project opens to its team members, not to followers.
+        private.allowed_internal_user_ids |= self.outsider
         self.assertTrue(Log.with_user(self.outsider).search(domain), "once invited")
 
         admin = new_test_user(
