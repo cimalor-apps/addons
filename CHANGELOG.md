@@ -123,7 +123,9 @@ matches the Odoo version. The same functional version number means the same feat
 - A private project's change history opens to its team members (`allowed_internal_user_ids`)
   instead of its followers, the same as the project itself in Odoo 20.
 - The Team Activity, Queue Timeline and timer widgets run on Owl 3: props declared with
-  `useProps` and state with `proxy`.
+  `useProps`, state with `proxy`, and templates that read the component through `this.`.
+- Icons use Odoo 20's Material Symbols instead of Font Awesome, which Odoo 20 no longer
+  loads: the timer buttons (`play_arrow`, `stop`) and the card icons.
 - Working days come from `_work_intervals_batch` with `resources_per_tz`, and the
   excluded-projects filter is read with `ir.config_parameter.get_str`, both new in Odoo 20.
 
