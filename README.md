@@ -3,9 +3,10 @@
 Free and open source Odoo modules by [Cimalor](https://cimalor.com), published on the
 Odoo Apps Store.
 
-One branch per Odoo series, named after it. This branch targets **Odoo 19.0**, and every
-module here declares a `19.0.x.y.z` version. Each module lives in its own folder at the
-root of the branch.
+One branch per Odoo series, named after it. This branch targets **Odoo 20.0**, and every
+module here declares a `20.0.x.y.z` version. Each module lives in its own folder at the
+root of the branch. The same modules for Odoo 18.0 and 19.0 live on the `18.0` and `19.0`
+branches.
 
 ## Modules
 
