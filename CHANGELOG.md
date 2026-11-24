@@ -1,9 +1,9 @@
 # Changelog
 
-All notable changes to the Cimalor modules for Odoo 18.0 and 19.0. The format follows
+All notable changes to the Cimalor modules for Odoo 18.0, 19.0 and 20.0. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow the Odoo Apps Store
-convention `<series>.<major>.<minor>.<patch>`, where the series (`18.0` or `19.0`) matches the
-Odoo version. The same functional version number means the same features in both series.
+convention `<series>.<major>.<minor>.<patch>`, where the series (`18.0`, `19.0` or `20.0`)
+matches the Odoo version. The same functional version number means the same features in both series.
 
 ## cimalor_team_todo — Team To-Do
 
