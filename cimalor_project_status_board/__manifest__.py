@@ -1,6 +1,6 @@
 {
     "name": "Project Status Board",
-    "version": "19.0.0.1.11",
+    "version": "20.0.0.1.11",
     "category": "Services/Project",
     "summary": "Know which projects are moving, waiting or on hold, and why",
     "author": "Cimalor",
@@ -20,7 +20,7 @@
     ],
     "data": [
         "security/cimalor_project_status_board_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/project_project_stage_data.xml",
         "data/cimalor_project_stop_reason_data.xml",
         "data/mail_activity_type_data.xml",

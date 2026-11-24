@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_cimalor_project_stop_reason_user,Stop Reason: Project users read,cimalor.project.stop.reason,project.group_project_user,r,
+access_cimalor_project_stop_reason_manager,Stop Reason: Project administrators manage,cimalor.project.stop.reason,project.group_project_manager,crud,
+access_cimalor_project_stop_reason_system,Stop Reason: Odoo administrators manage,cimalor.project.stop.reason,base.group_system,crud,
+access_cimalor_project_timer_user,Task Timer: Project users,cimalor.project.timer,project.group_project_user,crud,
+access_cimalor_project_timer_stop_user,Stop Timer wizard: Project users,cimalor.project.timer.stop,project.group_project_user,crud,

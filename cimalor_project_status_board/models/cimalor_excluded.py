@@ -23,7 +23,7 @@ def excluded_domain(env, param):
     An empty filter excludes nothing: an empty domain would match every
     record, which is never what an empty setting means.
     """
-    value = (env["ir.config_parameter"].sudo().get_param(param) or "").strip()
+    value = env["ir.config_parameter"].sudo().get_str(param).strip()
     domain = literal_eval(value) if value else []
     return domain or False
 

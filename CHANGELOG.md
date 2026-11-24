@@ -108,6 +108,25 @@ matches the Odoo version. The same functional version number means the same feat
 
 ## cimalor_project_status_board — Project Status Board
 
+### [20.0.0.1.11] - 2026-11-24
+
+#### Added
+
+- First release for Odoo 20.0, with the same features as 19.0.0.1.11.
+
+#### Changed (differences from 19.0)
+
+- Security moves to `ir.access`, which replaces `ir.model.access` and `ir.rule` in Odoo 20.
+  Same rights as 19.0: Project users update the projects they can see (and the module still
+  limits which ones they may change), each person reads their own Workload, Capacity and
+  timers, and Project administrators see everybody's.
+- A private project's change history opens to its team members (`allowed_internal_user_ids`)
+  instead of its followers, the same as the project itself in Odoo 20.
+- The Team Activity, Queue Timeline and timer widgets run on Owl 3: props declared with
+  `useProps` and state with `proxy`.
+- Working days come from `_work_intervals_batch` with `resources_per_tz`, and the
+  excluded-projects filter is read with `ir.config_parameter.get_str`, both new in Odoo 20.
+
 ### [19.0.0.1.11] - 2026-11-22
 
 #### Changed

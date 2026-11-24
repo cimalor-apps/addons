@@ -101,7 +101,7 @@ class TestExcludedProjects(TransactionCase):
         """
         cron = self.env.ref(f"{MODULE}.ir_cron_refresh_excluded_projects")
         self.assertEqual(cron.code.strip(), "model._cimalor_daily_refresh()")
-        self.env["ir.config_parameter"].set_param(
+        self.env["ir.config_parameter"].set_str(
             f"{MODULE}.excluded_project_domain", "[('name', 'ilike', 'hour bank')]"
         )
         self.assertFalse(self.bank.cimalor_excluded)

@@ -1,9 +1,9 @@
-import { Component, onWillStart, useState } from "@odoo/owl";
+import { Component, onWillStart, proxy, useProps } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { Layout } from "@web/search/layout";
-import { standardActionServiceProps } from "@web/webclient/actions/action_service";
+import { standardActionServiceProps } from "@web/webclient/actions/action_plugin";
 
 const { DateTime } = luxon;
 
@@ -32,13 +32,13 @@ const MAX_DAYS = 200;
 export class QueueTimeline extends Component {
   static template = "cimalor_project_status_board.QueueTimeline";
   static components = { Layout };
-  static props = { ...standardActionServiceProps };
+  props = useProps({ ...standardActionServiceProps });
 
   setup() {
     this.orm = useService("orm");
     this.action = useService("action");
     this.dayWidth = DAY_WIDTH;
-    this.state = useState({ loading: true, data: null });
+    this.state = proxy({ loading: true, data: null });
     onWillStart(() => this.load());
   }
 

@@ -79,8 +79,10 @@ class CimalorProjectQueue(models.AbstractModel):
         start_dt = datetime.combine(start, time.min).replace(tzinfo=utc)
         stop_dt = datetime.combine(stop, time.min).replace(tzinfo=utc)
         resource = employee.resource_id
+        # 20.0 takes the resources grouped by timezone; the helper builds
+        # that mapping from the resource's own timezone.
         intervals = employee.resource_calendar_id._work_intervals_batch(
-            start_dt, stop_dt, resources=resource
+            start_dt, stop_dt, resources_per_tz=resource._get_resources_per_tz()
         )[resource.id]
         worked = defaultdict(float)
         for begin, end, _meta in intervals:
