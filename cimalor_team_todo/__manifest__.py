@@ -1,6 +1,6 @@
 {
     "name": "Team To-Do",
-    "version": "19.0.2.1.1",
+    "version": "20.0.2.1.1",
     "category": "Productivity",
     "summary": "Team tasks with shared stages and one owner each",
     "description": """
@@ -19,7 +19,7 @@ shared stages, one owner per task, and administrators who see everything.
     ],
     "data": [
         "security/cimalor_team_todo_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/team_todo_stage_data.xml",
         "data/team_todo_onboarding_templates.xml",
         "views/team_todo_stage_views.xml",

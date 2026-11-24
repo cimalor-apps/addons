@@ -1,6 +1,6 @@
 # Team To-Do
 
-Shared to-do lists for the whole team in Odoo 19, without the Project app.
+Shared to-do lists for the whole team in Odoo 20, without the Project app.
 
 Odoo's own To-Do app is personal: your list, your stages, your board. Team To-Do is for
 the team: one board, stages shared by everybody, exactly one owner per task, and an
@@ -54,8 +54,10 @@ On install:
 ## Technical notes
 
 - Models: `team.todo.task`, `team.todo.stage`.
-- Security: two groups (`group_team_todo_user`, `group_team_todo_manager`), access rights
-  in `security/ir.model.access.csv`, and two record rules that filter tasks by owner.
+- Security: two groups (`group_team_todo_user`, `group_team_todo_manager`) and the access
+  rules in `security/ir.access.csv`. Odoo 20 merges model access and record rules into
+  `ir.access`: users get create/read/update on the tasks they own, administrators get
+  everything.
 - `is_done` on the task is a stored related field of the stage flag, so it can be filtered
   and grouped on.
 

@@ -1,6 +1,6 @@
 {
     "name": "Team To-Do: Project link",
-    "version": "19.0.1.1.0",
+    "version": "20.0.1.1.0",
     "category": "Productivity",
     "summary": "Link Team To-Do tasks to the projects of the Project app",
     "description": """
