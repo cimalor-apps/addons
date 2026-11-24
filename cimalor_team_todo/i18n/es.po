@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0-20260630\n"
+"Project-Id-Version: Odoo Server 20.0-20261112\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-06 17:21+0000\n"
 "PO-Revision-Date: 2026-10-06 17:21+0000\n"
@@ -15,6 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: cimalor_team_todo
+#: model:ir.module.module,description:base.module_cimalor_team_todo
+msgid ""
+"\n"
+"Shared to-do lists for the whole team, without the Project app: one board,\n"
+"shared stages, one owner per task, and administrators who see everything.\n"
+msgstr ""
+"\n"
+"Listas de tareas compartidas por todo el equipo, sin la app Proyecto: un tablero,\n"
+"etapas compartidas, un responsable por tarea y administradores que lo ven todo.\n"
 
 #. module: cimalor_team_todo
 #: model_terms:ir.ui.view,arch_db:cimalor_team_todo.team_todo_onboarding
@@ -205,6 +216,7 @@ msgstr "Si está marcado, hay mensajes nuevos que requieren su atención."
 
 #. module: cimalor_team_todo
 #: model:ir.model.fields,help:cimalor_team_todo.field_team_todo_task__message_has_error
+#: model:ir.model.fields,help:cimalor_team_todo.field_team_todo_task__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
 
@@ -263,6 +275,11 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: cimalor_team_todo
+#: model:res.groups.privilege,placeholder:cimalor_team_todo.privilege_team_todo
+msgid "No"
+msgstr "No"
+
+#. module: cimalor_team_todo
 #: model:ir.model.fields.selection,name:cimalor_team_todo.selection__team_todo_task__priority__0
 msgid "Normal"
 msgstr "Normal"
@@ -303,9 +320,19 @@ msgid "Questions or ideas:"
 msgstr "Dudas o ideas:"
 
 #. module: cimalor_team_todo
+#: model:ir.model.fields,field_description:cimalor_team_todo.field_team_todo_task__rating_ids
+msgid "Ratings"
+msgstr "Valoraciones"
+
+#. module: cimalor_team_todo
 #: model_terms:ir.ui.view,arch_db:cimalor_team_todo.team_todo_onboarding
 msgid "Reading a card"
 msgstr "Cómo leer una tarjeta"
+
+#. module: cimalor_team_todo
+#: model:ir.model.fields,field_description:cimalor_team_todo.field_team_todo_task__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega del SMS"
 
 #. module: cimalor_team_todo
 #: model:ir.model.fields,field_description:cimalor_team_todo.field_team_todo_stage__sequence
@@ -353,10 +380,16 @@ msgstr "Tarea de equipo"
 
 #. module: cimalor_team_todo
 #: model:ir.module.category,name:cimalor_team_todo.module_category_team_todo
+#: model:ir.module.module,shortdesc:base.module_cimalor_team_todo
 #: model:ir.ui.menu,name:cimalor_team_todo.menu_team_todo_root
 #: model:res.groups.privilege,name:cimalor_team_todo.privilege_team_todo
 msgid "Team To-Do"
 msgstr "Team To-Do"
+
+#. module: cimalor_team_todo
+#: model:ir.module.module,summary:base.module_cimalor_team_todo
+msgid "Team tasks with shared stages and one owner each"
+msgstr "Tareas de equipo con etapas compartidas y un responsable cada una"
 
 #. module: cimalor_team_todo
 #: model_terms:ir.ui.view,arch_db:cimalor_team_todo.team_todo_onboarding

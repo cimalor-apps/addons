@@ -7,6 +7,20 @@ matches the Odoo version. The same functional version number means the same feat
 
 ## cimalor_team_todo — Team To-Do
 
+### [20.0.2.1.1] - 2026-11-24
+
+#### Added
+
+- First release for Odoo 20.0, with the same features as 19.0.2.1.1.
+
+#### Changed (differences from 19.0)
+
+- Security moves to `security/ir.access.csv`. Odoo 20 removes `ir.model.access` and
+  `ir.rule` and merges both into `ir.access`: users create, read and update the tasks they
+  own; administrators get every operation on every task. Same behaviour as 19.0.
+- The module name, summary and description are now translated from the module's own
+  `.pot`, so they appear in Spanish in the Apps menu.
+
 ### [18.0.2.1.1] - 2026-10-06
 
 #### Changed
@@ -74,6 +88,13 @@ matches the Odoo version. The same functional version number means the same feat
   translation and tests.
 
 ## cimalor_team_todo_project — Team To-Do: Project link
+
+### [20.0.1.1.0] - 2026-11-24
+
+#### Added
+
+- First release for Odoo 20.0, with the same features as 19.0.1.1.0. No code changes
+  were needed.
 
 ### [18.0.1.1.0] - 2026-09-29
 
