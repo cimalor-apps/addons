@@ -55,6 +55,15 @@ class ProjectProject(models.Model):
         help="Matches the Excluded Projects filter of the settings: left out of "
         "the boards, the reports and everybody's workload.",
     )
+    # The projects a person's reports cover: the ones they manage or have
+    # tasks in (as My Projects), every project for Project administrators.
+    # It depends on who is looking, so it is not stored and only exists to be
+    # searched, from the Date Risk action.
+    cimalor_in_my_reports = fields.Boolean(
+        string="In My Reports",
+        compute="_compute_cimalor_in_my_reports",
+        search="_search_cimalor_in_my_reports",
+    )
     # Stored so projects can be searched and grouped by lifecycle state.
     cimalor_state_type = fields.Selection(
         related="stage_id.cimalor_state_type",
@@ -589,6 +598,31 @@ class ProjectProject(models.Model):
             project.cimalor_days_margin = margin
             project.cimalor_days_health = health
             project.cimalor_late_by = late_by or False
+
+    def _cimalor_my_reports_domain(self):
+        """Domain of the projects in the current user's reports.
+
+        Project administrators see every project they can see; anybody else
+        only the ones they manage or have tasks in, the same rule as My
+        Projects and the daily email.
+        """
+        user = self.env.user
+        if user.has_group("project.group_project_manager"):
+            return []
+        return ["|", ("user_id", "=", user.id), ("tasks.user_ids", "in", user.id)]
+
+    @api.depends_context("uid")
+    def _compute_cimalor_in_my_reports(self):
+        mine = self.filtered_domain(self._cimalor_my_reports_domain())
+        for project in self:
+            project.cimalor_in_my_reports = project in mine
+
+    def _search_cimalor_in_my_reports(self, operator, value):
+        # Only "is in my reports" is used (the Date Risk action). 18.0 raises
+        # on anything else, as Project's own is_favorite search does.
+        if operator != "=" or value is not True:
+            raise NotImplementedError(self.env._("Operation not supported"))
+        return self._cimalor_my_reports_domain()
 
     def _search_cimalor_days_health(self, operator, value):
         """Find projects by days health, for the board filters.

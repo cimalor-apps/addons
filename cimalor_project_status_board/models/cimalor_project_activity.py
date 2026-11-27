@@ -123,7 +123,9 @@ class CimalorProjectActivity(models.AbstractModel):
         for user in users.sorted(lambda person: person.name or ""):
             employee = employees.get(user.id)
             capacity = (
-                queue._daily_capacity(employee, days[0], today + timedelta(days=1))
+                queue._daily_capacity(
+                    employee, days[0], today + timedelta(days=1), admin_time=False
+                )
                 if employee and employee.resource_calendar_id
                 else {}
             )

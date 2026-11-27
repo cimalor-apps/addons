@@ -306,8 +306,11 @@ class TestDailyEmail(PeopleCase):
 
 @tagged("post_install", "-at_install")
 class TestConfigurationAndTaskList(TransactionCase):
-    def test_configuration_for_odoo_administrators_only(self):
+    def test_configuration_for_project_administrators(self):
+        """Configuration for Project and Odoo administrators; Settings for Odoo's."""
         config = self.env.ref(f"{MODULE}.menu_cimalor_project_status_board_config")
+        settings = self.env.ref(f"{MODULE}.menu_cimalor_project_status_board_settings")
+        user = new_test_user(self.env, login="psb_config_user", groups=GROUPS)
         project_admin = new_test_user(
             self.env, login="psb_config_project_admin", groups=MANAGER_GROUPS
         )
@@ -317,11 +320,17 @@ class TestConfigurationAndTaskList(TransactionCase):
             groups=GROUPS + ",base.group_system",
         )
         Menu = self.env["ir.ui.menu"]
-        self.assertNotIn(config.id, Menu.with_user(project_admin)._visible_menu_ids())
-        self.assertIn(config.id, Menu.with_user(odoo_admin)._visible_menu_ids())
-        # The menu's Reasons work for an Odoo administrator, Project one or not.
-        Reason = self.env["cimalor.project.stop.reason"].with_user(odoo_admin)
-        self.assertTrue(Reason.create({"name": "Test", "reason_type": "waiting"}))
+        self.assertNotIn(config.id, Menu.with_user(user)._visible_menu_ids())
+        visible = Menu.with_user(project_admin)._visible_menu_ids()
+        self.assertIn(config.id, visible)
+        self.assertNotIn(settings.id, visible)
+        visible = Menu.with_user(odoo_admin)._visible_menu_ids()
+        self.assertIn(config.id, visible)
+        self.assertIn(settings.id, visible)
+        # The menu's Reasons work for both kinds of administrator.
+        for admin in (project_admin, odoo_admin):
+            Reason = self.env["cimalor.project.stop.reason"].with_user(admin)
+            self.assertTrue(Reason.create({"name": "Test", "reason_type": "waiting"}))
 
     def test_open_tasks_cannot_be_deleted_from_the_form(self):
         """No trash icon on the task lines: tasks are deleted in Project."""
@@ -331,3 +340,14 @@ class TestConfigurationAndTaskList(TransactionCase):
         tree = etree.fromstring(arch)
         task_list = tree.xpath("//field[@name='cimalor_open_task_ids']/list")[0]
         self.assertEqual(task_list.get("delete"), "0")
+
+    def test_allocated_hours_set_on_creation_only(self):
+        """The allocated hours are the reference: read only once saved."""
+        arch = self.env["project.project"].get_view(
+            self.env.ref(f"{MODULE}.view_project_project_form").id, "form"
+        )["arch"]
+        tree = etree.fromstring(arch)
+        field = tree.xpath(
+            "//group[@name='cimalor_hours']//field[@name='allocated_hours']"
+        )[0]
+        self.assertEqual(field.get("readonly"), "id")

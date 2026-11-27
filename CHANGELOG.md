@@ -108,6 +108,15 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [18.0.0.1.12] - 2026-11-27
+
+#### Changed
+
+- Same changes as 19.0.0.1.12: Configuration for Project administrators (Settings for Odoo
+  administrators), Date Risk with each person's own projects, Team Activity and the daily
+  email against the full working day, and allocated hours read only once the project is
+  saved.
+
 ### [18.0.0.1.11] - 2026-11-22
 
 #### Changed
