@@ -129,6 +129,20 @@ matches the Odoo version. The same functional version number means the same feat
 
 ## cimalor_project_status_board — Project Status Board
 
+### [20.0.0.1.12] - 2026-11-27
+
+#### Changed
+
+- Same changes as 19.0.0.1.12: Configuration for Project administrators (Settings for Odoo
+  administrators), Date Risk with each person's own projects, Team Activity and the daily
+  email against the full working day, and allocated hours read only once the project is
+  saved.
+
+#### Fixed
+
+- The labels of the card icons (hours margin, days margin, last comment) are translated
+  again: they were lost when the icons moved to Material Symbols in 20.0.0.1.11.
+
 ### [20.0.0.1.11] - 2026-11-24
 
 #### Added
