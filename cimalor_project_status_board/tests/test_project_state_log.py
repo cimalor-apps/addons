@@ -337,6 +337,29 @@ class TestProjectStateSecurity(TransactionCase):
         private.message_unsubscribe(partner_ids=self.outsider.partner_id.ids)
         self.assertTrue(Log.with_user(admin).search(domain), "administrators see all")
 
+    def test_date_risk_shows_own_projects(self):
+        """Date Risk: the projects I manage or have tasks in; all for admins."""
+        action = self.env.ref(
+            "cimalor_project_status_board.action_project_project_date_risk"
+        )
+        self.assertIn("('cimalor_in_my_reports', '=', True)", action.domain)
+        admin = new_test_user(
+            self.env, login="psb_risk_admin", groups="project.group_project_manager"
+        )
+        Project = self.env["project.project"]
+        domain = [("id", "=", self.project.id), ("cimalor_in_my_reports", "=", True)]
+        for user, expected in (
+            (self.user, True),
+            (self.manager, True),
+            (self.outsider, False),
+            (admin, True),
+        ):
+            with self.subTest(user=user.login):
+                self.assertEqual(bool(Project.with_user(user).search(domain)), expected)
+                self.assertEqual(
+                    self.project.with_user(user).cimalor_in_my_reports, expected
+                )
+
     def test_latest_changes_report_loads(self):
         action = self.env.ref(
             "cimalor_project_status_board.action_cimalor_project_state_log_report"
