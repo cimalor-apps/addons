@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0-20261112\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 19:53+0000\n"
-"PO-Revision-Date: 2026-11-24 19:53+0000\n"
+"POT-Creation-Date: 2026-11-27 20:34+0000\n"
+"PO-Revision-Date: 2026-11-27 20:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,8 +67,10 @@ msgid ""
 "  marked),\n"
 "  _Date Risk_ (projects at risk) and _Team Activity_ (what each person is on now, from\n"
 "  their running timer, and the hours they logged by project over the last five working\n"
-"  days, at most five projects each). State changes are still logged in each project's\n"
-"  chatter.\n"
+"  days, at most five projects each, against their full working day). Each person sees\n"
+"  their own: their load, their queue and the projects they manage or have tasks in;\n"
+"  Project administrators see everybody's. State changes are still logged in each\n"
+"  project's chatter.\n"
 "- Uses Project's own stages and tasks: no parallel data model, and the Project app keeps\n"
 "  working exactly as before.\n"
 "\n"
@@ -95,7 +97,8 @@ msgid ""
 "## Configuration\n"
 "\n"
 "- **Reasons:** Project Status Board › Configuration › Reasons. The Configuration menu is for\n"
-"  Odoo administrators only; Project administrators can still manage reasons. Each\n"
+"  Project administrators (and Odoo administrators); Settings inside it is for Odoo\n"
+"  administrators only, as every settings page. Each\n"
 "  reason is used for Waiting or for On Hold and can require a note (as _Other_ does). On\n"
 "  Hold reasons also propose who the project depends on.\n"
 "- **Stages:** Project Status Board › Configuration › Stages, which is Project's own stage\n"
@@ -105,7 +108,8 @@ msgid ""
 "  **Daily Admin Time** next to the schedule, on the employee's _Payroll_ page (1\n"
 "  hour by default), is subtracted from each working day. Approved time off and public\n"
 "  holidays are taken into account through Odoo's resource leaves.\n"
-"- **Margins:** give projects their allocated hours and delivery date, and tasks their\n"
+"- **Margins:** give projects their allocated hours (set when the project is created,\n"
+"  read only afterwards in this app: they are the reference) and delivery date, and tasks their\n"
 "  planned hours. Tasks without planned hours count zero.\n"
 "- **Excluded projects:** Project › Configuration › Settings › Project Status Board (Odoo\n"
 "  administrators; also under the app's Configuration › Settings). A filter on projects,\n"
@@ -337,17 +341,21 @@ msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
-msgid "<i class=\"fa fa-calendar me-1\" role=\"img\" aria-label=\"Days margin\"/>"
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"calendar_today\" role=\"img\" aria-"
+"label=\"Days margin\"/>"
 msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
-msgid "<i class=\"fa fa-clock-o me-1\" role=\"img\" aria-label=\"Hours margin\"/>"
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"chat_bubble\" role=\"img\" aria-"
+"label=\"Last comment\"/>"
 msgstr ""
 
 #. module: cimalor_project_status_board
 #: model_terms:ir.ui.view,arch_db:cimalor_project_status_board.view_project_project_kanban
-msgid "<i class=\"fa fa-comment-o me-1\" role=\"img\" aria-label=\"Last comment\"/>"
+msgid "<i class=\"oi me-1\" data-icon=\"schedule\" role=\"img\" aria-label=\"Hours margin\"/>"
 msgstr ""
 
 #. module: cimalor_project_status_board
@@ -916,6 +924,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_config_settings__id
 #: model:ir.model.fields,field_description:cimalor_project_status_board.field_res_users__id
 msgid "ID"
+msgstr ""
+
+#. module: cimalor_project_status_board
+#: model:ir.model.fields,field_description:cimalor_project_status_board.field_project_project__cimalor_in_my_reports
+msgid "In My Reports"
 msgstr ""
 
 #. module: cimalor_project_status_board

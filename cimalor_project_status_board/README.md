@@ -47,8 +47,10 @@ it is waiting for, who it depends on and when to chase it again.
   marked),
   _Date Risk_ (projects at risk) and _Team Activity_ (what each person is on now, from
   their running timer, and the hours they logged by project over the last five working
-  days, at most five projects each). State changes are still logged in each project's
-  chatter.
+  days, at most five projects each, against their full working day). Each person sees
+  their own: their load, their queue and the projects they manage or have tasks in;
+  Project administrators see everybody's. State changes are still logged in each
+  project's chatter.
 - Uses Project's own stages and tasks: no parallel data model, and the Project app keeps
   working exactly as before.
 
@@ -75,7 +77,8 @@ Hold stage next to the one that stayed: move the projects and delete the old one
 ## Configuration
 
 - **Reasons:** Project Status Board › Configuration › Reasons. The Configuration menu is for
-  Odoo administrators only; Project administrators can still manage reasons. Each
+  Project administrators (and Odoo administrators); Settings inside it is for Odoo
+  administrators only, as every settings page. Each
   reason is used for Waiting or for On Hold and can require a note (as _Other_ does). On
   Hold reasons also propose who the project depends on.
 - **Stages:** Project Status Board › Configuration › Stages, which is Project's own stage
@@ -85,7 +88,8 @@ Hold stage next to the one that stayed: move the projects and delete the old one
   **Daily Admin Time** next to the schedule, on the employee's _Payroll_ page (1
   hour by default), is subtracted from each working day. Approved time off and public
   holidays are taken into account through Odoo's resource leaves.
-- **Margins:** give projects their allocated hours and delivery date, and tasks their
+- **Margins:** give projects their allocated hours (set when the project is created,
+  read only afterwards in this app: they are the reference) and delivery date, and tasks their
   planned hours. Tasks without planned hours count zero.
 - **Excluded projects:** Project › Configuration › Settings › Project Status Board (Odoo
   administrators; also under the app's Configuration › Settings). A filter on projects,

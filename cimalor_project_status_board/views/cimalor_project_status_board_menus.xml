@@ -82,14 +82,15 @@
     />
 
     <!--
-        Odoo administrators only: settings, reasons and stages shape how the
-        whole company works, so Project administrators do not get the menu.
+        Project administrators (and Odoo administrators): reasons and stages
+        are how the team runs its projects. Settings inside stays for Odoo
+        administrators, as every settings page.
     -->
     <menuitem
         id="menu_cimalor_project_status_board_config"
         name="Configuration"
         parent="menu_cimalor_project_status_board_root"
-        groups="base.group_system"
+        groups="project.group_project_manager,base.group_system"
         sequence="90"
     />
     <!--
