@@ -68,13 +68,16 @@ class CimalorProjectQueue(models.AbstractModel):
         )
         return {user.id: hours for user, hours in groups}
 
-    def _daily_capacity(self, employee, start, stop):
+    def _daily_capacity(self, employee, start, stop, admin_time=True):
         """Hours available for tasks on each day from start to stop, as {date: hours}.
 
         Odoo's own work intervals of the schedule, which already leave out
         the resource leaves (approved time off and public holidays), in the
-        person's timezone; then the admin time of each working day, never
-        below zero. Days without work are absent.
+        person's timezone; then, for the forecasts, the admin time of each
+        working day, never below zero. With admin_time=False the full working
+        day is returned: admin time is logged too (on an internal project),
+        so it is what Team Activity compares the logged hours against.
+        Days without work are absent.
         """
         start_dt = datetime.combine(start, time.min).replace(tzinfo=utc)
         stop_dt = datetime.combine(stop, time.min).replace(tzinfo=utc)
@@ -85,7 +88,7 @@ class CimalorProjectQueue(models.AbstractModel):
         worked = defaultdict(float)
         for begin, end, _meta in intervals:
             worked[begin.date()] += (end - begin).total_seconds() / 3600
-        admin = employee.cimalor_admin_hours
+        admin = employee.cimalor_admin_hours if admin_time else 0.0
         return {
             day: max(hours - admin, 0.0)
             for day, hours in worked.items()

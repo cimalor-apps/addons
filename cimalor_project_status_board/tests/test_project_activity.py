@@ -96,7 +96,9 @@ class TestTeamActivity(TransactionCase):
             "a project user sees only themselves",
         )
         person = data["people"][0]
-        self.assertEqual(person["capacity"], [7.0] * 5)
+        # The full working day: admin time is logged too, on an internal
+        # project, so it is not taken off here (the forecasts still do).
+        self.assertEqual(person["capacity"], [8.0] * 5)
         self.assertEqual(person["timer"]["project"], "Timed")
         self.assertAlmostEqual(person["timer"]["elapsed"], 1.5)
 

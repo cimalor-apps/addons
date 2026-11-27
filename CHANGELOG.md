@@ -108,6 +108,21 @@ Odoo version. The same functional version number means the same features in both
 
 ## cimalor_project_status_board — Project Status Board
 
+### [19.0.0.1.12] - 2026-11-27
+
+#### Changed
+
+- **Configuration** (Reasons, Stages) is for Project administrators again, and for Odoo
+  administrators. Settings inside it stays for Odoo administrators.
+- **Date Risk** shows each person the projects they manage or have tasks in, as My
+  Projects; Project administrators see every project. Workload, Capacity, Queue by Person
+  and Team Activity already showed each person their own.
+- **Team Activity and the daily email** compare the logged hours with the full working day
+  (for example 39 h of 40 h): admin time is logged too, on an internal project. The
+  forecasts still take the daily admin time off the capacity.
+- **Allocated hours** of a project are set when it is created and read only afterwards in
+  the project form: they are the reference the hours margin is measured against.
+
 ### [19.0.0.1.11] - 2026-11-22
 
 #### Changed
